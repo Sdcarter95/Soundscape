@@ -1,0 +1,50 @@
+.App {
+  text-align: center;
+  background-color: #282c34;
+  min-height: 100vh;
+}
+
+.App-logo {
+  height: 25vmin;
+  pointer-events: none;
+  position: absolute;
+  left: 2vmin;
+  top: 1.4vmin;
+}
+
+.Frame {
+  position: relative;
+  top: 20vmin;
+}
+
+.Quote {
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+
+
+.App-header {
+  background: linear-gradient(to bottom, #181680, #b87b36);
+  background: linear-gradient(to bottom, #3693b8, #b87b36);
+  background: linear-gradient(to bottom, #b83a36, #b87b36);
+  min-height: 10vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
