@@ -1,8 +1,12 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation, EffectCoverflow } from 'swiper/modules';
 import { Cassette } from '../App';
 import 'swiper/css';
-import './css/CassetteCarousel.css'
+import "swiper/css/navigation";
+import "swiper/css/effect-coverflow";
+import './css/CassetteCarousel.css';
+
 
 
 interface CarouselProps {
@@ -12,14 +16,30 @@ interface CarouselProps {
 
 const CassetteCarousel: React.FC<CarouselProps> = ({ cassettes, onSlideClick }) => {
   const swiperParams = {
-    spaceBetween: 20,
-    slidesPerView: 4,
+    spaceBetween: 5,
+    slidesPerView: 3,
     centeredSlides: true,
     loop: false,
     slideToClickedSlide: true,
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev',
+      enabled: true,
+    },
+    coverflowEffect: {
+      rotate: 10,     // Set the rotation angle of the slides (in degrees)
+      stretch: 0,     // Set the stretch space between slides (0 = no stretch)
+      depth: 50,     // Set the depth of the coverflow effect (higher value = more depth)
+      modifier: 1,    // Set a scale factor to modify the coverflow effect
+      slideShadows: false,  // Enable slide shadows
+    },
+
+    modules: [Navigation, EffectCoverflow],
+    effect: 'coverflow'
   };
 
-  
+
+
 
   return (
     <div className="swiper-container">
@@ -33,6 +53,7 @@ const CassetteCarousel: React.FC<CarouselProps> = ({ cassettes, onSlideClick }) 
         ))}
         <div className="swiper-button-prev"></div> 
         <div className="swiper-button-next"></div> 
+        
       </Swiper>
 
     </div>

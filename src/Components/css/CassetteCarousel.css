@@ -2,7 +2,6 @@
     height: 7vi;
     position: relative;
     top: 8vi;
-    padding: .7vi;
 }
 
 .swiper {
@@ -14,27 +13,34 @@
 
 .swiper-slide img {
     object-fit: cover;
-    width: 100%;
+    width: 80%;
     height: 100%;
 }
 
-.slide-content{
-    animation: slideDownDisappear 2s ease forwards; /* Adjust the duration and timing function as needed */
+.slide-content {
+    animation: slideDownDisappear 2s ease forwards;
+    /* Adjust the duration and timing function as needed */
 }
+
+.swiper-button-prev, .swiper-button-next{
+    color: antiquewhite;
+}
+
 
 
 @keyframes slideDownDisappear {
     0% {
-      transform: translateY(0);
-      opacity: 1;
+        transform: translateY(0);
+        opacity: 1;
     }
+
     50% {
-      transform: translateY(50px);
-      opacity: 0;
+        transform: translateY(50px);
+        opacity: 0;
     }
+
     100% {
-      transform: translateY(0);
-      opacity: 1;
+        transform: translateY(0);
+        opacity: 1;
     }
-  }
-  
+}

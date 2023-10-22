@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import logo from './logo.png';
 import './App.css';
 import CassetteCarousel from './Components/CassetteCarousel';
+import AudioPlayer from './Components/SoundEffect';
 
 export interface Cassette {
   name: string,
@@ -13,7 +14,8 @@ function App() {
   const [videoSource, setVideoSource] = useState<string>("https://www.youtube.com/embed/52FljdTl2_M?si=LiZyMDhhxgWG55Ul");
   const [cassetteLibrary, setCassetteLibrary] = useState<Cassette[]>([]);
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  const cassetteSFX = "/cassestSound.mp3";
+  
+
 
   useEffect(() => {
     let newLibrary: Cassette[] = [];
@@ -28,11 +30,11 @@ function App() {
   }, [])
 
   const handleSlideClick = (cassette: Cassette) => {
-    playAudio();
     setVideoSource(cassette.source);
-
+    playAudio();
   };
 
+ 
   const playAudio = () => {
     if (audioRef.current) {
       audioRef.current.play();
@@ -40,19 +42,20 @@ function App() {
   };
 
 
+
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
+        <audio ref={audioRef}>
+        <source src={"https://docs.google.com/uc?export=download&id=1XtWv60ze6CtM-geWnYHf3owgZ21URd4H"} type="audio/mpeg" />
+        Your browser does not support the audio element.
+      </audio>
         <p className='Quote'>
           “Opportunities don't happen, you create them."
         </p>
       </header>
       <CassetteCarousel cassettes={cassetteLibrary} onSlideClick={handleSlideClick} />
-      <audio ref={audioRef}>
-        <source src={cassetteSFX} type="audio/mpeg" />
-        Your browser does not support the audio element.
-      </audio>
       <iframe className='Frame' width="560" height="315" src={videoSource + "?autoplay=1"} title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
     </div>
   );
