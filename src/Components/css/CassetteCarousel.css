@@ -1,0 +1,20 @@
+
+.thumbnail {
+    height: 7vi;
+    position: relative;
+    top: 8vi;
+    padding: .7vi;
+}
+
+.swiper {
+    width: 36vi;
+    height: 7vi;
+    position: relative;
+    top: 8vi;
+  }
+
+  .swiper-slide img {
+    object-fit: cover; /* Make the image cover the entire slide while maintaining its aspect ratio */
+    width: 100%; /* Full width of the image within the slide */
+    height: 100%; /* Full height of the image within the slide */
+  }

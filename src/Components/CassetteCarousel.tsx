@@ -1,26 +1,32 @@
-import React from 'react';
-import { Carousel } from 'react-responsive-carousel';
-import 'react-responsive-carousel/lib/styles/carousel.min.css';
+import React, { useState } from 'react';
+import { Swiper, SwiperSlide } from 'swiper/react';
 import { Cassette } from '../App';
+import 'swiper/css';
+import './css/CassetteCarousel.css'
 
 interface CarouselProps {
-    cassettes: Cassette[];
-  }
+  cassettes: Cassette[];
+  onSlideClick: (cassette: Cassette) => void;
+}
+
+const CassetteCarousel: React.FC<CarouselProps> = ({ cassettes, onSlideClick }) => {
   
-  const CassetteCarousel: React.FC<CarouselProps> = ({ cassettes }) => {
-    return (
-      <Carousel>
-        {cassettes.map((cassette, index) => (
-          <div key={index}>
-            <img
-              src={`https://img.youtube.com/vi/${cassette.video_id}/maxresdefault.jpg`}
-              alt={cassette.name}
-              onClick={() => alert(`Selected source: ${cassette.source}`)}
-            />
+  return (
+    <Swiper
+      spaceBetween={20} 
+      slidesPerView={3} 
+      centeredSlides={true} 
+      loop={true} 
+    >
+      {cassettes.map((cassette, index) => (
+        <SwiperSlide key={index}>
+          <div className="slide-content" onClick={() => onSlideClick(cassette)}>
+            <img src={`https://img.youtube.com/vi/${cassette.video_id}/maxresdefault.jpg`} alt={cassette.name} />
           </div>
-        ))}
-      </Carousel>
-    );
-  };
-  
-  export default CassetteCarousel;
+        </SwiperSlide>
+      ))}
+    </Swiper>
+  );
+};
+
+export default CassetteCarousel;
