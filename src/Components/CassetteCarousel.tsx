@@ -27,13 +27,13 @@ const CassetteCarousel: React.FC<CarouselProps> = ({ cassettes, onSlideClick }) 
       enabled: true,
     },
     coverflowEffect: {
-      rotate: 10,     // Set the rotation angle of the slides (in degrees)
-      stretch: 0,     // Set the stretch space between slides (0 = no stretch)
-      depth: 50,     // Set the depth of the coverflow effect (higher value = more depth)
-      modifier: 1,    // Set a scale factor to modify the coverflow effect
-      slideShadows: false,  // Enable slide shadows
+      rotate: 10,   
+      stretch: 0,   
+      depth: 50,   
+      modifier: 1,    
+      slideShadows: false,  
     },
-
+    initialSlide: 3,
     modules: [Navigation, EffectCoverflow],
     effect: 'coverflow'
   };

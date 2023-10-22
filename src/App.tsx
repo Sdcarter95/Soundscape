@@ -11,7 +11,7 @@ export interface Cassette {
 }
 
 function App() {
-  const [videoSource, setVideoSource] = useState<string>("https://www.youtube.com/embed/52FljdTl2_M?si=LiZyMDhhxgWG55Ul");
+  const [videoSource, setVideoSource] = useState<string>("https://www.youtube.com/embed/851FQiikDaw?si=M6O6JksolCvMFyvS");
   const [cassetteLibrary, setCassetteLibrary] = useState<Cassette[]>([]);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   

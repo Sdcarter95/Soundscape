@@ -18,8 +18,7 @@
 }
 
 .slide-content {
-    animation: slideDownDisappear 2s ease forwards;
-    /* Adjust the duration and timing function as needed */
+     /*animation: slideDownDisappear 2s ease forwards; */
 }
 
 .swiper-button-prev, .swiper-button-next{
