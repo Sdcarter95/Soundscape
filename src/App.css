@@ -35,11 +35,19 @@
   font-size: calc(10px + 2vmin);
 }
 
-.EjectButton {
-  position: absolute;
-  right: 10vh;
-  top: 40vh;
+.EjectButton, .SoundsButton, .VisualsButton {
   height: 10vh;
+}
+
+
+
+
+
+.ButtonBar{
+  position: absolute;
+  right: 0vh;
+  top: 32vh;
+  
 }
 
 .CassettePlayer{

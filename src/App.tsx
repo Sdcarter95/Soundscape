@@ -9,27 +9,33 @@ export interface Cassette {
   video_id: string
 }
 
-enum imagePaths{
-  "ejectUnpressed" = "1n6FUlwQtS2aVzsd7lX6YhYU4KIZlxJnR",
-  "ejectPressed" = "1Lxp6bo_3TO5vhukXtVKclaWmi2pi3RpH"
+enum imagePaths {
+  ejectUnpressed = "https://drive.google.com/uc?export=view&id=1n6FUlwQtS2aVzsd7lX6YhYU4KIZlxJnR",
+  ejectPressed = "https://drive.google.com/uc?export=view&id=1Lxp6bo_3TO5vhukXtVKclaWmi2pi3RpH",
+  soundsUnpressed = "https://drive.google.com/uc?export=view&id=1LStluy0ZW_FHSu5XpAHcQ8N1Pg16PRg9",
+  soundsPressed = "https://drive.google.com/uc?export=view&id=18vjz47BbB22eXA5UsUBPFfJJ-HSy0UCR",
+  visualsUnpressed = "https://drive.google.com/uc?export=view&id=1eAuK_BVc-AWgX7LB4YNouP-w27DaXXi4",
+  visualsPressed = "https://drive.google.com/uc?export=view&id=1GMLONSeKUsMWHjCI3prY_1Xd7fYNdYR9"
 }
 
-enum soundPaths{
+enum soundPaths {
   "switchPressed" = "https://docs.google.com/uc?export=download&id=1gedh2zkeYRfhKhUn61-rhphU_bEEKKQp",
   "tapeDeck" = "https://docs.google.com/uc?export=download&id=1XtWv60ze6CtM-geWnYHf3owgZ21URd4H"
 }
 
 function App() {
   const [videoSource, setVideoSource] = useState<string>("https://www.youtube.com/embed/851FQiikDaw?si=M6O6JksolCvMFyvS");
-  const [displayImage, setDisplayImage] = useState<string>(imagePaths.ejectUnpressed);
+  const [displayImage, setDisplayImage] = useState<string>();
   const [cassetteLibrary, setCassetteLibrary] = useState<Cassette[]>([]);
   const [quoteBook, setQuoteBook] = useState<string[]>([]);
   const [quote, setQuote] = useState<string>("");
   const [cassetteSelectionVisible, setCassetteSelectionVisible] = useState<boolean>(false);
   const [ejectImageSrc, setEjectImageSrc] = useState<string>();
+  const [soundsImageSrc, setSoundsImageSrc] = useState<string>(imagePaths.soundsUnpressed);
+  const [visualsImageSrc, setVisualsImageSrc] = useState<string>(imagePaths.visualsUnpressed);
+  const [preloadedImages, setPreloadedImages] = useState<{ [key: string]: HTMLImageElement }>({});
   const tapeDeckAudioRef = useRef<HTMLAudioElement | null>(null);
   const switchAudioRef = useRef<HTMLAudioElement | null>(null);
-
 
 
   useEffect(() => {
@@ -46,6 +52,8 @@ function App() {
     newQuoteBook.push(`“Opportunities don't happen, you create them.”`);
     newQuoteBook.push(`“One sees in the world what they carry in their heart”`);
     newQuoteBook.push("“Doubt kills more dreams than failure ever will”");
+    newQuoteBook.push("“A person who never made a mistake never tried anything new”")
+    preloadImages(imagePaths)
     setQuoteBook(newQuoteBook);
   }, []);
 
@@ -55,9 +63,9 @@ function App() {
   }, [quoteBook]);
 
   useEffect(() => {
-    if(ejectImageSrc === imagePaths.ejectUnpressed){
+    if (ejectImageSrc === imagePaths.ejectUnpressed) {
       setEjectImageSrc(imagePaths.ejectPressed);
-    } else{
+    } else {
       setEjectImageSrc(imagePaths.ejectUnpressed);
     }
     playOtherAudio();
@@ -71,6 +79,34 @@ function App() {
     playAudio();
   };
 
+  const handleSoundsButton = () => {
+    if (soundsImageSrc === preloadedImages[imagePaths.soundsUnpressed]?.src) {
+      setSoundsImageSrc(preloadedImages[imagePaths.soundsPressed]?.src);
+    } else {
+      setSoundsImageSrc(preloadedImages[imagePaths.soundsUnpressed]?.src);
+    }
+    playOtherAudio();
+  }
+
+  const handleVisualsButton = () => {
+    if (visualsImageSrc === imagePaths.visualsUnpressed) {
+      setVisualsImageSrc(imagePaths.visualsPressed);
+    } else {
+      setVisualsImageSrc(imagePaths.visualsUnpressed);
+    }
+    playOtherAudio();
+  }
+
+  const preloadImages = (path: typeof imagePaths) => {
+    let imagesToLoad: any = [];
+    Object.values(path).forEach((src) => {
+      const img = new Image();
+      img.src = src;
+      imagesToLoad[src] = img;
+    });
+    setPreloadedImages(imagesToLoad)
+  };
+
 
   const playAudio = () => {
     if (tapeDeckAudioRef.current) {
@@ -79,7 +115,7 @@ function App() {
   };
 
   const playOtherAudio = () => {
-    if (switchAudioRef.current){
+    if (switchAudioRef.current) {
       switchAudioRef.current.play();
     }
   }
@@ -89,11 +125,11 @@ function App() {
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <audio ref={tapeDeckAudioRef}>
+        <audio preload="auto" ref={tapeDeckAudioRef}>
           <source src={soundPaths.tapeDeck} type="audio/mpeg" />
           Your browser does not support the audio element.
         </audio>
-        <audio ref={switchAudioRef}>
+        <audio preload="auto" ref={switchAudioRef}>
           <source src={soundPaths.switchPressed} type="audio/mpeg" />
           Your browser does not support the audio element.
         </audio>
@@ -107,16 +143,19 @@ function App() {
           </div>
           <div className='flex-item'>
             <div className='CassettePlayer'>
-              {cassetteSelectionVisible ? <CassetteCarousel cassettes={cassetteLibrary} onSlideClick={handleSlideClick} />:<></>}
+              {cassetteSelectionVisible ? <CassetteCarousel cassettes={cassetteLibrary} onSlideClick={handleSlideClick} /> : <></>}
               {cassetteSelectionVisible ?
-                <iframe className='Frame-Down' width="560" height="315" src={videoSource + "?autoplay=1"} title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe> 
-                :<iframe className='Frame-Up' width="560" height="315" src={videoSource + "?autoplay=1"} title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe> 
+                <iframe className='Frame-Down' width="560" height="315" src={videoSource + "?autoplay=1"} title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
+                : <iframe className='Frame-Up' width="560" height="315" src={videoSource + "?autoplay=1"} title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
               }
-              <img className='EjectButton' src={"https://drive.google.com/uc?export=view&id=" + ejectImageSrc} onClick={() => setCassetteSelectionVisible(!cassetteSelectionVisible)}></img>
+              <div className='ButtonBar'>
+                <img className='EjectButton' src={ejectImageSrc} onClick={() => setCassetteSelectionVisible(!cassetteSelectionVisible)}></img>
+                <img className='SoundsButton' src={soundsImageSrc} onClick={() => handleSoundsButton()}></img>
+                <img className='VisualsButton' src={visualsImageSrc} onClick={() => handleVisualsButton()}></img>
+              </div>
             </div>
           </div>
           <div className='flex-item'>
-
           </div>
         </div>
       </div>
