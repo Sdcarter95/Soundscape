@@ -13,11 +13,35 @@
   z-index: 2;
 }
 
+.App-header {
+  background: linear-gradient(to bottom, #181680, #b87b36);
+  background: linear-gradient(to bottom, #3693b8, #b87b36);
+  background: linear-gradient(to bottom, #b83a36, #b87b36);
+  height: 6.1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-body{
+  height: 42vi;
+  position: relative;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
 .Frame-Up, .Frame-Down {
   display: flex;
   position: relative;
   top: 7vmin;
   left: 15%;
+  height: 24.5rem;
+  width: 43.8rem;
 }
 
 .Frame-Up {
@@ -67,28 +91,6 @@
   position: relative;
 }
 
-
-.App-header {
-  background: linear-gradient(to bottom, #181680, #b87b36);
-  background: linear-gradient(to bottom, #3693b8, #b87b36);
-  background: linear-gradient(to bottom, #b83a36, #b87b36);
-  min-height: 10vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-body{
-  height: 42vi;
-  position: relative;
-}
-
-.App-link {
-  color: #61dafb;
-}
 
 @keyframes Lower-Frame {
   0% {
