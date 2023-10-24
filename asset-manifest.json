@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/Soundscape/static/css/main.078b138b.css",
+    "main.css": "/Soundscape/static/css/main.607b3983.css",
     "main.js": "/Soundscape/static/js/main.be0af263.js",
     "static/js/787.77e888ef.chunk.js": "/Soundscape/static/js/787.77e888ef.chunk.js",
     "static/media/logo.png": "/Soundscape/static/media/logo.7f6b2e7a06bd123a0d4e.png",
     "index.html": "/Soundscape/index.html",
-    "main.078b138b.css.map": "/Soundscape/static/css/main.078b138b.css.map",
+    "main.607b3983.css.map": "/Soundscape/static/css/main.607b3983.css.map",
     "main.be0af263.js.map": "/Soundscape/static/js/main.be0af263.js.map",
     "787.77e888ef.chunk.js.map": "/Soundscape/static/js/787.77e888ef.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.078b138b.css",
+    "static/css/main.607b3983.css",
     "static/js/main.be0af263.js"
   ]
 }
