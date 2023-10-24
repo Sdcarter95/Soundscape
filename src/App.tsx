@@ -151,24 +151,28 @@ function App() {
       </header>
       <div className="App-body" style={{ backgroundImage: `url(${displayImage})` }}>
         <div className='flex-container'>
-          <div className='flex-item'>
+          <div className='flex-column'>
+            <div className='flex-item'></div>
           </div>
-          <div className='flex-item'>
+          <div className='flex-console'>
             <div className='CassettePlayer'>
               {cassetteSelectionVisible ? <CassetteCarousel cassettes={cassetteLibrary} onSlideClick={handleSlideClick} /> : <></>}
               {cassetteSelectionVisible ?
                 <iframe className='Frame-Down' width="560" height="315" src={videoSource + "?autoplay=1"} title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
                 : <iframe className='Frame-Up' width="560" height="315" src={videoSource + "?autoplay=1"} title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
               }
-              <div className='ButtonBar'>
-                <img className='EjectButton' src={ejectImageSrc} onClick={() => handleEjectButton()}></img>
-                <img className='SoundsButton' src={soundsImageSrc} onClick={() => handleSoundsButton()}></img>
-                <img className='VisualsButton' src={visualsImageSrc} onClick={() => handleVisualsButton()}></img>
-                <img className='ImportButton' src={importImageSrc} onClick={() => handleImportButton()}></img>
-              </div>
             </div>
           </div>
-          <div className='flex-item'>
+          <div className='flex-column'>
+          
+            <div className='flex-item'>
+            <div className='ButtonBar'>
+              <img className='EjectButton' src={ejectImageSrc} onClick={() => handleEjectButton()}></img>
+              <img className='SoundsButton' src={soundsImageSrc} onClick={() => handleSoundsButton()}></img>
+              <img className='VisualsButton' src={visualsImageSrc} onClick={() => handleVisualsButton()}></img>
+              <img className='ImportButton' src={importImageSrc} onClick={() => handleImportButton()}></img>
+            </div>
+            </div>
           </div>
         </div>
       </div>

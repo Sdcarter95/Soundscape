@@ -40,8 +40,8 @@
   position: relative;
   top: 7vmin;
   left: 15%;
-  height: 24.5rem;
-  width: 43.8rem;
+  height: 42.8vh;
+  width: 76vh;
 }
 
 .Frame-Up {
@@ -64,31 +64,56 @@
 }
 
 
+.CassettePlayer{
+  position: absolute;
+   height: 60vh;
+   width: 90%;
+   /* background-color: #aa5a29; */
+   top: 5%;
+ }
+
 .ButtonBar{
   position: absolute;
-  right: -10vh;
-  top: 32vh;
-  
-}
-
-.CassettePlayer{
-  display:grid;
-  height: 60vh;
-  width: 110vh;
-  /* background-color: #291c14; */
+  top:20vh;
+  left: -2vh;
+  background-color: #2c2c30;
+  height: 10vh;
+  border: #121a1d 2px solid;
+  border-style:inset;
 }
 
 .flex-container {
   /* border: 2px solid #9c0a0a; */
   display: flex;
   position: relative;
-  justify-content: space-between; /* Adjust to your layout requirements */
+  justify-content: space-between; 
   align-items: flex-start;
+  height: 100%;
 }
 .flex-item {
-  /* border: 1px solid #000; */
+  /* background-color: #00000098; */
   padding: 10vh;
   position: relative;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
+
+.flex-column {
+  /* border: 1px solid #0ca080; */
+  width: 20%;
+  position: relative;
+  height: 100%;
+}
+
+.flex-console {
+  /* border: 2px solid #0c4ca0; */
+  width : 50%;
+  height: 100%;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  display: flex;
 }
 
 
