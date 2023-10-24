@@ -35,14 +35,17 @@
   font-size: calc(10px + 2vmin);
 }
 
-.EjectButton, .SoundsButton, .VisualsButton, .ImportButton {
+.EjectButton, .SoundsButton, .VisualsButton {
   height: 10vh;
 }
 
 
+
+
+
 .ButtonBar{
   position: absolute;
-  right: -10vh;
+  right: 0vh;
   top: 32vh;
   
 }
