@@ -18,6 +18,9 @@ enum imagePaths {
   visualsPressed = "https://drive.google.com/uc?export=view&id=1GMLONSeKUsMWHjCI3prY_1Xd7fYNdYR9",
   importUnpressed = "https://drive.google.com/uc?export=view&id=1EfgEKXk0g1hf6jVpX-rl-XjoiTeI_xgp",
   importPressed = "https://drive.google.com/uc?export=view&id=1QVAUvUfxgdTJXKbpyTAEQGHmhjRubyLg",
+  extraUnpressed = "https://drive.google.com/uc?export=view&id=1Bx_OMrGxQ9JVZvDUNSBG-bCBcq_FlsRq",
+  extraPressed = "https://drive.google.com/uc?export=view&id=16JLtDVrIherm-G5oGGsekiVxvnAhUwIh",
+  tapeConsole = "https://drive.google.com/uc?export=view&id=1k9_5xvu9JMvCvcJ-mGlGkrwJgsYFiWsU",
 }
 
 enum soundPaths {
@@ -36,6 +39,7 @@ function App() {
   const [soundsImageSrc, setSoundsImageSrc] = useState<string>(imagePaths.soundsUnpressed);
   const [visualsImageSrc, setVisualsImageSrc] = useState<string>(imagePaths.visualsUnpressed);
   const [importImageSrc, setImportImageSrc] = useState<string>(imagePaths.importUnpressed);
+  const [extraImageSrc, setExtraImageSrc] = useState<string>(imagePaths.extraUnpressed);
   const [preloadedImages, setPreloadedImages] = useState<{ [key: string]: HTMLImageElement }>({});
   const tapeDeckAudioRef = useRef<HTMLAudioElement | null>(null);
   const switchAudioRef = useRef<HTMLAudioElement | null>(null);
@@ -109,6 +113,15 @@ function App() {
     playButtonAudio();
   }
 
+  const handleExtraButton = () => {
+    if (extraImageSrc === imagePaths.extraUnpressed) {
+      setExtraImageSrc(imagePaths.extraPressed);
+    } else {
+      setExtraImageSrc(imagePaths.extraUnpressed);
+    }
+    playButtonAudio();
+  }
+
   const preloadImages = (path: typeof imagePaths) => {
     let imagesToLoad: any = [];
     Object.values(path).forEach((src) => {
@@ -164,15 +177,18 @@ function App() {
             </div>
           </div>
           <div className='flex-column'>
-          
-            <div className='flex-item'>
-            <div className='ButtonBar'>
-              <img className='EjectButton' src={ejectImageSrc} onClick={() => handleEjectButton()}></img>
-              <img className='SoundsButton' src={soundsImageSrc} onClick={() => handleSoundsButton()}></img>
-              <img className='VisualsButton' src={visualsImageSrc} onClick={() => handleVisualsButton()}></img>
-              <img className='ImportButton' src={importImageSrc} onClick={() => handleImportButton()}></img>
+
+            <div className='TapeConsoleContainer'>
+              <img className='TapeConsole' src={imagePaths.tapeConsole}></img>
+              <div className='ButtonBar'>
+                <img className='EjectButton' src={ejectImageSrc} onClick={() => handleEjectButton()}></img>
+                <img className='SoundsButton' src={soundsImageSrc} onClick={() => handleSoundsButton()}></img>
+                <img className='VisualsButton' src={visualsImageSrc} onClick={() => handleVisualsButton()}></img>
+                <img className='ImportButton' src={importImageSrc} onClick={() => handleImportButton()}></img>
+                <img className='ExtraButton' src={extraImageSrc} onClick={() => handleExtraButton()}></img>
+              </div>
             </div>
-            </div>
+
           </div>
         </div>
       </div>

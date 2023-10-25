@@ -59,7 +59,7 @@
   font-size: calc(10px + 2vmin);
 }
 
-.EjectButton, .SoundsButton, .VisualsButton, .ImportButton {
+.EjectButton, .SoundsButton, .VisualsButton, .ImportButton, .ExtraButton {
   height: 10vh;
 }
 
@@ -72,14 +72,25 @@
    top: 5%;
  }
 
-.ButtonBar{
+.TapeConsoleContainer{
   position: absolute;
   top:20vh;
   left: -2vh;
-  background-color: #2c2c30;
-  height: 10vh;
-  border: #121a1d 2px solid;
-  border-style:inset;
+  /* background-color: #17aa79; */
+  height: 30vh;
+}
+
+.TapeConsole{
+  height: 22vh;
+  /* background-color: #181680; */
+}
+
+.ButtonBar{
+  /* background-color: #b83a36; */
+  width: 33vh;
+  position: absolute;
+  left: 6vh;
+  top: 8vh;
 }
 
 .flex-container {
@@ -100,7 +111,7 @@
 }
 
 .flex-column {
-  /* border: 1px solid #0ca080; */
+  border: 1px solid #0ca080;
   width: 20%;
   position: relative;
   height: 100%;
