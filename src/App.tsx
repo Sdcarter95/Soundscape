@@ -20,7 +20,8 @@ enum imagePaths {
   importPressed = "https://drive.google.com/uc?export=view&id=1QVAUvUfxgdTJXKbpyTAEQGHmhjRubyLg",
   extraUnpressed = "https://drive.google.com/uc?export=view&id=1Bx_OMrGxQ9JVZvDUNSBG-bCBcq_FlsRq",
   extraPressed = "https://drive.google.com/uc?export=view&id=16JLtDVrIherm-G5oGGsekiVxvnAhUwIh",
-  tapeConsole = "https://drive.google.com/uc?export=view&id=1k9_5xvu9JMvCvcJ-mGlGkrwJgsYFiWsU",
+  tapeConsole = "https://drive.google.com/uc?export=view&id=18Ilrn_rcXY8PMPCfn9I3HcWqRXHeWxTg",
+  consoleLid = "https://drive.google.com/uc?export=view&id=1SmJujeBpbhVY8xAr8pEOTMbuys8nChKN",
 }
 
 enum soundPaths {
@@ -179,6 +180,7 @@ function App() {
           <div className='flex-column'>
 
             <div className='TapeConsoleContainer'>
+              <img className='ConsoleLid' src={imagePaths.consoleLid}></img>
               <img className='TapeConsole' src={imagePaths.tapeConsole}></img>
               <div className='ButtonBar'>
                 <img className='EjectButton' src={ejectImageSrc} onClick={() => handleEjectButton()}></img>
