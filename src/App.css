@@ -1,10 +1,10 @@
-.App {
+.app {
   text-align: center;
   background-color: #282c34;
   min-height: 100vh;
 }
 
-.App-logo {
+.app-logo {
   height: 25vh;
   pointer-events: none;
   position: absolute;
@@ -13,66 +13,11 @@
   z-index: 2;
 }
 
-.Frame-Up, .Frame-Down {
-  display: flex;
-  position: relative;
-  top: 7vmin;
-  left: 15%;
-}
-
-.Frame-Up {
-  animation: Lower-Frame 1.5s ease forwards;
-}
-
-.Frame-Down {
-  animation: Lift-Frame 1.5s ease forwards;
-}
-
-
-
-.Quote {
-  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-  font-size: calc(10px + 2vmin);
-}
-
-.EjectButton, .SoundsButton, .VisualsButton, .ImportButton {
-  height: 10vh;
-}
-
-
-.ButtonBar{
-  position: absolute;
-  right: -10vh;
-  top: 32vh;
-  
-}
-
-.CassettePlayer{
-  display:grid;
-  height: 60vh;
-  width: 110vh;
-  /* background-color: #291c14; */
-}
-
-.flex-container {
-  /* border: 2px solid #9c0a0a; */
-  display: flex;
-  position: relative;
-  justify-content: space-between; /* Adjust to your layout requirements */
-  align-items: flex-start;
-}
-.flex-item {
-  /* border: 1px solid #000; */
-  padding: 10vh;
-  position: relative;
-}
-
-
-.App-header {
+.app-header {
   background: linear-gradient(to bottom, #181680, #b87b36);
   background: linear-gradient(to bottom, #3693b8, #b87b36);
   background: linear-gradient(to bottom, #b83a36, #b87b36);
-  min-height: 10vh;
+  height: 6.1rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -81,31 +26,106 @@
   color: white;
 }
 
-.App-body{
+.app-body {
   height: 42vi;
   position: relative;
 }
 
-.App-link {
-  color: #61dafb;
+
+.frame-up,
+.frame-down {
+  display: flex;
+  position: relative;
+  left: 0%;
+  top: 0%;
+  height: 42.8vh;
+  width: 76vh;
 }
 
-@keyframes Lower-Frame {
+
+.iframe-container {
+  /* border: #cc2f2f 2pt solid; */
+  position: absolute;
+  left: 50%;
+  top: 60%;
+  transform: translate(-50%, -50%);
+}
+
+
+.frame-up {
+  animation: lowerFrame 1.5s ease forwards;
+}
+
+.frame-down {
+  animation: liftFrame 1.5s ease forwards;
+}
+
+.cassetteCatousel{
+  /* background-color:#29a1aa; */
+  position: absolute;
+  left: 50%;
+  top: 10%;
+  transform: translate(-50%);
+  width: 100%;
+  height: 20%;
+}
+
+.quote {
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-size: calc(10px + 2vmin);
+}
+
+.canvas {
+  position: relative;
+  height: 60vh;
+  width: 100%;
+  /* background-color: #aa5a29; */
+  top: 5%;
+}
+
+
+.flex-container {
+  /* border: 2px solid #9c0a0a; */
+  display: flex;
+  position: relative;
+  justify-content: space-between;
+  align-items: flex-start;
+  height: 100%;
+}
+
+.flex-item {
+  /* background-color: #00000098; */
+  padding: 10vh;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
+
+.flex-column {
+  /* border: 1px solid #0ca080; */
+  width: 50%;
+  position: relative;
+  height: 100%;
+}
+
+
+@keyframes lowerFrame {
   0% {
-    transform: translateY(15vh);
-}
+    transform: translateY(8vh);
+  }
 
-100% {
+  100% {
     transform: translateY(0);
-}
+  }
 }
 
-@keyframes Lift-Frame {
+@keyframes liftFrame {
   0% {
-    transform: translateY(-15vh);
-}
-
-100% {
     transform: translateY(0);
-}
+  }
+
+  100% {
+    transform: translateY(8vh);
+  }
 }

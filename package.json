@@ -1,7 +1,7 @@
 {
   "name": "soundscape",
   "version": "0.1.0",
-  "homepage": "https://Sdcarter95.github.io/react-gh-pages",
+  "homepage": "https://sdcarter95.github.io/Soundscape/",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",

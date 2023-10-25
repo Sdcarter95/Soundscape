@@ -5,8 +5,8 @@
 }
 
 .swiper {
-    width: 48em;
-    height: 7em;
+    width: 100%;
+    height: 100%;
     position: relative;
 }
 
@@ -16,12 +16,11 @@
     height: 100%;
 }
 
-.slide-content {
-    
-}
 
 .swiper-container {
     animation: slideDownDisappear 2s ease forwards;
+    /* background-color: blueviolet; */
+    display: flex;
 }
 
 .swiper-button-prev, .swiper-button-next{

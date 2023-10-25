@@ -1,0 +1,31 @@
+.TapeConsoleContainer{
+    position: absolute;
+    top:20vh;
+    left: 0;
+    /* background-color: #17aa79; */
+    height: 60vh;
+    width: 41vh;
+  }
+  
+  .TapeConsole{
+    height: 36.844vh;
+    /* background-color: #181680; */
+  }
+  
+  .ConsoleLid{
+    position: absolute;
+    height: 36.844vh;
+    top:.1vh
+  }
+  
+  .ButtonBar{
+    /* background-color: #b83a36; */
+    width: 33vh;
+    position: absolute;
+    left: 3.8vh;
+    top: 24.6vh;
+  }
+
+  .EjectButton, .SoundsButton, .VisualsButton, .ImportButton, .ExtraButton {
+    height: 10vh;
+  }

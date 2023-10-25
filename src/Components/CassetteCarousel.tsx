@@ -36,7 +36,7 @@ const CassetteCarousel: React.FC<CarouselProps> = ({ cassettes, onSlideClick }) 
     initialSlide: 3,
     modules: [Navigation, EffectCoverflow],
     effect: 'coverflow'
-  };
+  };  
 
 
 
