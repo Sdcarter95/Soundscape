@@ -21,8 +21,3 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-build/manifest.json
-build/asset-manifest.json
-build/index.html
-build/manifest.json
-build/asset-manifest.json
