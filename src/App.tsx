@@ -105,8 +105,8 @@ function App() {
             <div className='cassetteCarousel'>
               {cassetteSelectionVisible ? <CassetteCarousel cassettes={cassetteLibrary} onSlideClick={handleSlideClick} /> : <></>}
             </div>
-            <div className='iframe-container'>
-                <YouTube videoId={videoSource} opts={options} onReady={onPlayerReady} onStateChange={onPlayerStateChange} className={cassetteSelectionVisible?'frame-down':"frame-up"}/>
+            <div className={cassetteSelectionVisible?'iframe-container frame-down':"iframe-container frame-up"}>
+                <YouTube videoId={videoSource} opts={options} onReady={onPlayerReady} onStateChange={onPlayerStateChange} className='video' />
             </div>
           </div>
 

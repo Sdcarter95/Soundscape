@@ -11,14 +11,14 @@
   left: 2vh;
   top: 1.4vh;
   z-index: 2;
-  border: #cc2f2f 2pt solid;
+  /* border: #cc2f2f 2pt solid; */
 }
 
 .app-header {
   background: linear-gradient(to bottom, #181680, #b87b36);
   background: linear-gradient(to bottom, #3693b8, #b87b36);
   background: linear-gradient(to bottom, #b83a36, #b87b36);
-  height: 10.8vh;
+  height: 10.6vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -34,23 +34,25 @@
 }
 
 
-.frame-up,
-.frame-down {
-  display: flex;
-  position: relative;
+.video{
+  position: absolute;
   left: 0%;
   top: 0%;
-  height: 42.8vh;
-  width: 76vh;
+  height: 100%;
+  width: 100%; 
 }
 
 
+
 .iframe-container {
+  display: flex;
   /* border: #cc2f2f 2pt solid; */
   position: absolute;
   left: 50%;
   top: 60%;
-  transform: translate(-50%, -50%);
+  z-index: 1;
+  height: 42.7vh;
+  width: 75.8vh;
 }
 
 
@@ -115,20 +117,20 @@
 
 @keyframes lowerFrame {
   0% {
-    transform: translateY(8vh);
+    transform: translateY(8vh) translate(-50%, -50%);;
   }
 
   100% {
-    transform: translateY(0);
+    transform: translateY(0) translate(-50%, -50%);;
   }
 }
 
 @keyframes liftFrame {
   0% {
-    transform: translateY(0);
+    transform: translateY(0) translate(-50%, -50%);;
   }
 
   100% {
-    transform: translateY(8vh);
+    transform: translateY(8vh) translate(-50%, -50%);;
   }
 }
