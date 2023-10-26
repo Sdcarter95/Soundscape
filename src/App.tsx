@@ -18,12 +18,13 @@ enum soundPaths {
 
 function App() {
   const [videoSource, setVideoSource] = useState<string>("https://www.youtube.com/embed/851FQiikDaw?si=M6O6JksolCvMFyvS");
-  const [displayImage, setDisplayImage] = useState<string>(); //display image is the background
+  const [displayImage, setDisplayImage] = useState<string>("https://drive.google.com/uc?export=view&id=1IN3YLXurbF-5p_mzRuzU7PbKY8Uesogs"); //display image is the background
   const [cassetteLibrary, setCassetteLibrary] = useState<Cassette[]>([]);
   const [quoteBook, setQuoteBook] = useState<string[]>([]);
   const [quote, setQuote] = useState<string>("");
   const [cassetteSelectionVisible, setCassetteSelectionVisible] = useState<boolean>(false);
   const tapeDeckAudioRef = useRef<HTMLAudioElement | null>(null);
+
 
 
 
@@ -53,10 +54,9 @@ function App() {
 
   const handleSlideClick = (cassette: Cassette) => {
     setVideoSource(cassette.source);
-    //setDisplayImage(`https://img.youtube.com/vi/${cassette.video_id}/maxresdefault.jpg`);
+    setDisplayImage(`https://img.youtube.com/vi/${cassette.video_id}/maxresdefault.jpg`);
     playTDAudio();
   };
-
 
   const playTDAudio = () => {
     if (tapeDeckAudioRef.current) {
@@ -77,14 +77,14 @@ function App() {
           {quote}
         </p>
       </header>
-      <div className="app-body" style={{ backgroundImage: `url(${displayImage})` }}>
+      <div className="app-body" style={{ /*backgroundImage: `url(${displayImage})`*/ }}>
         <div className='flex-container'>
           <div className='flex-column'>
             <div className='flex-item'></div>
           </div>
 
           <div className='canvas'>
-            <div className='cassetteCatousel'>
+            <div className='cassetteCarousel'>
               {cassetteSelectionVisible ? <CassetteCarousel cassettes={cassetteLibrary} onSlideClick={handleSlideClick} /> : <></>}
             </div>
             <div className='iframe-container'>
@@ -96,7 +96,7 @@ function App() {
           </div>
 
           <div className='flex-column'>
-            <TapePlayer onEjectButton={() => setCassetteSelectionVisible(!cassetteSelectionVisible)} onSFX_Button={() => null} />
+            <TapePlayer onEjectButton={() => setCassetteSelectionVisible(!cassetteSelectionVisible)} onSFX_Button={() => null} coverID={displayImage} />
           </div>
         </div>
       </div>
