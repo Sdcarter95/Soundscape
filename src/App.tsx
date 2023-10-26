@@ -75,8 +75,8 @@ function App() {
   };
 
   const options = {
-    height: "394",
-    width: "700",
+    height: "100%",
+    width: "100%",
     playerVars: {
       autoplay: 1,
     },

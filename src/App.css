@@ -44,7 +44,7 @@
 
 
 .iframe-container {
-  /* border: #cc2f2f 2pt solid; */
+  border: #cc2f2f 2pt solid;
   position: absolute;
   left: 50%;
   top: 60%;
