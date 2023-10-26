@@ -3,6 +3,7 @@ import logo from './logo.png';
 import './App.css';
 import CassetteCarousel from './Components/CassetteCarousel';
 import TapePlayer from './Components/TapePlayer';
+import YouTube from "react-youtube";
 
 export interface Cassette {
   name: string,
@@ -11,13 +12,12 @@ export interface Cassette {
 }
 
 
-
 enum soundPaths {
   "tapeDeck" = "https://docs.google.com/uc?export=download&id=1XtWv60ze6CtM-geWnYHf3owgZ21URd4H",
 }
 
 function App() {
-  const [videoSource, setVideoSource] = useState<string>("https://www.youtube.com/embed/851FQiikDaw?si=M6O6JksolCvMFyvS");
+  const [videoSource, setVideoSource] = useState<string>("52FljdTl2_M");
   const [displayImage, setDisplayImage] = useState<string>("https://drive.google.com/uc?export=view&id=1IN3YLXurbF-5p_mzRuzU7PbKY8Uesogs"); //display image is the background
   const [cassetteLibrary, setCassetteLibrary] = useState<Cassette[]>([]);
   const [quoteBook, setQuoteBook] = useState<string[]>([]);
@@ -53,7 +53,7 @@ function App() {
 
 
   const handleSlideClick = (cassette: Cassette) => {
-    setVideoSource(cassette.source);
+    setVideoSource(cassette.video_id);
     setDisplayImage(`https://img.youtube.com/vi/${cassette.video_id}/maxresdefault.jpg`);
     playTDAudio();
   };
@@ -62,6 +62,24 @@ function App() {
     if (tapeDeckAudioRef.current) {
       tapeDeckAudioRef.current.play();
     }
+  };
+
+  const onPlayerReady = (event: { target: any; }) => {
+    const player = event.target;
+    player.pauseVideo();
+  };
+
+  const onPlayerStateChange = (event: { target: any; }) => {
+    const player = event.target;
+    player.playVideo();
+  };
+
+  const options = {
+    height: "394",
+    width: "700",
+    playerVars: {
+      autoplay: 1,
+    },
   };
 
 
@@ -88,10 +106,7 @@ function App() {
               {cassetteSelectionVisible ? <CassetteCarousel cassettes={cassetteLibrary} onSlideClick={handleSlideClick} /> : <></>}
             </div>
             <div className='iframe-container'>
-              {cassetteSelectionVisible ?
-                <iframe className='frame-down' width="560" height="315" src={videoSource + "?autoplay=1"} title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
-                : <iframe className='frame-up' width="560" height="315" src={videoSource + "?autoplay=1"} title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
-              }
+                <YouTube videoId={videoSource} opts={options} onReady={onPlayerReady} onStateChange={onPlayerStateChange} className={cassetteSelectionVisible?'frame-down':"frame-up"}/>
             </div>
           </div>
 
