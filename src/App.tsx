@@ -23,10 +23,10 @@ function App() {
   const [quoteBook, setQuoteBook] = useState<string[]>([]);
   const [quote, setQuote] = useState<string>("");
   const [cassetteSelectionVisible, setCassetteSelectionVisible] = useState<boolean>(false);
+  const [tapeEjected, setTapeEjected] = useState<boolean>(false);
+  const [player, setPlayer] = useState<any>(null);
   const tapeDeckAudioRef = useRef<HTMLAudioElement | null>(null);
-
-
-
+  
 
   useEffect(() => {
     let newLibrary: Cassette[] = [];
@@ -52,8 +52,11 @@ function App() {
   }, [quoteBook]);
 
 
+
+
   const handleSlideClick = (cassette: Cassette) => {
     setVideoSource(cassette.video_id);
+    setCassetteSelectionVisible(false);
     setDisplayImage(`https://img.youtube.com/vi/${cassette.video_id}/maxresdefault.jpg`);
     playTDAudio();
   };
@@ -66,13 +69,29 @@ function App() {
 
   const onPlayerReady = (event: { target: any; }) => {
     const player = event.target;
-    player.pauseVideo();
+    player.playVideo();
+    setPlayer(player);
   };
 
-  const onPlayerStateChange = (event: { target: any; }) => {
-    const player = event.target;
-    player.playVideo();
-  };
+  const onPlay = (event: { target: any; }) => {
+    setTapeEjected(false);
+    setCassetteSelectionVisible(false);
+  }
+
+  const onPause = (event: { target: any; }) => {
+    setTapeEjected(true);
+    setCassetteSelectionVisible(true);
+  }
+
+  const handleEject = () => {
+    setCassetteSelectionVisible(!cassetteSelectionVisible); 
+    if (tapeEjected && player){
+      player.playVideo();
+    } else if(!tapeEjected && player){
+      player.pauseVideo();
+    }
+    setTapeEjected(!tapeEjected);
+  }
 
   const options = {
     height: "100%",
@@ -105,13 +124,13 @@ function App() {
             <div className='cassetteCarousel'>
               {cassetteSelectionVisible ? <CassetteCarousel cassettes={cassetteLibrary} onSlideClick={handleSlideClick} /> : <></>}
             </div>
-            <div className={cassetteSelectionVisible?'iframe-container frame-down':"iframe-container frame-up"}>
-                <YouTube videoId={videoSource} opts={options} onReady={onPlayerReady} onStateChange={onPlayerStateChange} className='video' />
+            <div className={cassetteSelectionVisible ? 'iframe-container frame-down' : "iframe-container frame-up"}>
+              <YouTube videoId={videoSource} opts={options} onPlay={onPlay} onReady={onPlayerReady} onPause={onPause} className='video' />
             </div>
           </div>
 
           <div className='flex-column'>
-            <TapePlayer onEjectButton={() => setCassetteSelectionVisible(!cassetteSelectionVisible)} onSFX_Button={() => null} coverID={displayImage} />
+            <TapePlayer onEjectButton={handleEject} onSFX_Button={() => null} coverID={displayImage} tapeEjected={tapeEjected} />
           </div>
         </div>
       </div>
