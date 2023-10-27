@@ -26,7 +26,7 @@ function App() {
   const [tapeEjected, setTapeEjected] = useState<boolean>(false);
   const [player, setPlayer] = useState<any>(null);
   const tapeDeckAudioRef = useRef<HTMLAudioElement | null>(null);
-  
+
 
   useEffect(() => {
     let newLibrary: Cassette[] = [];
@@ -69,8 +69,8 @@ function App() {
 
   const onPlayerReady = (event: { target: any; }) => {
     const player = event.target;
-    player.playVideo();
     setPlayer(player);
+    player.playVideo();
   };
 
   const onPlay = (event: { target: any; }) => {
@@ -84,10 +84,10 @@ function App() {
   }
 
   const handleEject = () => {
-    setCassetteSelectionVisible(!cassetteSelectionVisible); 
-    if (tapeEjected && player){
+    setCassetteSelectionVisible(!cassetteSelectionVisible);
+    if (tapeEjected && player) {
       player.playVideo();
-    } else if(!tapeEjected && player){
+    } else if (!tapeEjected && player) {
       player.pauseVideo();
     }
     setTapeEjected(!tapeEjected);
@@ -110,13 +110,13 @@ function App() {
           <source src={soundPaths.tapeDeck} type="audio/mpeg" />
           Your browser does not support the audio element.
         </audio>
-        <p className='auote'>
+        <p className='quote'>
           {quote}
         </p>
       </header>
       <div className="app-body" style={{ /*backgroundImage: `url(${displayImage})`*/ }}>
         <div className='flex-container'>
-          <div className='flex-column'>
+          <div className='flex-column-left'>
             <div className='flex-item'></div>
           </div>
 
@@ -129,8 +129,10 @@ function App() {
             </div>
           </div>
 
-          <div className='flex-column'>
-            <TapePlayer onEjectButton={handleEject} onSFX_Button={() => null} coverID={displayImage} tapeEjected={tapeEjected} />
+          <div className='flex-column-right'>
+            <div className='tape-player-wrapper'>
+              <TapePlayer onEjectButton={handleEject} onSFX_Button={() => null} coverID={displayImage} tapeEjected={tapeEjected} />
+            </div>
           </div>
         </div>
       </div>
