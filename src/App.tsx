@@ -4,6 +4,7 @@ import './App.css';
 import CassetteCarousel from './Components/CassetteCarousel';
 import TapePlayer from './Components/TapePlayer';
 import YouTube from "react-youtube";
+import SoundConsole from './Components/SoundConsole';
 
 export interface Cassette {
   name: string,
@@ -23,6 +24,8 @@ function App() {
   const [quoteBook, setQuoteBook] = useState<string[]>([]);
   const [quote, setQuote] = useState<string>("");
   const [cassetteSelectionVisible, setCassetteSelectionVisible] = useState<boolean>(false);
+  const [soundEffectsMenuVisible, setSoundEffectsMenuVisible] = useState<boolean>(false);
+  const [visualsMenuVisible, setVisualsMenuVisible] = useState<boolean>(false);
   const [tapeEjected, setTapeEjected] = useState<boolean>(false);
   const [player, setPlayer] = useState<any>(null);
   const tapeDeckAudioRef = useRef<HTMLAudioElement | null>(null);
@@ -73,12 +76,12 @@ function App() {
     player.playVideo();
   };
 
-  const onPlay = (event: { target: any; }) => {
+  const onPlay = () => {
     setTapeEjected(false);
     setCassetteSelectionVisible(false);
   }
 
-  const onPause = (event: { target: any; }) => {
+  const onPause = () => {
     setTapeEjected(true);
     setCassetteSelectionVisible(true);
   }
@@ -91,6 +94,14 @@ function App() {
       player.pauseVideo();
     }
     setTapeEjected(!tapeEjected);
+  }
+
+  const handleVisuals = async () => {
+    setVisualsMenuVisible(!visualsMenuVisible);
+  }
+
+  const handleSFX = () => {
+    setSoundEffectsMenuVisible(!soundEffectsMenuVisible);
   }
 
   const options = {
@@ -114,10 +125,12 @@ function App() {
           {quote}
         </p>
       </header>
-      <div className="app-body" style={{ /*backgroundImage: `url(${displayImage})`*/ }}>
+      <div className="app-body" style={{ backgroundImage: visualsMenuVisible ? `url(${displayImage})` : "none" }}>
         <div className='flex-container'>
           <div className='flex-column-left'>
-            <div className='flex-item'></div>
+            <div className='sound-console-wrapper'>
+              {soundEffectsMenuVisible ? <SoundConsole /> : <></>}
+            </div>
           </div>
 
           <div className='canvas'>
@@ -131,7 +144,7 @@ function App() {
 
           <div className='flex-column-right'>
             <div className='tape-player-wrapper'>
-              <TapePlayer onEjectButton={handleEject} onSFX_Button={() => null} coverID={displayImage} tapeEjected={tapeEjected} />
+              <TapePlayer onEjectButton={handleEject} onSFX_Button={handleSFX} onVis_Button={handleVisuals} coverID={displayImage} tapeEjected={tapeEjected} />
             </div>
           </div>
         </div>
