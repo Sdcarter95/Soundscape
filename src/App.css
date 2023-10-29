@@ -127,8 +127,8 @@
 .import-console-wrapper{
   position: absolute;
   width: 90vh;
-  height: 20%;
-  top: 76vh;
+  height: 16%;
+  top: 81.5vh;
   left: 50%;
   transform: translateX(-50%);
 }

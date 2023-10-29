@@ -6,7 +6,22 @@
     height: 100%;
 }
 
+.import-consol-title{
+    position: absolute;
+    top:-10%;
+    left:50%;
+    transform: translateX(-50%);
+    font-size: 3vh;
+}
+
 .import-input {
     position: absolute;
-    top: 30%;
+    top: 40%;
+    left: 10%;
+}
+
+.import-url-button{
+    position: absolute;
+    top: 40%;
+    left: 3.5%;
 }

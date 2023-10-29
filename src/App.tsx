@@ -43,7 +43,13 @@ function App() {
     newLibrary.push({ name: "neo jazz", source: "https://www.youtube.com/embed/CE8mevzFwO0?si=vL1j-eVdpRerRUnX", video_id: "CE8mevzFwO0" });
     newLibrary.push({ name: "rainy cafe", source: "https://www.youtube.com/embed/NJuSStkIZBg?si=V7NWkkCDeNdmTAOO", video_id: "NJuSStkIZBg" });
     newLibrary.push({ name: "weeds", source: "https://www.youtube.com/embed/_yJu15Qq3To?si=Ka9j5Ry-q_4CCpk3", video_id: "_yJu15Qq3To" });
-    setCassetteLibrary(newLibrary);
+    if (localStorage.getItem("importedLinks")) {
+      const uploadedLinks: Cassette[] = JSON.parse(localStorage.getItem("importedLinks")!)
+      const combinedLibrary: Cassette[] = [...newLibrary, ...uploadedLinks]
+      setCassetteLibrary(combinedLibrary);
+    } else {
+      setCassetteLibrary(newLibrary);
+    }
     let newQuoteBook: string[] = [];
     newQuoteBook.push(`“Opportunities don't happen, you create them.”`);
     newQuoteBook.push(`“One sees in the world what they carry in their heart”`);
@@ -114,9 +120,17 @@ function App() {
   const importVideo = (videoID: string) => {
     let newLibrary: Cassette[] = [];
     newLibrary.push(...cassetteLibrary);
-    newLibrary.push({ name: "custom", source: `https://www.youtube.com/embed/${videoID}`, video_id: videoID });
+    const newCassette: Cassette = { name: "custom", source: `https://www.youtube.com/embed/${videoID}`, video_id: videoID };
+    newLibrary.push(newCassette);
     setCassetteLibrary(newLibrary);
-    //alert (videoID);
+    if (localStorage.getItem("importedLinks")) {
+      const oldImportedLinks = JSON.parse(localStorage.getItem("importedLinks")!);
+      const updatedImportedLinks = [...oldImportedLinks, newCassette];
+      localStorage.setItem("importedLinks", JSON.stringify(updatedImportedLinks));
+    } else {
+      const importedLinks: Cassette[] = [newCassette];
+      localStorage.setItem("importedLinks", JSON.stringify(importedLinks));
+    }
   }
 
   const options = {

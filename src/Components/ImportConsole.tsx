@@ -19,13 +19,14 @@ const ImportConsole: React.FC<ImportConsoleProps> = ({ onImport }) => {
 
     return (
         <div className="import-console">
+            <h1 className="import-consol-title">Paste any youtube link here</h1>
             <input
                 type="text"
                 value={embedValue}
                 onChange={(e) => setEmbedValue(e.target.value)}
                 className="import-input"
             />
-            <button className="import-input" onClick={handleImport}>Import</button>
+            <button className="import-url-button" onClick={handleImport}>Import</button>
         </div>
     )
 }
