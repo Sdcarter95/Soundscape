@@ -13,6 +13,7 @@ enum soundPaths {
     night = "https://audio.jukehost.co.uk/uc3JQyL6v6h5bEMA05wQKTW8MYQzBo7T",
 }
 
+
 const rain_sound = new Howl({
     src: [soundPaths.rain],
     html5: true,
@@ -67,7 +68,7 @@ interface SoundConsoleProps {
     globalMuted: boolean,
 }
 
-const SoundConsole: React.FC<SoundConsoleProps> = ({onGlobalMute, globalMuted}) => {
+const SoundConsole: React.FC<SoundConsoleProps> = ({ onGlobalMute, globalMuted }) => {
     const [masterVolume, setMasterVolume] = useState<number>(100);
     const [rainVolume, setRainVolume] = useState<number>(100);
     const [fireVolume, setFireVolume] = useState<number>(100);
@@ -114,8 +115,8 @@ const SoundConsole: React.FC<SoundConsoleProps> = ({onGlobalMute, globalMuted}) 
             } else {
                 sound.play();
             }
-        } else{
-            if(muted){
+        } else {
+            if (muted) {
                 sound.mute(false);
                 setMuted(false);
             } else {
@@ -129,112 +130,114 @@ const SoundConsole: React.FC<SoundConsoleProps> = ({onGlobalMute, globalMuted}) 
 
     return (
         <div className="console">
-            <h1>Sound Effect Control</h1>
-            <input
-                type="range"
-                min="0"
-                max="100"
-                value={masterVolume}
-                onChange={(e) => handleVolumeChange(e, Howler, setMasterVolume)}
-                style={muted?{opacity:"30%"}:{}}
-                className="slider master-slider"
-            />
-            <button onClick={() => {handlePlayToggle(Howler); onGlobalMute()}}>All</button>
-            <br />
-            <input
-                type="range"
-                min="0"
-                max="100"
-                value={rainVolume}
-                onChange={(e) => handleVolumeChange(e, rain_sound, setRainVolume)}
-                style={muted?{opacity:"30%"}:rainPressed?{}:{opacity:"30%"}}
-                className="slider"
-            />
-            <button onClick={() => {handlePlayToggle(rain_sound);setRainPressed(!rainPressed)}}>Rain</button>
-            <br />
+            <div className="slider-container">
 
-            <input
-                type="range"
-                min="0"
-                max="100"
-                value={thunderVolume}
-                onChange={(e) => handleVolumeChange(e, thunder_sound, setThunderVolume)}
-                style={muted?{opacity:"30%"}:thunderPressed?{}:{opacity:"30%"}}
-                className="slider"
-            />
-            <button onClick={() => {handlePlayToggle(thunder_sound);setThunderPressed(!thunderPressed)}}>Thunder</button>
-            <br />
+                <input
+                    type="range"
+                    min="0"
+                    max="100"
+                    value={masterVolume}
+                    onChange={(e) => handleVolumeChange(e, Howler, setMasterVolume)}
+                    style={muted ? { opacity: "30%" } : {}}
+                    className="slider master-slider"
+                />
+                <button onClick={() => { handlePlayToggle(Howler); onGlobalMute() }}>All</button>
+                <br />
+                <input
+                    type="range"
+                    min="0"
+                    max="100"
+                    value={rainVolume}
+                    onChange={(e) => handleVolumeChange(e, rain_sound, setRainVolume)}
+                    style={muted ? { opacity: "30%" } : rainPressed ? {} : { opacity: "30%" }}
+                    className="slider"
+                />
+                <button onClick={() => { handlePlayToggle(rain_sound); setRainPressed(!rainPressed) }}>Rain</button>
+                <br />
 
-            <input
-                type="range"
-                min="0"
-                max="100"
-                value={fireVolume}
-                onChange={(e) => handleVolumeChange(e, fire_sound, setFireVolume)}
-                style={muted?{opacity:"30%"}:firePressed?{}:{opacity:"30%"}}
-                className="slider"
-            />
-            <button onClick={() => {handlePlayToggle(fire_sound);setFirePressed(!firePressed)}}>Fire</button>
-            <br />
+                <input
+                    type="range"
+                    min="0"
+                    max="100"
+                    value={thunderVolume}
+                    onChange={(e) => handleVolumeChange(e, thunder_sound, setThunderVolume)}
+                    style={muted ? { opacity: "30%" } : thunderPressed ? {} : { opacity: "30%" }}
+                    className="slider"
+                />
+                <button onClick={() => { handlePlayToggle(thunder_sound); setThunderPressed(!thunderPressed) }}>Thunder</button>
+                <br />
 
-            <input
-                type="range"
-                min="0"
-                max="100"
-                value={trainVolume}
-                onChange={(e) => handleVolumeChange(e, train_sound, setTrainVolume)}
-                style={muted?{opacity:"30%"}:trainPressed?{}:{opacity:"30%"}}
-                className="slider"
-            />
-            <button onClick={() => {handlePlayToggle(train_sound);setTrainPressed(!trainPressed)}}>Train</button>
-            <br />
+                <input
+                    type="range"
+                    min="0"
+                    max="100"
+                    value={fireVolume}
+                    onChange={(e) => handleVolumeChange(e, fire_sound, setFireVolume)}
+                    style={muted ? { opacity: "30%" } : firePressed ? {} : { opacity: "30%" }}
+                    className="slider"
+                />
+                <button onClick={() => { handlePlayToggle(fire_sound); setFirePressed(!firePressed) }}>Fire</button>
+                <br />
 
-            <input
-                type="range"
-                min="0"
-                max="100"
-                value={peopleVolume}
-                onChange={(e) => handleVolumeChange(e, people_sound, setPeopleVolume)}
-                style={muted?{opacity:"30%"}:peoplePressed?{}:{opacity:"30%"}}
-                className="slider"
-            />
-            <button onClick={() => {handlePlayToggle(people_sound);setPeoplePressed(!peoplePressed)}}>People</button>
-            <br />
+                <input
+                    type="range"
+                    min="0"
+                    max="100"
+                    value={trainVolume}
+                    onChange={(e) => handleVolumeChange(e, train_sound, setTrainVolume)}
+                    style={muted ? { opacity: "30%" } : trainPressed ? {} : { opacity: "30%" }}
+                    className="slider"
+                />
+                <button onClick={() => { handlePlayToggle(train_sound); setTrainPressed(!trainPressed) }}>Train</button>
+                <br />
 
-            <input
-                type="range"
-                min="0"
-                max="100"
-                value={forestVolume}
-                onChange={(e) => handleVolumeChange(e, forest_sound, setForestVolume)}
-                style={muted?{opacity:"30%"}:forestPressed?{}:{opacity:"30%"}}
-                className="slider"
-            />
-            <button onClick={() => {handlePlayToggle(forest_sound);setForestPressed(!forestPressed)}}>Forest</button>
-            <br />
+                <input
+                    type="range"
+                    min="0"
+                    max="100"
+                    value={peopleVolume}
+                    onChange={(e) => handleVolumeChange(e, people_sound, setPeopleVolume)}
+                    style={muted ? { opacity: "30%" } : peoplePressed ? {} : { opacity: "30%" }}
+                    className="slider"
+                />
+                <button onClick={() => { handlePlayToggle(people_sound); setPeoplePressed(!peoplePressed) }}>People</button>
+                <br />
 
-            <input
-                type="range"
-                min="0"
-                max="100"
-                value={oceanVolume}
-                onChange={(e) => handleVolumeChange(e, ocean_sound, setOceanVolume)}
-                style={muted?{opacity:"30%"}:oceanPressed?{}:{opacity:"30%"}}
-                className="slider"
-            />
-            <button onClick={() => {handlePlayToggle(ocean_sound);setOceanPressed(!oceanPressed)}}>Ocean</button>
-            <br />
+                <input
+                    type="range"
+                    min="0"
+                    max="100"
+                    value={forestVolume}
+                    onChange={(e) => handleVolumeChange(e, forest_sound, setForestVolume)}
+                    style={muted ? { opacity: "30%" } : forestPressed ? {} : { opacity: "30%" }}
+                    className="slider"
+                />
+                <button onClick={() => { handlePlayToggle(forest_sound); setForestPressed(!forestPressed) }}>Forest</button>
+                <br />
 
-            <input
-                type="range"
-                min="0"
-                max="100"
-                value={nightVolume}
-                onChange={(e) => handleVolumeChange(e, night_sound, setNightVolume)}
-                style={muted?{opacity:"30%"}:nightPressed?{}:{opacity:"30%"}}
-                className="slider"
-            />
-            <button onClick={() => {handlePlayToggle(night_sound);setNightPressed(!nightPressed)}}>Night</button>
+                <input
+                    type="range"
+                    min="0"
+                    max="100"
+                    value={oceanVolume}
+                    onChange={(e) => handleVolumeChange(e, ocean_sound, setOceanVolume)}
+                    style={muted ? { opacity: "30%" } : oceanPressed ? {} : { opacity: "30%" }}
+                    className="slider"
+                />
+                <button onClick={() => { handlePlayToggle(ocean_sound); setOceanPressed(!oceanPressed) }}>Ocean</button>
+                <br />
+
+                <input
+                    type="range"
+                    min="0"
+                    max="100"
+                    value={nightVolume}
+                    onChange={(e) => handleVolumeChange(e, night_sound, setNightVolume)}
+                    style={muted ? { opacity: "30%" } : nightPressed ? {} : { opacity: "30%" }}
+                    className="slider"
+                />
+                <button onClick={() => { handlePlayToggle(night_sound); setNightPressed(!nightPressed) }}>Night</button>
+            </div>
             <br />
             <br />
 
