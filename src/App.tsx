@@ -28,6 +28,7 @@ function App() {
   const [visualsMenuVisible, setVisualsMenuVisible] = useState<boolean>(false);
   const [tapeEjected, setTapeEjected] = useState<boolean>(false);
   const [player, setPlayer] = useState<any>(null);
+  const [soundEffectsMuted, setSoundEffectsMuted] = useState<boolean>(false);
   const tapeDeckAudioRef = useRef<HTMLAudioElement | null>(null);
 
 
@@ -129,7 +130,7 @@ function App() {
         <div className='flex-container'>
           <div className='flex-column-left'>
             <div className='sound-console-wrapper'>
-              {soundEffectsMenuVisible ? <SoundConsole /> : <></>}
+              {soundEffectsMenuVisible ? <SoundConsole onGlobalMute={() => setSoundEffectsMuted(!soundEffectsMuted)} globalMuted={soundEffectsMuted}/> : <></>}
             </div>
           </div>
 

@@ -116,9 +116,10 @@
 
 .sound-console-wrapper {
   position: absolute;
-  top: 20%;
-  height: 80%;
-  width: 100%;
+  top: 25%;
+  left: 5%;
+  height: 50%;
+  width: 80%;
  
 
 }

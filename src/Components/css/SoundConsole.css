@@ -1,5 +1,16 @@
 .console{
-    /* border: rgb(63, 24, 107) 1pt solid; */
-    height: 100%;
+    border: rgb(19, 2, 29) 2pt solid;
+    background-color:rgb(32, 43, 105);
+    border-radius: 5%;
     width: 100%;
+    font-size: 1.7vh;
+}
+
+.slider{
+    width: 60%;
+    padding: 1%;
+}
+
+.master-slider{
+
 }
