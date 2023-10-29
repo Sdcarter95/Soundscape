@@ -3,6 +3,8 @@ import logo from './logo.png';
 import './App.css';
 import CassetteCarousel from './Components/CassetteCarousel';
 import TapePlayer from './Components/TapePlayer';
+import YouTube from "react-youtube";
+import SoundConsole from './Components/SoundConsole';
 
 export interface Cassette {
   name: string,
@@ -11,20 +13,23 @@ export interface Cassette {
 }
 
 
-
 enum soundPaths {
   "tapeDeck" = "https://docs.google.com/uc?export=download&id=1XtWv60ze6CtM-geWnYHf3owgZ21URd4H",
 }
 
 function App() {
-  const [videoSource, setVideoSource] = useState<string>("https://www.youtube.com/embed/851FQiikDaw?si=M6O6JksolCvMFyvS");
-  const [displayImage, setDisplayImage] = useState<string>(); //display image is the background
+  const [videoSource, setVideoSource] = useState<string>("52FljdTl2_M");
+  const [displayImage, setDisplayImage] = useState<string>("https://drive.google.com/uc?export=view&id=1IN3YLXurbF-5p_mzRuzU7PbKY8Uesogs"); //display image is the background
   const [cassetteLibrary, setCassetteLibrary] = useState<Cassette[]>([]);
   const [quoteBook, setQuoteBook] = useState<string[]>([]);
   const [quote, setQuote] = useState<string>("");
   const [cassetteSelectionVisible, setCassetteSelectionVisible] = useState<boolean>(false);
+  const [soundEffectsMenuVisible, setSoundEffectsMenuVisible] = useState<boolean>(false);
+  const [visualsMenuVisible, setVisualsMenuVisible] = useState<boolean>(false);
+  const [tapeEjected, setTapeEjected] = useState<boolean>(false);
+  const [player, setPlayer] = useState<any>(null);
+  const [soundEffectsMuted, setSoundEffectsMuted] = useState<boolean>(false);
   const tapeDeckAudioRef = useRef<HTMLAudioElement | null>(null);
-
 
 
   useEffect(() => {
@@ -51,17 +56,61 @@ function App() {
   }, [quoteBook]);
 
 
+
+
   const handleSlideClick = (cassette: Cassette) => {
-    setVideoSource(cassette.source);
-    //setDisplayImage(`https://img.youtube.com/vi/${cassette.video_id}/maxresdefault.jpg`);
+    setVideoSource(cassette.video_id);
+    setCassetteSelectionVisible(false);
+    setDisplayImage(`https://img.youtube.com/vi/${cassette.video_id}/maxresdefault.jpg`);
     playTDAudio();
   };
-
 
   const playTDAudio = () => {
     if (tapeDeckAudioRef.current) {
       tapeDeckAudioRef.current.play();
     }
+  };
+
+  const onPlayerReady = (event: { target: any; }) => {
+    const player = event.target;
+    setPlayer(player);
+    player.playVideo();
+  };
+
+  const onPlay = () => {
+    setTapeEjected(false);
+    setCassetteSelectionVisible(false);
+  }
+
+  const onPause = () => {
+    setTapeEjected(true);
+    setCassetteSelectionVisible(true);
+  }
+
+  const handleEject = () => {
+    setCassetteSelectionVisible(!cassetteSelectionVisible);
+    if (tapeEjected && player) {
+      player.playVideo();
+    } else if (!tapeEjected && player) {
+      player.pauseVideo();
+    }
+    setTapeEjected(!tapeEjected);
+  }
+
+  const handleVisuals = async () => {
+    setVisualsMenuVisible(!visualsMenuVisible);
+  }
+
+  const handleSFX = () => {
+    setSoundEffectsMenuVisible(!soundEffectsMenuVisible);
+  }
+
+  const options = {
+    height: "100%",
+    width: "100%",
+    playerVars: {
+      autoplay: 1,
+    },
   };
 
 
@@ -73,30 +122,31 @@ function App() {
           <source src={soundPaths.tapeDeck} type="audio/mpeg" />
           Your browser does not support the audio element.
         </audio>
-        <p className='auote'>
+        <p className='quote'>
           {quote}
         </p>
       </header>
-      <div className="app-body" style={{ backgroundImage: `url(${displayImage})` }}>
+      <div className="app-body" style={{ backgroundImage: visualsMenuVisible ? `url(${displayImage})` : "none" }}>
         <div className='flex-container'>
-          <div className='flex-column'>
-            <div className='flex-item'></div>
+          <div className='flex-column-left'>
+            <div className='sound-console-wrapper'>
+              {soundEffectsMenuVisible ? <SoundConsole onGlobalMute={() => setSoundEffectsMuted(!soundEffectsMuted)} globalMuted={soundEffectsMuted}/> : <></>}
+            </div>
           </div>
 
           <div className='canvas'>
-            <div className='cassetteCatousel'>
+            <div className='cassetteCarousel'>
               {cassetteSelectionVisible ? <CassetteCarousel cassettes={cassetteLibrary} onSlideClick={handleSlideClick} /> : <></>}
             </div>
-            <div className='iframe-container'>
-              {cassetteSelectionVisible ?
-                <iframe className='frame-down' width="560" height="315" src={videoSource + "?autoplay=1"} title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
-                : <iframe className='frame-up' width="560" height="315" src={videoSource + "?autoplay=1"} title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
-              }
+            <div className={cassetteSelectionVisible ? 'iframe-container frame-down' : "iframe-container frame-up"}>
+              <YouTube videoId={videoSource} opts={options} onPlay={onPlay} onReady={onPlayerReady} onPause={onPause} className='video' />
             </div>
           </div>
 
-          <div className='flex-column'>
-            <TapePlayer onEjectButton={() => setCassetteSelectionVisible(!cassetteSelectionVisible)} onSFX_Button={() => null} />
+          <div className='flex-column-right'>
+            <div className='tape-player-wrapper'>
+              <TapePlayer onEjectButton={handleEject} onSFX_Button={handleSFX} onVis_Button={handleVisuals} coverID={displayImage} tapeEjected={tapeEjected} />
+            </div>
           </div>
         </div>
       </div>

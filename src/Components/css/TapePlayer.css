@@ -1,31 +1,75 @@
-.TapeConsoleContainer{
+.tape-console-container {
     position: absolute;
-    top:20vh;
+    top: 20vh;
     left: 0;
     /* background-color: #17aa79; */
     height: 60vh;
     width: 41vh;
-  }
-  
-  .TapeConsole{
+}
+
+.tape-console {
     height: 36.844vh;
     /* background-color: #181680; */
-  }
-  
-  .ConsoleLid{
+}
+
+.console-lid {
     position: absolute;
     height: 36.844vh;
-    top:.1vh
-  }
-  
-  .ButtonBar{
+    top: .1vh;
+    z-index: 2;
+}
+
+.tape {
+    position: absolute;
+    height: 15vh;
+    width: 27vh;
+    left: 3.5vh;
+    top: .7vh;
+
+    /* background-color: aquamarine; */
+}
+
+.up-animation {
+    animation: insertCassette 1.5s ease forwards;
+}
+
+.down-animation {
+    animation: removeCassette 1.5s ease forwards;
+}
+
+.button-bar {
     /* background-color: #b83a36; */
     width: 33vh;
     position: absolute;
     left: 3.8vh;
     top: 24.6vh;
-  }
+    z-index: 3;
+}
 
-  .EjectButton, .SoundsButton, .VisualsButton, .ImportButton, .ExtraButton {
+.eject-button,
+.sounds-button,
+.visuals-button,
+.import-button,
+.extra-button {
     height: 10vh;
-  }
+}
+
+@keyframes insertCassette {
+    0% {
+        transform: translateY(-17vh);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
+}
+
+@keyframes removeCassette {
+    0% {
+        transform: translateY(0);
+    }
+
+    100% {
+        transform: translateY(-17vh);
+    }
+}

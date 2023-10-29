@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Cassette } from "../App";
+import Tape from "./Tape";
 import "./css/TapePlayer.css";
 
 
@@ -27,23 +27,53 @@ enum soundPaths {
 interface TapePlayerProps {
     onEjectButton: () => void;
     onSFX_Button: () => void;
-  }
+    onVis_Button: () => void;
+    coverID: string;
+    tapeEjected: boolean;
+}
 
-const TapePlayer: React.FC<TapePlayerProps> = ({onEjectButton}) =>  {
+const TapePlayer: React.FC<TapePlayerProps> = ({ onEjectButton, onSFX_Button, onVis_Button, coverID, tapeEjected}) => {
     const [ejectImageSrc, setEjectImageSrc] = useState<string>(imagePaths.ejectUnpressed);
     const [soundsImageSrc, setSoundsImageSrc] = useState<string>(imagePaths.soundsUnpressed);
     const [visualsImageSrc, setVisualsImageSrc] = useState<string>(imagePaths.visualsUnpressed);
     const [importImageSrc, setImportImageSrc] = useState<string>(imagePaths.importUnpressed);
     const [extraImageSrc, setExtraImageSrc] = useState<string>(imagePaths.extraUnpressed);
     const [preloadedImages, setPreloadedImages] = useState<{ [key: string]: HTMLImageElement }>({});
+    const [ejected, setEjected] = useState<boolean>(false);
+    const [cover, setCover] = useState<string>("");
     const switchAudioRef = useRef<HTMLAudioElement | null>(null);
 
     useEffect(() => {
         preloadImages(imagePaths);
     }, []);
 
+    useEffect(() => {
+        setCover(coverID);
+        setEjected(false);
+        if (ejectImageSrc === preloadedImages[imagePaths.ejectUnpressed]?.src) {
+            setEjectImageSrc(preloadedImages[imagePaths.ejectPressed]?.src);
+        } else if (ejectImageSrc === preloadedImages[imagePaths.ejectPressed]?.src) {
+            setEjectImageSrc(preloadedImages[imagePaths.ejectUnpressed]?.src);
+        }
+    }, [coverID]);
+
+    useEffect(() => {
+       if (tapeEjected && ejectImageSrc === preloadedImages[imagePaths.ejectUnpressed]?.src){
+        setEjectImageSrc(preloadedImages[imagePaths.ejectPressed]?.src);
+        setEjected(true);
+        playButtonAudio();
+       } else if (!tapeEjected && ejectImageSrc === preloadedImages[imagePaths.ejectPressed]?.src) {
+        setEjectImageSrc(preloadedImages[imagePaths.ejectUnpressed]?.src);
+        setEjected(false);
+        playButtonAudio();
+       }
+    }, [tapeEjected]);
+
+
+
     const handleEjectButton = () => {
         onEjectButton();
+        setEjected(!ejected);
         if (ejectImageSrc === preloadedImages[imagePaths.ejectUnpressed]?.src) {
             setEjectImageSrc(preloadedImages[imagePaths.ejectPressed]?.src);
         } else {
@@ -55,8 +85,10 @@ const TapePlayer: React.FC<TapePlayerProps> = ({onEjectButton}) =>  {
     const handleSoundsButton = () => {
         if (soundsImageSrc === preloadedImages[imagePaths.soundsUnpressed]?.src) {
             setSoundsImageSrc(preloadedImages[imagePaths.soundsPressed]?.src);
+            onSFX_Button();
         } else {
             setSoundsImageSrc(preloadedImages[imagePaths.soundsUnpressed]?.src);
+            onSFX_Button()
         }
         playButtonAudio();
     }
@@ -64,8 +96,10 @@ const TapePlayer: React.FC<TapePlayerProps> = ({onEjectButton}) =>  {
     const handleVisualsButton = () => {
         if (visualsImageSrc === imagePaths.visualsUnpressed) {
             setVisualsImageSrc(imagePaths.visualsPressed);
+            onVis_Button();
         } else {
             setVisualsImageSrc(imagePaths.visualsUnpressed);
+            onVis_Button();
         }
         playButtonAudio();
     }
@@ -110,17 +144,18 @@ const TapePlayer: React.FC<TapePlayerProps> = ({onEjectButton}) =>  {
                 <source src={soundPaths.switchPressed} type="audio/mpeg" />
                 Your browser does not support the audio element.
             </audio>
-            <div className='TapeConsoleContainer'>
-            <img className='ConsoleLid' src={imagePaths.consoleLid}></img>
-            <img className='TapeConsole' src={imagePaths.tapeConsole}></img>
-            <div className='ButtonBar'>
-                <img className='EjectButton' src={ejectImageSrc} onClick={() => handleEjectButton()}></img>
-                <img className='SoundsButton' src={soundsImageSrc} onClick={() => handleSoundsButton()}></img>
-                <img className='VisualsButton' src={visualsImageSrc} onClick={() => handleVisualsButton()}></img>
-                <img className='ImportButton' src={importImageSrc} onClick={() => handleImportButton()}></img>
-                <img className='ExtraButton' src={extraImageSrc} onClick={() => handleExtraButton()}></img>
+            <div className='tape-console-container'>
+                <img className='console-lid' src={imagePaths.consoleLid}></img>
+                {ejected ? <div className="tape down-animation"><Tape coverArt={cover} /></div> : <div className="tape up-animation"><Tape coverArt={cover} /></div>}
+                <img className='tape-console' src={imagePaths.tapeConsole}></img>
+                <div className='button-bar'>
+                    <img className='eject-button' src={ejectImageSrc} onClick={() => handleEjectButton()}></img>
+                    <img className='sounds-button' src={soundsImageSrc} onClick={() => handleSoundsButton()}></img>
+                    <img className='visuals-button' src={visualsImageSrc} onClick={() => handleVisualsButton()}></img>
+                    <img className='import-button' src={importImageSrc} onClick={() => handleImportButton()}></img>
+                    <img className='extra-button' src={extraImageSrc} onClick={() => handleExtraButton()}></img>
+                </div>
             </div>
-        </div>
         </div>
     );
 }
