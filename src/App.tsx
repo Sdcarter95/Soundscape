@@ -5,6 +5,7 @@ import CassetteCarousel from './Components/CassetteCarousel';
 import TapePlayer from './Components/TapePlayer';
 import YouTube from "react-youtube";
 import SoundConsole from './Components/SoundConsole';
+import ImportConsole from './Components/ImportConsole';
 
 export interface Cassette {
   name: string,
@@ -25,6 +26,7 @@ function App() {
   const [quote, setQuote] = useState<string>("");
   const [cassetteSelectionVisible, setCassetteSelectionVisible] = useState<boolean>(false);
   const [soundEffectsMenuVisible, setSoundEffectsMenuVisible] = useState<boolean>(false);
+  const [importMenuVisible, setimportMenuVisible] = useState<boolean>(false);
   const [visualsMenuVisible, setVisualsMenuVisible] = useState<boolean>(false);
   const [tapeEjected, setTapeEjected] = useState<boolean>(false);
   const [player, setPlayer] = useState<any>(null);
@@ -105,6 +107,18 @@ function App() {
     setSoundEffectsMenuVisible(!soundEffectsMenuVisible);
   }
 
+  const handleImp = () => {
+    setimportMenuVisible(!importMenuVisible);
+  }
+
+  const importVideo = (videoID: string) => {
+    let newLibrary: Cassette[] = [];
+    newLibrary.push(...cassetteLibrary);
+    newLibrary.push({ name: "custom", source: `https://www.youtube.com/embed/${videoID}`, video_id: videoID });
+    setCassetteLibrary(newLibrary);
+    //alert (videoID);
+  }
+
   const options = {
     height: "100%",
     width: "100%",
@@ -130,7 +144,7 @@ function App() {
         <div className='flex-container'>
           <div className='flex-column-left'>
             <div className='sound-console-wrapper'>
-              {soundEffectsMenuVisible ? <SoundConsole onGlobalMute={() => setSoundEffectsMuted(!soundEffectsMuted)} globalMuted={soundEffectsMuted}/> : <></>}
+              {soundEffectsMenuVisible ? <SoundConsole onGlobalMute={() => setSoundEffectsMuted(!soundEffectsMuted)} globalMuted={soundEffectsMuted} /> : <></>}
             </div>
           </div>
 
@@ -145,11 +159,16 @@ function App() {
 
           <div className='flex-column-right'>
             <div className='tape-player-wrapper'>
-              <TapePlayer onEjectButton={handleEject} onSFX_Button={handleSFX} onVis_Button={handleVisuals} coverID={displayImage} tapeEjected={tapeEjected} />
+              <TapePlayer onEjectButton={handleEject} onSFX_Button={handleSFX} onVis_Button={handleVisuals} onImp_Button={handleImp} coverID={displayImage} tapeEjected={tapeEjected} />
             </div>
           </div>
         </div>
       </div>
+      {importMenuVisible ?
+        <div className='import-console-wrapper'>
+          <ImportConsole onImport={importVideo} />
+        </div>
+        : <></>}
     </div>
   );
 }

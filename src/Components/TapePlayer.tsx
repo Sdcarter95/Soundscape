@@ -28,11 +28,12 @@ interface TapePlayerProps {
     onEjectButton: () => void;
     onSFX_Button: () => void;
     onVis_Button: () => void;
+    onImp_Button: () => void;
     coverID: string;
     tapeEjected: boolean;
 }
 
-const TapePlayer: React.FC<TapePlayerProps> = ({ onEjectButton, onSFX_Button, onVis_Button, coverID, tapeEjected}) => {
+const TapePlayer: React.FC<TapePlayerProps> = ({ onEjectButton, onSFX_Button, onVis_Button, onImp_Button, coverID, tapeEjected}) => {
     const [ejectImageSrc, setEjectImageSrc] = useState<string>(imagePaths.ejectUnpressed);
     const [soundsImageSrc, setSoundsImageSrc] = useState<string>(imagePaths.soundsUnpressed);
     const [visualsImageSrc, setVisualsImageSrc] = useState<string>(imagePaths.visualsUnpressed);
@@ -85,22 +86,20 @@ const TapePlayer: React.FC<TapePlayerProps> = ({ onEjectButton, onSFX_Button, on
     const handleSoundsButton = () => {
         if (soundsImageSrc === preloadedImages[imagePaths.soundsUnpressed]?.src) {
             setSoundsImageSrc(preloadedImages[imagePaths.soundsPressed]?.src);
-            onSFX_Button();
         } else {
             setSoundsImageSrc(preloadedImages[imagePaths.soundsUnpressed]?.src);
-            onSFX_Button()
         }
+        onSFX_Button()
         playButtonAudio();
     }
 
     const handleVisualsButton = () => {
         if (visualsImageSrc === imagePaths.visualsUnpressed) {
             setVisualsImageSrc(imagePaths.visualsPressed);
-            onVis_Button();
         } else {
             setVisualsImageSrc(imagePaths.visualsUnpressed);
-            onVis_Button();
         }
+        onVis_Button();
         playButtonAudio();
     }
 
@@ -110,6 +109,7 @@ const TapePlayer: React.FC<TapePlayerProps> = ({ onEjectButton, onSFX_Button, on
         } else {
             setImportImageSrc(imagePaths.importUnpressed);
         }
+        onImp_Button();
         playButtonAudio();
     }
 

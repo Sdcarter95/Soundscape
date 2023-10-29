@@ -124,6 +124,15 @@
 
 }
 
+.import-console-wrapper{
+  position: absolute;
+  width: 90vh;
+  height: 20%;
+  top: 76vh;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
 
 @media screen and (max-width: 767px) {
 
