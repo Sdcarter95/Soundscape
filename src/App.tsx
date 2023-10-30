@@ -5,6 +5,7 @@ import CassetteCarousel from './Components/CassetteCarousel';
 import TapePlayer from './Components/TapePlayer';
 import YouTube from "react-youtube";
 import SoundConsole from './Components/SoundConsole';
+import ImportConsole from './Components/ImportConsole';
 
 export interface Cassette {
   name: string,
@@ -12,10 +13,11 @@ export interface Cassette {
   video_id: string
 }
 
-
 enum soundPaths {
   "tapeDeck" = "https://docs.google.com/uc?export=download&id=1XtWv60ze6CtM-geWnYHf3owgZ21URd4H",
 }
+
+
 
 function App() {
   const [videoSource, setVideoSource] = useState<string>("52FljdTl2_M");
@@ -25,6 +27,7 @@ function App() {
   const [quote, setQuote] = useState<string>("");
   const [cassetteSelectionVisible, setCassetteSelectionVisible] = useState<boolean>(false);
   const [soundEffectsMenuVisible, setSoundEffectsMenuVisible] = useState<boolean>(false);
+  const [importMenuVisible, setimportMenuVisible] = useState<boolean>(false);
   const [visualsMenuVisible, setVisualsMenuVisible] = useState<boolean>(false);
   const [tapeEjected, setTapeEjected] = useState<boolean>(false);
   const [player, setPlayer] = useState<any>(null);
@@ -41,7 +44,13 @@ function App() {
     newLibrary.push({ name: "neo jazz", source: "https://www.youtube.com/embed/CE8mevzFwO0?si=vL1j-eVdpRerRUnX", video_id: "CE8mevzFwO0" });
     newLibrary.push({ name: "rainy cafe", source: "https://www.youtube.com/embed/NJuSStkIZBg?si=V7NWkkCDeNdmTAOO", video_id: "NJuSStkIZBg" });
     newLibrary.push({ name: "weeds", source: "https://www.youtube.com/embed/_yJu15Qq3To?si=Ka9j5Ry-q_4CCpk3", video_id: "_yJu15Qq3To" });
-    setCassetteLibrary(newLibrary);
+    if (localStorage.getItem("importedLinks")) {
+      const uploadedLinks: Cassette[] = JSON.parse(localStorage.getItem("importedLinks")!)
+      const combinedLibrary: Cassette[] = [...newLibrary, ...uploadedLinks]
+      setCassetteLibrary(combinedLibrary);
+    } else {
+      setCassetteLibrary(newLibrary);
+    }
     let newQuoteBook: string[] = [];
     newQuoteBook.push(`“Opportunities don't happen, you create them.”`);
     newQuoteBook.push(`“One sees in the world what they carry in their heart”`);
@@ -105,6 +114,28 @@ function App() {
     setSoundEffectsMenuVisible(!soundEffectsMenuVisible);
   }
 
+  const handleImp = () => {
+    setimportMenuVisible(!importMenuVisible);
+  }
+
+  const importVideo = (videoID: string) => {
+    let newLibrary: Cassette[] = [];
+    newLibrary.push(...cassetteLibrary);
+    const newCassette: Cassette = { name: "custom", source: `https://www.youtube.com/embed/${videoID}`, video_id: videoID };
+    newLibrary.push(newCassette);
+    setCassetteLibrary(newLibrary);
+    if (localStorage.getItem("importedLinks")) {
+      const oldImportedLinks = JSON.parse(localStorage.getItem("importedLinks")!);
+      const updatedImportedLinks = [...oldImportedLinks, newCassette];
+      localStorage.setItem("importedLinks", JSON.stringify(updatedImportedLinks));
+    } else {
+      const importedLinks: Cassette[] = [newCassette];
+      localStorage.setItem("importedLinks", JSON.stringify(importedLinks));
+    }
+    handleSlideClick(newCassette);
+    setTapeEjected(true);
+  }
+
   const options = {
     height: "100%",
     width: "100%",
@@ -130,7 +161,7 @@ function App() {
         <div className='flex-container'>
           <div className='flex-column-left'>
             <div className='sound-console-wrapper'>
-              {soundEffectsMenuVisible ? <SoundConsole onGlobalMute={() => setSoundEffectsMuted(!soundEffectsMuted)} globalMuted={soundEffectsMuted}/> : <></>}
+              {soundEffectsMenuVisible ? <SoundConsole onGlobalMute={() => setSoundEffectsMuted(!soundEffectsMuted)} globalMuted={soundEffectsMuted} /> : <></>}
             </div>
           </div>
 
@@ -145,11 +176,18 @@ function App() {
 
           <div className='flex-column-right'>
             <div className='tape-player-wrapper'>
-              <TapePlayer onEjectButton={handleEject} onSFX_Button={handleSFX} onVis_Button={handleVisuals} coverID={displayImage} tapeEjected={tapeEjected} />
+              <TapePlayer onEjectButton={handleEject} onSFX_Button={handleSFX} onVis_Button={handleVisuals} onImp_Button={handleImp} coverID={displayImage} tapeEjected={tapeEjected} />
             </div>
           </div>
         </div>
       </div>
+      {importMenuVisible ?
+        <div>
+          <div className='import-console-wrapper'>
+            <ImportConsole onImport={importVideo} />
+          </div>
+        </div>
+        : <></>}
     </div>
   );
 }
