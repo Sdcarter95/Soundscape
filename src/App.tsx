@@ -13,10 +13,11 @@ export interface Cassette {
   video_id: string
 }
 
-
 enum soundPaths {
   "tapeDeck" = "https://docs.google.com/uc?export=download&id=1XtWv60ze6CtM-geWnYHf3owgZ21URd4H",
 }
+
+
 
 function App() {
   const [videoSource, setVideoSource] = useState<string>("52FljdTl2_M");
@@ -179,8 +180,10 @@ function App() {
         </div>
       </div>
       {importMenuVisible ?
-        <div className='import-console-wrapper'>
-          <ImportConsole onImport={importVideo} />
+        <div>
+          <div className='import-console-wrapper'>
+            <ImportConsole onImport={importVideo} />
+          </div>
         </div>
         : <></>}
     </div>

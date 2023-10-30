@@ -120,17 +120,19 @@
   left: 5%;
   height: 80%;
   width: 80%;
- 
+
 
 }
 
-.import-console-wrapper{
-  position: absolute;
-  width: 90vh;
-  height: 16%;
-  top: 81.5vh;
+.import-console-wrapper {
+  /* background-color: #181680; */
+  position: fixed;
+  width: 47%;
+  height: 15vh;
+  bottom: -1.2vh;
   left: 50%;
   transform: translateX(-50%);
+  animation: laptopLift 1.5s ease-in-out;
 }
 
 
@@ -230,5 +232,15 @@
   100% {
     transform: translateY(8vh) translate(-50%, -50%);
     ;
+  }
+}
+
+@keyframes laptopLift {
+  0% {
+    transform: translateY(15vh) translate(-50%);
+  }
+
+  100% {
+    transform: translateY(0vh) translate(-50% -50%);
   }
 }
