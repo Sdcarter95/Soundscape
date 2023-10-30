@@ -17,6 +17,7 @@ const ImportConsole: React.FC<ImportConsoleProps> = ({ onImport }) => {
     const handleImport = () => {
         if (embedValue.split("v=")[1]) {
             onImport(embedValue.split("v=")[1])
+            setEmbedValue("");
         } else {
             alert("Invalid Youtube Link");
         }

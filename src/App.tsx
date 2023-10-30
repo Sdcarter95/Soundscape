@@ -132,6 +132,8 @@ function App() {
       const importedLinks: Cassette[] = [newCassette];
       localStorage.setItem("importedLinks", JSON.stringify(importedLinks));
     }
+    handleSlideClick(newCassette);
+    setTapeEjected(true);
   }
 
   const options = {
