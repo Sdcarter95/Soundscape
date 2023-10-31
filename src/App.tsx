@@ -17,11 +17,12 @@ enum soundPaths {
   "tapeDeck" = "https://docs.google.com/uc?export=download&id=1XtWv60ze6CtM-geWnYHf3owgZ21URd4H",
 }
 
+const defaultTapeImg: string = "https://drive.google.com/uc?export=view&id=1IN3YLXurbF-5p_mzRuzU7PbKY8Uesogs";
 
 
 function App() {
   const [videoSource, setVideoSource] = useState<string>("52FljdTl2_M");
-  const [displayImage, setDisplayImage] = useState<string>("https://drive.google.com/uc?export=view&id=1IN3YLXurbF-5p_mzRuzU7PbKY8Uesogs"); //display image is the background
+  const [displayImage, setDisplayImage] = useState<string>(defaultTapeImg); 
   const [cassetteLibrary, setCassetteLibrary] = useState<Cassette[]>([]);
   const [quoteBook, setQuoteBook] = useState<string[]>([]);
   const [quote, setQuote] = useState<string>("");
@@ -98,11 +99,14 @@ function App() {
 
   const handleEject = () => {
     setCassetteSelectionVisible(!cassetteSelectionVisible);
-    if (tapeEjected && player) {
-      player.playVideo();
-    } else if (!tapeEjected && player) {
-      player.pauseVideo();
+    if (videoSource != "") {
+      if (tapeEjected && player) {
+        player.playVideo();
+      } else if (!tapeEjected && player) {
+        player.pauseVideo();
+      }
     }
+
     setTapeEjected(!tapeEjected);
   }
 
@@ -135,6 +139,27 @@ function App() {
     handleSlideClick(newCassette);
     setTapeEjected(true);
   }
+
+  const deleteVideo = (videoID: string) => {
+    const index = cassetteLibrary.findIndex((cassette: Cassette) => cassette.video_id === videoID);
+    if (index !== -1) {
+      const cassetteToDelete: Cassette = cassetteLibrary[index];
+      if (localStorage.getItem("importedLinks")) {
+        const oldImportedLinks: Cassette[] = JSON.parse(localStorage.getItem("importedLinks")!);
+        const updatedLinks = oldImportedLinks.filter((cassette: Cassette) => cassette.video_id !== cassetteToDelete.video_id);
+        if (updatedLinks) {
+          localStorage.setItem("importedLinks", JSON.stringify(updatedLinks));
+        }
+      }
+      const updatedLibrary = cassetteLibrary.filter((cassete: Cassette) => cassete !== cassetteToDelete);
+      setCassetteLibrary(updatedLibrary);
+    }
+
+    setVideoSource("");
+    setDisplayImage(defaultTapeImg);
+    setTapeEjected(true);
+    setCassetteSelectionVisible(true);
+  };
 
   const options = {
     height: "100%",
@@ -170,13 +195,16 @@ function App() {
               {cassetteSelectionVisible ? <CassetteCarousel cassettes={cassetteLibrary} onSlideClick={handleSlideClick} /> : <></>}
             </div>
             <div className={cassetteSelectionVisible ? 'iframe-container frame-down' : "iframe-container frame-up"}>
-              <YouTube videoId={videoSource} opts={options} onPlay={onPlay} onReady={onPlayerReady} onPause={onPause} className='video' />
+              {videoSource != "" ?
+                <YouTube videoId={videoSource} opts={options} onPlay={onPlay} onReady={onPlayerReady} onPause={onPause} className='video' /> :
+                <></>
+              }
             </div>
           </div>
 
           <div className='flex-column-right'>
             <div className='tape-player-wrapper'>
-              <TapePlayer onEjectButton={handleEject} onSFX_Button={handleSFX} onVis_Button={handleVisuals} onImp_Button={handleImp} coverID={displayImage} tapeEjected={tapeEjected} />
+              <TapePlayer onEjectButton={handleEject} onSFX_Button={handleSFX} onVis_Button={handleVisuals} onImp_Button={handleImp} onExt_Button={() => deleteVideo(videoSource)} coverID={displayImage} tapeEjected={tapeEjected} />
             </div>
           </div>
         </div>

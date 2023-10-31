@@ -16,12 +16,16 @@ const ImportConsole: React.FC<ImportConsoleProps> = ({ onImport }) => {
 
     const handleImport = () => {
         if (embedValue.split("v=")[1]) {
-            onImport(embedValue.split("v=")[1])
+            onImport(embedValue.split("v=")[1]);
             setEmbedValue("");
+        } else if (embedValue.split("youtu.be/")[1]){
+            onImport(embedValue.split("youtu.be/")[1].split("?si=")[0]);
+            setEmbedValue("");  
         } else {
             alert("Invalid Youtube Link");
         }
     };
+
 
 
     return (
