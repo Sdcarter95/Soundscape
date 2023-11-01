@@ -135,6 +135,15 @@
   animation: laptopLift 1.5s ease-in-out;
 }
 
+.visuals-console-wrapper {
+  position: fixed;
+  bottom: 1.2vh;
+  right: 2.5%;
+  z-index: 0;
+  width: 22%;
+  height: 25vh;
+}
+
 
 @media screen and (max-width: 767px) {
 

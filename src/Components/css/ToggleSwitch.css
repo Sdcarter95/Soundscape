@@ -1,0 +1,36 @@
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    height: 3vh;
+    background-color: #ccc;
+    border-radius: 15px;
+  }
+  
+  .toggle-switch.checked {
+    background-color: #4CAF50;
+  }
+  
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: white;
+    border-radius: 50%;
+    transition: 0.4s;
+  }
+  
+  .slider.checked {
+    left: 50%;
+  }
+  
+  .slider.round {
+    width: 48%;
+    height: 2.9vh;
+  }
+  
+  
+  

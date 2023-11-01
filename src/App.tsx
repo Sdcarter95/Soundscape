@@ -5,6 +5,7 @@ import CassetteCarousel from './Components/CassetteCarousel';
 import TapePlayer from './Components/TapePlayer';
 import YouTube from "react-youtube";
 import SoundConsole from './Components/SoundConsole';
+import VisualsConsole from './Components/VisualsConsole';
 import ImportConsole from './Components/ImportConsole';
 
 export interface Cassette {
@@ -34,6 +35,9 @@ function App() {
   const [player, setPlayer] = useState<any>(null);
   const [soundEffectsMuted, setSoundEffectsMuted] = useState<boolean>(false);
   const tapeDeckAudioRef = useRef<HTMLAudioElement | null>(null);
+
+  //display options
+  const [backgroundDisplay, setBackgroundDisplay] = useState<boolean>(false);
 
 
   useEffect(() => {
@@ -146,28 +150,28 @@ function App() {
 
   const deleteVideo = (videoID: string) => {
     const cassetteToDelete: Cassette | undefined = cassetteLibrary.find((cassette: Cassette) => cassette.video_id === videoID);
+    const defaultNames: string[] = ["frogy", "90s", "lofi girl", "relax", "neo jazz", "rainy cafe", "weeds"];
     if (cassetteToDelete) {
 
       //delete from local storage
       if (localStorage.getItem("importedLinks")) {
         const oldImportedLinks: Cassette[] = JSON.parse(localStorage.getItem("importedLinks")!);
-
-        //check if deleated cassettes are default cassettes
-        const defaultNames: string[] = ["frogy", "90s", "lofi girl", "relax", "neo jazz", "rainy cafe", "weeds"];
-        if (defaultNames.some((name: string) => name === cassetteToDelete.name)) {
-          if (localStorage.getItem("blacklist")) {
-            const currentValues: string[] = JSON.parse(localStorage.getItem("blacklist")!);
-            localStorage.setItem("blacklist", JSON.stringify([...currentValues, cassetteToDelete.name]));
-          } else {
-            localStorage.setItem("blacklist", JSON.stringify([cassetteToDelete.name]));
-          }
-        }
-
         const updatedLinks = oldImportedLinks.filter((cassette: Cassette) => cassette.video_id !== cassetteToDelete.video_id);
         if (updatedLinks) {
           localStorage.setItem("importedLinks", JSON.stringify(updatedLinks));
         }
       }
+
+      //add default cassettes to blacklist
+      if (defaultNames.some((name: string) => name === cassetteToDelete.name)) {
+        if (localStorage.getItem("blacklist")) {
+          const currentValues: string[] = JSON.parse(localStorage.getItem("blacklist")!);
+          localStorage.setItem("blacklist", JSON.stringify([...currentValues, cassetteToDelete.name]));
+        } else {
+          localStorage.setItem("blacklist", JSON.stringify([cassetteToDelete.name]));
+        }
+      }
+
       //delete from current render
       const updatedLibrary = cassetteLibrary.filter((cassete: Cassette) => cassete !== cassetteToDelete);
       setCassetteLibrary(updatedLibrary);
@@ -200,7 +204,7 @@ function App() {
           {quote}
         </p>
       </header>
-      <div className="app-body" style={{ backgroundImage: visualsMenuVisible ? `url(${displayImage})` : "none" }}>
+      <div className="app-body" style={{ backgroundImage: backgroundDisplay ? `url(${displayImage})` : "none" }}>
         <div className='flex-container'>
           <div className='flex-column-left'>
             <div className='sound-console-wrapper'>
@@ -231,6 +235,13 @@ function App() {
         <div>
           <div className='import-console-wrapper'>
             <ImportConsole onImport={importVideo} />
+          </div>
+        </div>
+        : <></>}
+      {visualsMenuVisible ?
+        <div>
+          <div className='visuals-console-wrapper'>
+            <VisualsConsole toggleBackGround={() => setBackgroundDisplay(!backgroundDisplay)} backGroundState={backgroundDisplay} />
           </div>
         </div>
         : <></>}
