@@ -22,7 +22,7 @@ const defaultTapeImg: string = "https://drive.google.com/uc?export=view&id=1IN3Y
 
 function App() {
   const [videoSource, setVideoSource] = useState<string>("52FljdTl2_M");
-  const [displayImage, setDisplayImage] = useState<string>(defaultTapeImg); 
+  const [displayImage, setDisplayImage] = useState<string>(defaultTapeImg);
   const [cassetteLibrary, setCassetteLibrary] = useState<Cassette[]>([]);
   const [quoteBook, setQuoteBook] = useState<string[]>([]);
   const [quote, setQuote] = useState<string>("");
@@ -38,13 +38,7 @@ function App() {
 
   useEffect(() => {
     let newLibrary: Cassette[] = [];
-    newLibrary.push({ name: "frogy", source: "https://www.youtube.com/embed/52FljdTl2_M?si=LiZyMDhhxgWG55Ul", video_id: "52FljdTl2_M" });
-    newLibrary.push({ name: "90s", source: "https://www.youtube.com/embed/GabqgJEeigs?si=_nX614lTGDLrBRbF", video_id: "GabqgJEeigs" });
-    newLibrary.push({ name: "lofi girl", source: "https://www.youtube.com/embed/jfKfPfyJRdk?si=wNwSN9cngcAIGomi", video_id: "jfKfPfyJRdk" });
-    newLibrary.push({ name: "relax", source: "https://www.youtube.com/embed/851FQiikDaw?si=M6O6JksolCvMFyvS", video_id: "851FQiikDaw" });
-    newLibrary.push({ name: "neo jazz", source: "https://www.youtube.com/embed/CE8mevzFwO0?si=vL1j-eVdpRerRUnX", video_id: "CE8mevzFwO0" });
-    newLibrary.push({ name: "rainy cafe", source: "https://www.youtube.com/embed/NJuSStkIZBg?si=V7NWkkCDeNdmTAOO", video_id: "NJuSStkIZBg" });
-    newLibrary.push({ name: "weeds", source: "https://www.youtube.com/embed/_yJu15Qq3To?si=Ka9j5Ry-q_4CCpk3", video_id: "_yJu15Qq3To" });
+    newLibrary = loadDefaultCassettes(newLibrary);
     if (localStorage.getItem("importedLinks")) {
       const uploadedLinks: Cassette[] = JSON.parse(localStorage.getItem("importedLinks")!)
       const combinedLibrary: Cassette[] = [...newLibrary, ...uploadedLinks]
@@ -65,8 +59,18 @@ function App() {
     setQuote(quoteBook[randomQIndex]);
   }, [quoteBook]);
 
-
-
+  //example videos (These can't aren't truly deleted but blacklisted in local storage)
+  const loadDefaultCassettes = (newLibrary: Cassette[]): Cassette[] => {
+    const blacklist: string[] = localStorage.getItem("blacklist") ? JSON.parse(localStorage.getItem("blacklist")!) : null;
+    if (!blacklist?.some(name => name === "frogy")) { newLibrary.push({ name: "frogy", source: "https://www.youtube.com/embed/52FljdTl2_M?si=LiZyMDhhxgWG55Ul", video_id: "52FljdTl2_M" }) };
+    if (!blacklist?.some(name => name === "90s")) { newLibrary.push({ name: "90s", source: "https://www.youtube.com/embed/GabqgJEeigs?si=_nX614lTGDLrBRbF", video_id: "GabqgJEeigs" }) };
+    if (!blacklist?.some(name => name === "lofi girl")) { newLibrary.push({ name: "lofi girl", source: "https://www.youtube.com/embed/jfKfPfyJRdk?si=wNwSN9cngcAIGomi", video_id: "jfKfPfyJRdk" }) };
+    if (!blacklist?.some(name => name === "relax")) { newLibrary.push({ name: "relax", source: "https://www.youtube.com/embed/851FQiikDaw?si=M6O6JksolCvMFyvS", video_id: "851FQiikDaw" }) };
+    if (!blacklist?.some(name => name === "neo jazz")) { newLibrary.push({ name: "neo jazz", source: "https://www.youtube.com/embed/CE8mevzFwO0?si=vL1j-eVdpRerRUnX", video_id: "CE8mevzFwO0" }) };
+    if (!blacklist?.some(name => name === "rainy cafe")) { newLibrary.push({ name: "rainy cafe", source: "https://www.youtube.com/embed/NJuSStkIZBg?si=V7NWkkCDeNdmTAOO", video_id: "NJuSStkIZBg" }) };
+    if (!blacklist?.some(name => name === "weeds")) { newLibrary.push({ name: "weeds", source: "https://www.youtube.com/embed/_yJu15Qq3To?si=Ka9j5Ry-q_4CCpk3", video_id: "_yJu15Qq3To" }) };
+    return newLibrary;
+  }
 
   const handleSlideClick = (cassette: Cassette) => {
     setVideoSource(cassette.video_id);
@@ -141,16 +145,30 @@ function App() {
   }
 
   const deleteVideo = (videoID: string) => {
-    const index = cassetteLibrary.findIndex((cassette: Cassette) => cassette.video_id === videoID);
-    if (index !== -1) {
-      const cassetteToDelete: Cassette = cassetteLibrary[index];
+    const cassetteToDelete: Cassette | undefined = cassetteLibrary.find((cassette: Cassette) => cassette.video_id === videoID);
+    if (cassetteToDelete) {
+
+      //delete from local storage
       if (localStorage.getItem("importedLinks")) {
         const oldImportedLinks: Cassette[] = JSON.parse(localStorage.getItem("importedLinks")!);
+
+        //check if deleated cassettes are default cassettes
+        const defaultNames: string[] = ["frogy", "90s", "lofi girl", "relax", "neo jazz", "rainy cafe", "weeds"];
+        if (defaultNames.some((name: string) => name === cassetteToDelete.name)) {
+          if (localStorage.getItem("blacklist")) {
+            const currentValues: string[] = JSON.parse(localStorage.getItem("blacklist")!);
+            localStorage.setItem("blacklist", JSON.stringify([...currentValues, cassetteToDelete.name]));
+          } else {
+            localStorage.setItem("blacklist", JSON.stringify([cassetteToDelete.name]));
+          }
+        }
+
         const updatedLinks = oldImportedLinks.filter((cassette: Cassette) => cassette.video_id !== cassetteToDelete.video_id);
         if (updatedLinks) {
           localStorage.setItem("importedLinks", JSON.stringify(updatedLinks));
         }
       }
+      //delete from current render
       const updatedLibrary = cassetteLibrary.filter((cassete: Cassette) => cassete !== cassetteToDelete);
       setCassetteLibrary(updatedLibrary);
     }
