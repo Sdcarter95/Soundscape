@@ -7,29 +7,40 @@ import "./css/VisualsConsole.css"
 
 interface VidualsConsoleProps {
     toggleBackGround: () => void,
+    toggleMinimized: () => void,
     backGroundState: boolean,
+    minimizedState: boolean
 }
 
-const VisualsConsole: React.FC<VidualsConsoleProps> = ({ toggleBackGround, backGroundState }) => {
-    const [isChecked, setIsChecked] = useState(backGroundState);
+const VisualsConsole: React.FC<VidualsConsoleProps> = ({ toggleBackGround, backGroundState, toggleMinimized, minimizedState}) => {
+    const [backgroundChecked, setBackgroundChecked] = useState(backGroundState);
+    const [minimizedChecked, setMinimizedChecked] = useState(minimizedState);
+    const checkIMG = "https://drive.google.com/uc?export=view&id=1FqQXwUDYEi1p_MuneE_ltw9mKvO1Sv7T";
 
     useEffect(() => {
 
     }, []);
 
-    const handleToggle = (value: boolean) => {
-        setIsChecked(value);
+    const handleBackgroundToggle = (value: boolean) => {
+        setBackgroundChecked(value);
         toggleBackGround();
     };
 
+    const handleMinimizeToggle = (value: boolean) => {
+        setMinimizedChecked(value);
+        toggleMinimized();
+    }
+
     return (
         <div className="visuals-console">
+            <img src={checkIMG} className=""/>
             <div className="vc-switchboard">
-                <span>
-                    <div className="background-toggle-wrapper">
-                        <ToggleSwitch isChecked={isChecked} onChange={handleToggle} />
-                    </div>
-                </span>
+                <div className="toggle-wrapper">
+                    <ToggleSwitch checked={backgroundChecked} onChange={handleBackgroundToggle} />
+                </div>
+                <div className="toggle-wrapper">
+                    <ToggleSwitch checked={minimizedChecked} onChange={handleMinimizeToggle} />
+                </div>
             </div>
         </div>
     );

@@ -2,18 +2,18 @@ import React, { useState } from 'react';
 import './css/ToggleSwitch.css'; // Import your CSS for styling
 
 interface ToggleSwitchProps {
-    onChange: (isChecked: boolean) => void;
-    isChecked: boolean;
+    onChange: (checked: boolean) => void;
+    checked: boolean;
 }
 
-const ToggleSwitch: React.FC<ToggleSwitchProps> = ({ onChange, isChecked }) => {
+const ToggleSwitch: React.FC<ToggleSwitchProps> = ({ onChange, checked }) => {
     const toggle = () => {
-        onChange(!isChecked);
+        onChange(!checked);
     };
 
     return (
-        <label className={`toggle-switch ${isChecked ? 'checked' : ''}`} onClick={toggle}>
-            <div className={`slider round ${isChecked ? 'checked' : ''}`}></div>
+        <label className={`toggle-switch ${checked ? 'checked' : ''}`} onClick={toggle}>
+            <div className={`toggle-slider round ${checked ? 'checked' : ''}`}></div>
         </label>
     );
 };
