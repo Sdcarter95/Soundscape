@@ -14,11 +14,10 @@
 .vc-switchboard {
     position: absolute;
     /* background-color: rgba(255, 0, 0, 0.541); */
-    top: 20vh;
-    right:0%;
+    top: 20.25vh;
+    right:-1%;
     width: 75%;
 }
-
 
 .toggle-wrapper {
     position: relative;
@@ -26,6 +25,11 @@
     width: 15%;
     left: 50%;
     padding: .5%;
+}
+
+.check-image {
+    width: 93.5%;
+    height: 63vh;
 }
 
 @keyframes openCheck {

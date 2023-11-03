@@ -1,0 +1,81 @@
+.modal {
+    height: 90%;
+    width: 100%;
+    top: 10.5vh;
+    z-index: 3;
+    position: fixed;
+
+}
+
+.close-modal.rolldown-wrapper {
+    transition: all 1.5s;
+    transform: translate(-50%, -100%);
+
+}
+
+.modal-back-ground.close-modal {
+    transition: all 1.5s;
+    opacity: 0;
+}
+
+.modal-back-ground {
+    height: 90%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.555);
+    top: 10.5vh;
+    position: fixed;
+    animation: modalFadeIn 1s ease-in-out;
+}
+
+.rolldown-wrapper {
+    position: absolute;
+    /* background-color: aqua; */
+    width: 50%;
+    height: 70vh;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 0vh;
+    animation: scrollDown 1.5s ease-in-out;
+}
+
+.screen {
+    position: absolute;
+    background-color: rgb(252, 230, 203);
+    height: 65vh;
+    width: 92%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.pully {
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+}
+
+.close-modal-button {
+    position: absolute;
+    bottom: 8.5vh;
+    right: 6vh;
+}
+
+@keyframes modalFadeIn {
+    0% {
+        opacity: 0%;
+    }
+
+    100% {
+        opacity: 100%;
+    }
+}
+
+@keyframes scrollDown {
+    0% {
+        transform: translate(-50%, -100%);
+    }
+
+    100% {
+        transform: translate(-50%, 0%);
+    }
+}

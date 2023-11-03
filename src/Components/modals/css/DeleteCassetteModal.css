@@ -1,0 +1,28 @@
+.delete-cassette-msg {
+    font-size: 4vh;
+    color: black;
+}
+
+.delete-modal-content {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 10vh;
+    width: 90%;
+    height: 50vh;
+    top: 15vh;
+}
+
+.delete-cassette-buttons {
+    display: flex;
+    justify-content: center;
+    /* background-color: aqua; */
+}
+
+.delete-cassette-button{
+    margin: 2%;
+    height: auto;
+    width: 10%;
+    font-size: large;
+    cursor: pointer;
+}

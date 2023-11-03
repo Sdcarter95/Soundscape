@@ -33,7 +33,7 @@ const VisualsConsole: React.FC<VidualsConsoleProps> = ({ toggleBackGround, backG
 
     return (
         <div className="visuals-console">
-            <img src={checkIMG} className=""/>
+            <img src={checkIMG} className="check-image"/>
             <div className="vc-switchboard">
                 <div className="toggle-wrapper">
                     <ToggleSwitch checked={backgroundChecked} onChange={handleBackgroundToggle} />

@@ -3,16 +3,17 @@ import "./css/ImportConsole.css"
 
 enum imagePaths {
     youtubeLogo = "https://docs.google.com/uc?export=download&id=1W1QGP15tS7hbCztsXqv2gTsIWhzWT5No",
-    laptop = "https://docs.google.com/uc?export=download&id=1LZHuGuINb6B1ItZrErplagK_AhK8nV3h"
+    laptop = "https://docs.google.com/uc?export=download&id=1LZHuGuINb6B1ItZrErplagK_AhK8nV3h",
+    trashIcon = "https://docs.google.com/uc?export=download&id=1EuSDGfUKkeli34yB4d1cIaVzH8NpVyop"
 }
 
 interface ImportConsoleProps {
     onImport: (id: string) => void;
+    deleteCassette: () => void;
 }
 
-const ImportConsole: React.FC<ImportConsoleProps> = ({ onImport }) => {
+const ImportConsole: React.FC<ImportConsoleProps> = ({ onImport, deleteCassette}) => {
     const [embedValue, setEmbedValue] = useState<string>("");
-
 
     const handleImport = () => {
         if (embedValue.split("v=")[1]) {
@@ -42,7 +43,8 @@ const ImportConsole: React.FC<ImportConsoleProps> = ({ onImport }) => {
                     onChange={(e) => setEmbedValue(e.target.value)}
                     className="import-input"
                 />
-                <button className="import-url-button" onClick={handleImport}>Import</button>
+                <button className="import-url-button" onClick={handleImport}> Import</button>
+                <img src={imagePaths.trashIcon} className="trash-icon" onClick={deleteCassette}/>
             </div>
         </div>
 

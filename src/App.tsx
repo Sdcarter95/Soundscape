@@ -7,6 +7,7 @@ import YouTube from "react-youtube";
 import SoundConsole from './Components/SoundConsole';
 import VisualsConsole from './Components/VisualsConsole';
 import ImportConsole from './Components/ImportConsole';
+import DeleteCassetteModal from "./Components/modals/DeleteCassetteModal";
 
 export interface Cassette {
   name: string,
@@ -36,6 +37,7 @@ function App() {
   const [soundEffectsMuted, setSoundEffectsMuted] = useState<boolean>(false);
   const [playerMinimized, setPlayerMinimized] = useState<boolean>(false);
   const tapeDeckAudioRef = useRef<HTMLAudioElement | null>(null);
+  const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false);
 
   //display options
   const [backgroundDisplay, setBackgroundDisplay] = useState<boolean>(false);
@@ -219,15 +221,15 @@ function App() {
             </div>
             <div className={cassetteSelectionVisible ? 'iframe-container frame-down' : "iframe-container frame-up"}>
               {videoSource != "" ?
-                <YouTube videoId={videoSource} opts={options} onPlay={onPlay} onReady={onPlayerReady} onPause={onPause} className='video' style={playerMinimized?{opacity:"0%"}:{}}/> :
+                <YouTube videoId={videoSource} opts={options} onPlay={onPlay} onReady={onPlayerReady} onPause={onPause} className='video' style={playerMinimized ? { opacity: "0%" } : {}} /> :
                 <></>
               }
             </div>
           </div>
 
           <div className='flex-column-right'>
-            <div className='tape-player-wrapper' style={playerMinimized?tapeEjected?{}:{opacity:"30%", transition: "2s"}:{}}>
-              <TapePlayer onEjectButton={handleEject} onSFX_Button={handleSFX} onVis_Button={handleVisuals} onImp_Button={handleImp} onExt_Button={() => deleteVideo(videoSource)} coverID={displayImage} tapeEjected={tapeEjected}/>
+            <div className='tape-player-wrapper' style={playerMinimized ? tapeEjected ? {} : { opacity: "30%", transition: "2s" } : {}}>
+              <TapePlayer onEjectButton={handleEject} onSFX_Button={handleSFX} onVis_Button={handleVisuals} onImp_Button={handleImp} onExt_Button={() => {}} coverID={displayImage} tapeEjected={tapeEjected} />
             </div>
           </div>
         </div>
@@ -235,17 +237,18 @@ function App() {
       {importMenuVisible ?
         <div>
           <div className='import-console-wrapper'>
-            <ImportConsole onImport={importVideo} />
+            <ImportConsole onImport={importVideo} deleteCassette={() => setDeleteModalOpen(true)} />
           </div>
         </div>
         : <></>}
       {visualsMenuVisible ?
         <div>
           <div className='visuals-console-wrapper'>
-            <VisualsConsole toggleBackGround={() => setBackgroundDisplay(!backgroundDisplay)} toggleMinimized={() => setPlayerMinimized(!playerMinimized)} backGroundState={backgroundDisplay} minimizedState={playerMinimized}/>
+            <VisualsConsole toggleBackGround={() => setBackgroundDisplay(!backgroundDisplay)} toggleMinimized={() => setPlayerMinimized(!playerMinimized)} backGroundState={backgroundDisplay} minimizedState={playerMinimized} />
           </div>
         </div>
         : <></>}
+      <DeleteCassetteModal isOpen={deleteModalOpen} onClose={() => setDeleteModalOpen(false)} onDelete={() => deleteVideo(videoSource)} />
     </div>
   );
 }

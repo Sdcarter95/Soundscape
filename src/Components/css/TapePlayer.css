@@ -16,6 +16,8 @@
     position: absolute;
     height: 36.844vh;
     top: .1vh;
+    z-index: 1;
+    pointer-events: none;
 }
 
 .tape {
