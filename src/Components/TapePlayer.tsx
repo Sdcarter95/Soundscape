@@ -16,6 +16,7 @@ enum imagePaths {
     extraPressed = "https://drive.google.com/uc?export=view&id=16JLtDVrIherm-G5oGGsekiVxvnAhUwIh",
     tapeConsole = "https://drive.google.com/uc?export=view&id=18Ilrn_rcXY8PMPCfn9I3HcWqRXHeWxTg",
     consoleLid = "https://drive.google.com/uc?export=view&id=1SmJujeBpbhVY8xAr8pEOTMbuys8nChKN",
+    defaultTapeImg = "https://drive.google.com/uc?export=view&id=1IN3YLXurbF-5p_mzRuzU7PbKY8Uesogs"
 }
 
 
@@ -29,11 +30,12 @@ interface TapePlayerProps {
     onSFX_Button: () => void;
     onVis_Button: () => void;
     onImp_Button: () => void;
+    onExt_Button: () => void;
     coverID: string;
     tapeEjected: boolean;
 }
 
-const TapePlayer: React.FC<TapePlayerProps> = ({ onEjectButton, onSFX_Button, onVis_Button, onImp_Button, coverID, tapeEjected}) => {
+const TapePlayer: React.FC<TapePlayerProps> = ({ onEjectButton, onSFX_Button, onVis_Button, onImp_Button, onExt_Button, coverID, tapeEjected}) => {
     const [ejectImageSrc, setEjectImageSrc] = useState<string>(imagePaths.ejectUnpressed);
     const [soundsImageSrc, setSoundsImageSrc] = useState<string>(imagePaths.soundsUnpressed);
     const [visualsImageSrc, setVisualsImageSrc] = useState<string>(imagePaths.visualsUnpressed);
@@ -50,11 +52,14 @@ const TapePlayer: React.FC<TapePlayerProps> = ({ onEjectButton, onSFX_Button, on
 
     useEffect(() => {
         setCover(coverID);
-        setEjected(false);
         if (ejectImageSrc === preloadedImages[imagePaths.ejectUnpressed]?.src) {
             setEjectImageSrc(preloadedImages[imagePaths.ejectPressed]?.src);
         } else if (ejectImageSrc === preloadedImages[imagePaths.ejectPressed]?.src) {
             setEjectImageSrc(preloadedImages[imagePaths.ejectUnpressed]?.src);
+        }
+
+        if (coverID != imagePaths.defaultTapeImg){
+            setEjected(false);
         }
     }, [coverID]);
 
@@ -119,6 +124,7 @@ const TapePlayer: React.FC<TapePlayerProps> = ({ onEjectButton, onSFX_Button, on
         } else {
             setExtraImageSrc(imagePaths.extraUnpressed);
         }
+        onExt_Button();
         playButtonAudio();
     }
 

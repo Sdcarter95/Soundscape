@@ -26,6 +26,7 @@
   font-size: calc(10px + 2vmin);
   color: white;
   position: relative;
+  z-index: 4;
 }
 
 .app-body {
@@ -133,6 +134,15 @@
   left: 50%;
   transform: translateX(-50%);
   animation: laptopLift 1.5s ease-in-out;
+}
+
+.visuals-console-wrapper {
+  position: fixed;
+  bottom: 1.2vh;
+  right: 2.5%;
+  z-index: 3;
+  width: 22%;
+  height: 25vh;
 }
 
 
