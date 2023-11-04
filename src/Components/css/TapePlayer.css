@@ -55,6 +55,16 @@
     height: 10vh;
 }
 
+.button-labels {
+    position: absolute;
+    width: 100%;
+    height: 40vh;
+    z-index: 3;
+    left: 0;
+    top:-2.7vh;
+    pointer-events: none;
+  }
+
 @keyframes insertCassette {
     0% {
         transform: translateY(-17vh);
