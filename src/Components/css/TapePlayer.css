@@ -63,6 +63,8 @@
     left: 0;
     top:-2.7vh;
     pointer-events: none;
+    transform: translateY(6vh);
+    animation: lowerLabels 1s ease-in;
   }
 
 @keyframes insertCassette {
@@ -82,5 +84,16 @@
 
     100% {
         transform: translateY(-17vh);
+    }
+}
+
+@keyframes lowerLabels {
+    0% {
+        transform: translateY(5vh);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateY(6vh);
     }
 }

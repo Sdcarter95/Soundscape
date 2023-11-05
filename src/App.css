@@ -145,6 +145,13 @@
   height: 25vh;
 }
 
+.app-footer{
+  background-color:#b83a36;
+  position: absolute;
+  width: 100%;
+  
+}
+
 
 @media screen and (max-width: 767px) {
 

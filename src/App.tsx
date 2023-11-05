@@ -43,7 +43,7 @@ function App() {
   const tapeDeckAudioRef = useRef<HTMLAudioElement | null>(null);
   //display options
   const [backgroundDisplay, setBackgroundDisplay] = useState<boolean>(false);
-  const [labelsDisplayed, setLabelsDisplayed] = useState<boolean>(false);
+  const [labelsDisplayed, setLabelsDisplayed] = useState<boolean>(true);
 
 
   useEffect(() => {
@@ -252,6 +252,9 @@ function App() {
         </div>
         : <></>}
       <DeleteCassetteModal isOpen={deleteModalOpen} onClose={() => setDeleteModalOpen(false)} onDelete={() => deleteVideo(videoSource)} />
+      <footer className='app-footer'>
+        
+      </footer>
     </div>
   );
 }
