@@ -16,7 +16,8 @@ enum imagePaths {
     extraPressed = "https://drive.google.com/uc?export=view&id=16JLtDVrIherm-G5oGGsekiVxvnAhUwIh",
     tapeConsole = "https://drive.google.com/uc?export=view&id=18Ilrn_rcXY8PMPCfn9I3HcWqRXHeWxTg",
     consoleLid = "https://drive.google.com/uc?export=view&id=1SmJujeBpbhVY8xAr8pEOTMbuys8nChKN",
-    defaultTapeImg = "https://drive.google.com/uc?export=view&id=1IN3YLXurbF-5p_mzRuzU7PbKY8Uesogs"
+    defaultTapeImg = "https://drive.google.com/uc?export=view&id=1IN3YLXurbF-5p_mzRuzU7PbKY8Uesogs",
+    buttonLabels = "https://drive.google.com/uc?export=view&id=1fwOos_6kM4oUPyxrZMUxVgF7URqHkEEW"
 }
 
 
@@ -33,9 +34,10 @@ interface TapePlayerProps {
     onExt_Button: () => void;
     coverID: string;
     tapeEjected: boolean;
+    displayLabels: boolean;
 }
 
-const TapePlayer: React.FC<TapePlayerProps> = ({ onEjectButton, onSFX_Button, onVis_Button, onImp_Button, onExt_Button, coverID, tapeEjected}) => {
+const TapePlayer: React.FC<TapePlayerProps> = ({ onEjectButton, onSFX_Button, onVis_Button, onImp_Button, onExt_Button, coverID, tapeEjected, displayLabels}) => {
     const [ejectImageSrc, setEjectImageSrc] = useState<string>(imagePaths.ejectUnpressed);
     const [soundsImageSrc, setSoundsImageSrc] = useState<string>(imagePaths.soundsUnpressed);
     const [visualsImageSrc, setVisualsImageSrc] = useState<string>(imagePaths.visualsUnpressed);
@@ -161,6 +163,7 @@ const TapePlayer: React.FC<TapePlayerProps> = ({ onEjectButton, onSFX_Button, on
                     <img className='import-button' src={importImageSrc} onClick={() => handleImportButton()}></img>
                     <img className='extra-button' src={extraImageSrc} onClick={() => handleExtraButton()}></img>
                 </div>
+                {displayLabels?<img src={imagePaths.buttonLabels} className='button-labels'/>:<></>}
             </div>
         </div>
     );

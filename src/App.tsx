@@ -8,6 +8,7 @@ import SoundConsole from './Components/SoundConsole';
 import VisualsConsole from './Components/VisualsConsole';
 import ImportConsole from './Components/ImportConsole';
 import DeleteCassetteModal from "./Components/modals/DeleteCassetteModal";
+import RecorderConsole from './Components/RecorderConsole';
 
 export interface Cassette {
   name: string,
@@ -16,15 +17,18 @@ export interface Cassette {
 }
 
 enum soundPaths {
-  "tapeDeck" = "https://docs.google.com/uc?export=download&id=1XtWv60ze6CtM-geWnYHf3owgZ21URd4H",
+  tapeDeck = "https://docs.google.com/uc?export=download&id=1XtWv60ze6CtM-geWnYHf3owgZ21URd4H",
 }
 
-const defaultTapeImg: string = "https://drive.google.com/uc?export=view&id=1IN3YLXurbF-5p_mzRuzU7PbKY8Uesogs";
+enum imagePaths {
+  defaultTape = "https://drive.google.com/uc?export=view&id=1IN3YLXurbF-5p_mzRuzU7PbKY8Uesogs",
+}
+
 
 
 function App() {
   const [videoSource, setVideoSource] = useState<string>("52FljdTl2_M");
-  const [displayImage, setDisplayImage] = useState<string>(defaultTapeImg);
+  const [displayImage, setDisplayImage] = useState<string>(imagePaths.defaultTape);
   const [cassetteLibrary, setCassetteLibrary] = useState<Cassette[]>([]);
   const [quoteBook, setQuoteBook] = useState<string[]>([]);
   const [quote, setQuote] = useState<string>("");
@@ -36,11 +40,11 @@ function App() {
   const [player, setPlayer] = useState<any>(null);
   const [soundEffectsMuted, setSoundEffectsMuted] = useState<boolean>(false);
   const [playerMinimized, setPlayerMinimized] = useState<boolean>(false);
-  const tapeDeckAudioRef = useRef<HTMLAudioElement | null>(null);
   const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false);
-
+  const tapeDeckAudioRef = useRef<HTMLAudioElement | null>(null);
   //display options
   const [backgroundDisplay, setBackgroundDisplay] = useState<boolean>(false);
+  const [labelsDisplayed, setLabelsDisplayed] = useState<boolean>(true);
 
 
   useEffect(() => {
@@ -133,6 +137,14 @@ function App() {
     setimportMenuVisible(!importMenuVisible);
   }
 
+  const getTimeCode = (): string => {
+    if (player && player.getCurrentTime) {
+      const currentTime = player.getCurrentTime();
+      return currentTime.toFixed(2) + " seconds";
+    }
+    return "N/A";
+  }
+
   const importVideo = (videoID: string) => {
     let newLibrary: Cassette[] = [];
     newLibrary.push(...cassetteLibrary);
@@ -181,7 +193,7 @@ function App() {
     }
 
     setVideoSource("");
-    setDisplayImage(defaultTapeImg);
+    setDisplayImage(imagePaths.defaultTape);
     setTapeEjected(true);
     setCassetteSelectionVisible(true);
   };
@@ -229,7 +241,7 @@ function App() {
 
           <div className='flex-column-right'>
             <div className='tape-player-wrapper' style={playerMinimized ? tapeEjected ? {} : { opacity: "30%", transition: "2s" } : {}}>
-              <TapePlayer onEjectButton={handleEject} onSFX_Button={handleSFX} onVis_Button={handleVisuals} onImp_Button={handleImp} onExt_Button={() => {}} coverID={displayImage} tapeEjected={tapeEjected} />
+              <TapePlayer onEjectButton={handleEject} onSFX_Button={handleSFX} onVis_Button={handleVisuals} onImp_Button={handleImp} onExt_Button={() => { setLabelsDisplayed(!labelsDisplayed) }} coverID={displayImage} tapeEjected={tapeEjected} displayLabels={labelsDisplayed} />
             </div>
           </div>
         </div>
@@ -249,6 +261,9 @@ function App() {
         </div>
         : <></>}
       <DeleteCassetteModal isOpen={deleteModalOpen} onClose={() => setDeleteModalOpen(false)} onDelete={() => deleteVideo(videoSource)} />
+      <div className='recorderConsoleWrapper'>
+        <RecorderConsole onTapeEnd={() => { }} getTimeCode={getTimeCode} coverSrc={imagePaths.defaultTape} videoSrc={videoSource} />
+      </div>
     </div>
   );
 }
