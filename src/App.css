@@ -145,6 +145,16 @@
   height: 25vh;
 }
 
+.recorderConsoleWrapper{
+  position: absolute;
+  width: 20%;
+  height: 40vh;
+  top: 30vh;
+  left: 2vh;
+  background-color: #181680;
+  z-index: 3;
+}
+
 .app-footer{
   background-color:#b83a36;
   position: absolute;

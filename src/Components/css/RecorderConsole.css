@@ -1,0 +1,22 @@
+.recorder{
+    position: absolute;
+    border: 2px;
+    border-style: solid;
+    width: 100%;
+    height: 100%;
+    left:0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mix-tape-wrapper{
+    background-color: brown;
+    width: 50%;
+    height:10vh;
+}
+
+.mt-record-button{
+    position: absolute;
+    top: 30vh;
+}

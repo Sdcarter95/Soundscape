@@ -8,6 +8,7 @@ import SoundConsole from './Components/SoundConsole';
 import VisualsConsole from './Components/VisualsConsole';
 import ImportConsole from './Components/ImportConsole';
 import DeleteCassetteModal from "./Components/modals/DeleteCassetteModal";
+import RecorderConsole from './Components/RecorderConsole';
 
 export interface Cassette {
   name: string,
@@ -136,6 +137,14 @@ function App() {
     setimportMenuVisible(!importMenuVisible);
   }
 
+  const getTimeCode = (): string => {
+    if (player && player.getCurrentTime) {
+      const currentTime = player.getCurrentTime();
+      return currentTime.toFixed(2) + " seconds";
+    }
+    return "N/A";
+  }
+
   const importVideo = (videoID: string) => {
     let newLibrary: Cassette[] = [];
     newLibrary.push(...cassetteLibrary);
@@ -232,7 +241,7 @@ function App() {
 
           <div className='flex-column-right'>
             <div className='tape-player-wrapper' style={playerMinimized ? tapeEjected ? {} : { opacity: "30%", transition: "2s" } : {}}>
-              <TapePlayer onEjectButton={handleEject} onSFX_Button={handleSFX} onVis_Button={handleVisuals} onImp_Button={handleImp} onExt_Button={() => {setLabelsDisplayed(!labelsDisplayed)}} coverID={displayImage} tapeEjected={tapeEjected} displayLabels={labelsDisplayed}/>
+              <TapePlayer onEjectButton={handleEject} onSFX_Button={handleSFX} onVis_Button={handleVisuals} onImp_Button={handleImp} onExt_Button={() => { setLabelsDisplayed(!labelsDisplayed) }} coverID={displayImage} tapeEjected={tapeEjected} displayLabels={labelsDisplayed} />
             </div>
           </div>
         </div>
@@ -252,9 +261,9 @@ function App() {
         </div>
         : <></>}
       <DeleteCassetteModal isOpen={deleteModalOpen} onClose={() => setDeleteModalOpen(false)} onDelete={() => deleteVideo(videoSource)} />
-      <footer className='app-footer'>
-        
-      </footer>
+      <div className='recorderConsoleWrapper'>
+        <RecorderConsole onTapeEnd={() => { }} getTimeCode={getTimeCode} coverSrc={imagePaths.defaultTape} videoSrc={videoSource} />
+      </div>
     </div>
   );
 }
