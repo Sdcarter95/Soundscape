@@ -13,9 +13,10 @@ export interface track {
 interface MixTapeProps {
     newTrack: track|null;
     coverSrc: string;
+    returnTape: (tape: track[]) => void;
 }
 
-const MixTape: React.FC<MixTapeProps> = ({coverSrc, newTrack}) => {
+const MixTape: React.FC<MixTapeProps> = ({coverSrc, newTrack, returnTape}) => {
     const [tracks, setTracks] = useState<track[]>([])
 
     useEffect(() => {
@@ -28,8 +29,9 @@ const MixTape: React.FC<MixTapeProps> = ({coverSrc, newTrack}) => {
 
     const infoDump = (trackList: track[]) => {
         for (const track of trackList) {
-            alert("track src: " + track.src + "\nStart: " + track.start + "\nEnd: " + track.end);
+            //alert("track src: " + track.src + "\nStart: " + track.start + "\nEnd: " + track.end);
         }
+        returnTape(trackList);
     }
     return (
         <div>

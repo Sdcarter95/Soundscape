@@ -5,12 +5,12 @@ import "./css/RecorderConsole.css";
 
 
 interface RecorderProps {
-    onTapeEnd: () => void;
     getTimeCode: () => string;
+    returnMixTape: (mixTape: track[]) => void;
     videoSrc: string;
     coverSrc: string;
 }
-const RecorderConsole: React.FC<RecorderProps> = ({ onTapeEnd, getTimeCode, coverSrc, videoSrc }) => {
+const RecorderConsole: React.FC<RecorderProps> = ({getTimeCode, coverSrc, videoSrc, returnMixTape }) => {
     const [recording, setRecording] = useState<boolean>(false);
     const [startTime, setStartTime] = useState<string>("");
     const [endTime, setEndTime] = useState<string>("");
@@ -40,13 +40,17 @@ const RecorderConsole: React.FC<RecorderProps> = ({ onTapeEnd, getTimeCode, cove
             }
             setRecording(!recording);
         }
-
     }
+
+    const handleExportTape = (mixTape: track[]) => {
+        returnMixTape(mixTape);
+    }
+
     return (
         <div>
             <div className='recorder'>
                 <div className='mix-tape-wrapper'>
-                    <MixTape coverSrc={coverSrc} newTrack={workingTrack} />
+                    <MixTape coverSrc={coverSrc} newTrack={workingTrack} returnTape={handleExportTape} />
                 </div>
                 <button className='mt-record-button' onClick={handleRecord}>{!recording ? <p>Record</p> : <p>Stop</p>}</button>
             </div>

@@ -9,6 +9,8 @@ import VisualsConsole from './Components/VisualsConsole';
 import ImportConsole from './Components/ImportConsole';
 import DeleteCassetteModal from "./Components/modals/DeleteCassetteModal";
 import RecorderConsole from './Components/RecorderConsole';
+import MixTapePlayer from './Components/MixTapePlayer';
+import { track } from './Components/MixTape';
 
 export interface Cassette {
   name: string,
@@ -41,6 +43,9 @@ function App() {
   const [soundEffectsMuted, setSoundEffectsMuted] = useState<boolean>(false);
   const [playerMinimized, setPlayerMinimized] = useState<boolean>(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false);
+//
+  const [mixTape, SetMixTape] = useState<track[]|null>(null);
+//
   const tapeDeckAudioRef = useRef<HTMLAudioElement | null>(null);
   //display options
   const [backgroundDisplay, setBackgroundDisplay] = useState<boolean>(false);
@@ -198,6 +203,10 @@ function App() {
     setCassetteSelectionVisible(true);
   };
 
+  const handleNewMixTape = (mixTape: track[]) => {
+    SetMixTape(mixTape);
+  }
+
   const options = {
     height: "100%",
     width: "100%",
@@ -262,8 +271,9 @@ function App() {
         : <></>}
       <DeleteCassetteModal isOpen={deleteModalOpen} onClose={() => setDeleteModalOpen(false)} onDelete={() => deleteVideo(videoSource)} />
       <div className='recorderConsoleWrapper'>
-        <RecorderConsole onTapeEnd={() => { }} getTimeCode={getTimeCode} coverSrc={imagePaths.defaultTape} videoSrc={videoSource} />
+        <RecorderConsole  getTimeCode={getTimeCode} returnMixTape={handleNewMixTape} coverSrc={imagePaths.defaultTape} videoSrc={videoSource} />
       </div>
+      {mixTape?<MixTapePlayer tracks={mixTape} />: <></>}
     </div>
   );
 }
