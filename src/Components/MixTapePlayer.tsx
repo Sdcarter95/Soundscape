@@ -16,22 +16,72 @@ export interface Track {
 
 function MixTapePlayer({ tracks }: { tracks: Track[] }) {
   const [trackIndex, setTrackIndex] = useState<number>(0);
-  const [flipper, setFlipper] = useState(true);
   const [tapeDone, setTapeDone] = useState(false);
 
+  const playerOne: any = useRef(null);
+  const playerTwo: any = useRef(null);
+
+  const [yt1, setYt1] = useState<any>(<></>)
+  const [yt2, setYt2] = useState<any>(<></>)
+
   useEffect(() => {
-    setTapeDone(false);
-    setFlipper(true);
-    setTrackIndex(0);
-  }, [tracks])
+    createPlayer(0, true)
+    createPlayer(1, false)
+    setTrackIndex(1);
+  }, [])
 
 
-  const nextTrack = () => {
-    if (trackIndex + 3 <= tracks.length) {
-      setTrackIndex(trackIndex + 2);
-      setFlipper(!flipper);
+
+  const playerReady = (event: { target: any; }, playerNumber: number) => {
+    const player = event.target;
+    if (playerNumber == 1) {
+      playerOne.current = player;
+    } else {
+      playerTwo.current = player;
     }
-    else { setTapeDone(true) }
+  };
+
+  const handleEnd = (playerNumber: number, trackIndex: number) => {
+    if (tracks[trackIndex + 2]) {
+      createPlayer(trackIndex + 2, false);
+    }
+
+    if (tracks[trackIndex + 1]) {
+      if (playerNumber == 1) {
+        if (playerTwo.current) {
+          playerTwo.current.playVideo();
+        }
+      } else {
+        if (playerOne.current) {
+          playerOne.current.playVideo();
+        }
+      }
+    }
+  }
+
+
+  const createPlayer = (trackIndex: number, autoplay: boolean) => {
+    const src: string = tracks[trackIndex].src;
+    const start: number = tracks[trackIndex].start;
+    const end: number = tracks[trackIndex].end;
+    const playerNumber = (trackIndex % 2) + 1;
+
+    const newPlayer: any = (
+      <YouTube
+        videoId={src}
+        opts={{
+          playerVars: {
+            start: Math.floor(start),
+            end: Math.floor(end),
+            autoplay: autoplay ? 1 : 0,
+          },
+        }}
+        onEnd={() => handleEnd(playerNumber, trackIndex)}
+        onReady={(event) => playerReady(event, playerNumber)}
+      />
+    )
+
+    if (playerNumber == 1) { setYt1(newPlayer) } else { setYt2(newPlayer) }
   }
 
 
@@ -39,35 +89,10 @@ function MixTapePlayer({ tracks }: { tracks: Track[] }) {
     <div>
       {tapeDone ? <></> :
         <div>
-          {flipper ? <YouTube
-            videoId={tracks[trackIndex].src}
-            opts={{
-              playerVars: {
-                start: Math.floor(tracks[trackIndex].start),
-                end: Math.floor(tracks[trackIndex].end),
-                autoplay: 1,
-              },
-            }}
-            onEnd={() => setFlipper(!flipper)}
-          /> : <>there</>}
-
-          {!flipper && tracks[trackIndex + 1] ?
-            <YouTube
-              videoId={tracks[trackIndex + 1].src}
-              opts={{
-                playerVars: {
-                  start: Math.floor(tracks[trackIndex + 1].start),
-                  end: Math.floor(tracks[trackIndex + 1].end),
-                  autoplay: 1,
-                },
-              }}
-              onEnd={nextTrack}
-            /> : <></>
-          }
+          {yt1}
+          {yt2}
         </div>
       }
-
-
     </div>
   );
 };
