@@ -2,6 +2,8 @@ import { useState, useEffect, useRef } from "react";
 import YouTube from 'react-youtube';
 import { track } from "./MixTape";
 
+import "./css/MixTapePlayer.css"
+
 declare global {
   interface Window {
     YT: any;
@@ -15,24 +17,26 @@ export interface Track {
 }
 
 function MixTapePlayer({ tracks }: { tracks: Track[] }) {
-  const [trackIndex, setTrackIndex] = useState<number>(0);
   const [tapeDone, setTapeDone] = useState(false);
 
   const playerOne: any = useRef(null);
   const playerTwo: any = useRef(null);
+
+  const [playerOnePlaying, setPlayerOnePlaying] = useState<boolean>(true);
 
   const [yt1, setYt1] = useState<any>(<></>)
   const [yt2, setYt2] = useState<any>(<></>)
 
   useEffect(() => {
     createPlayer(0, true)
-    createPlayer(1, false)
-    setTrackIndex(1);
+    if (tracks.length > 1) {
+      createPlayer(1, false)
+    }
   }, [])
 
 
 
-  const playerReady = (event: { target: any; }, playerNumber: number) => {
+  const playerReady = (event: { target: any; }, playerNumber: number, trackIndex: number) => {
     const player = event.target;
     if (playerNumber == 1) {
       playerOne.current = player;
@@ -50,10 +54,12 @@ function MixTapePlayer({ tracks }: { tracks: Track[] }) {
       if (playerNumber == 1) {
         if (playerTwo.current) {
           playerTwo.current.playVideo();
+          setPlayerOnePlaying(false);
         }
       } else {
         if (playerOne.current) {
           playerOne.current.playVideo();
+          setPlayerOnePlaying(true);
         }
       }
     }
@@ -70,14 +76,17 @@ function MixTapePlayer({ tracks }: { tracks: Track[] }) {
       <YouTube
         videoId={src}
         opts={{
+          height: "100%",
+          width: "100%",
           playerVars: {
             start: Math.floor(start),
             end: Math.floor(end),
             autoplay: autoplay ? 1 : 0,
           },
         }}
+        className="mix-tape-video"
         onEnd={() => handleEnd(playerNumber, trackIndex)}
-        onReady={(event) => playerReady(event, playerNumber)}
+        onReady={(event) => playerReady(event, playerNumber, trackIndex)}
       />
     )
 
@@ -89,9 +98,14 @@ function MixTapePlayer({ tracks }: { tracks: Track[] }) {
     <div>
       {tapeDone ? <></> :
         <div>
-          {yt1}
-          {yt2}
+          <div style={playerOnePlaying ? { visibility: "visible" } : { visibility: "hidden" }} >
+            {yt1}
+          </div>
+          <div style={playerOnePlaying ? { visibility: "hidden" } : { visibility: "visible" }} >
+            {yt2}
+          </div>
         </div>
+
       }
     </div>
   );

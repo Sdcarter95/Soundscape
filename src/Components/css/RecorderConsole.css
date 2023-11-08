@@ -16,7 +16,9 @@
     height:10vh;
 }
 
-.mt-record-button{
+.mt-button-bar{
     position: absolute;
-    top: 30vh;
+    display: flex;
+    top:30vh
 }
+

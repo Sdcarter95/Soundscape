@@ -43,6 +43,10 @@
   width: 100%;
 }
 
+.video-mixtape{
+  left:20vh;
+}
+
 
 .iframe-container {
   display: flex;

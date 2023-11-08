@@ -6,19 +6,22 @@ import "./css/RecorderConsole.css";
 
 interface RecorderProps {
     getTimeCode: () => string;
-    returnMixTape: (mixTape: track[]) => void;
+    playMixTape: (mixTape: track[]) => void;
     videoSrc: string;
     coverSrc: string;
+    tapePlaying: boolean;
 }
-const RecorderConsole: React.FC<RecorderProps> = ({getTimeCode, coverSrc, videoSrc, returnMixTape }) => {
+const RecorderConsole: React.FC<RecorderProps> = ({ getTimeCode, playMixTape, coverSrc, videoSrc, tapePlaying}) => {
     const [recording, setRecording] = useState<boolean>(false);
     const [startTime, setStartTime] = useState<string>("");
     const [endTime, setEndTime] = useState<string>("");
-    const [workingTrack, setWorkingTrack] = useState<track|null>(null);
+    const [workingTrack, setWorkingTrack] = useState<track | null>(null);
+    const [playing, setPlaying] = useState<boolean>(false);
+    const [workingTape, setWorkingTape] = useState<track[] | null>(null);
 
     useEffect(() => {
-        if(endTime!=""){
-            const newTrack:track = {
+        if (endTime != "") {
+            const newTrack: track = {
                 src: videoSrc,
                 start: parseFloat(startTime),
                 end: parseFloat(endTime)
@@ -27,6 +30,10 @@ const RecorderConsole: React.FC<RecorderProps> = ({getTimeCode, coverSrc, videoS
             setEndTime("");
         }
     }, [endTime]);
+
+    useEffect(() => {
+        setPlaying(tapePlaying);
+    },[tapePlaying])
 
     const handleRecord = () => {
         const timeCode = getTimeCode();
@@ -42,17 +49,30 @@ const RecorderConsole: React.FC<RecorderProps> = ({getTimeCode, coverSrc, videoS
         }
     }
 
-    const handleExportTape = (mixTape: track[]) => {
-        returnMixTape(mixTape);
+    const handlePlay = () => {
+        if (workingTape) {
+            setPlaying(!playing);
+            playMixTape(workingTape);
+        }
+
+    }
+
+    const handleUpdateTape = (mixTape: track[]) => {
+        setWorkingTape(mixTape);
     }
 
     return (
         <div>
             <div className='recorder'>
                 <div className='mix-tape-wrapper'>
-                    <MixTape coverSrc={coverSrc} newTrack={workingTrack} returnTape={handleExportTape} />
+                    <MixTape coverSrc={coverSrc} newTrack={workingTrack} updateTape={handleUpdateTape} />
                 </div>
-                <button className='mt-record-button' onClick={handleRecord}>{!recording ? <p>Record</p> : <p>Stop</p>}</button>
+                <div className='mt-button-bar'>
+                    <button onClick={handleRecord}>{!recording ? <p>Record</p> : <p>Stop</p>}</button>
+                    <button onClick={handlePlay}>{!playing ? <p>Play</p> : <p>Stop</p>}</button>
+                    <button >Export</button>
+                    <button>Erase</button>
+                </div>
             </div>
         </div>
     );

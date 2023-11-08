@@ -11,31 +11,32 @@ export interface track {
     end: number;
 }
 interface MixTapeProps {
-    newTrack: track|null;
+    newTrack: track | null;
     coverSrc: string;
-    returnTape: (tape: track[]) => void;
+    updateTape: (tape: track[]) => void;
 }
 
-const MixTape: React.FC<MixTapeProps> = ({coverSrc, newTrack, returnTape}) => {
+const MixTape: React.FC<MixTapeProps> = ({ coverSrc, newTrack, updateTape }) => {
     const [tracks, setTracks] = useState<track[]>([])
 
     useEffect(() => {
-        if (newTrack){
-            if (newTrack.end - newTrack.start > 1){
+        if (newTrack) {
+            if (newTrack.end - newTrack.start > 1) {
                 setTracks([...tracks, newTrack]);
-            } 
+            }
         }
     }, [newTrack])
 
-    const infoDump = (trackList: track[]) => {
-        for (const track of trackList) {
-            //alert("track src: " + track.src + "\nStart: " + track.start + "\nEnd: " + track.end);
+    useEffect(() => {
+        if (tracks.length > 0) {
+            updateTape(tracks);
         }
-        returnTape(trackList);
-    }
+    }, [tracks])
+
+
     return (
         <div>
-            <img className='mix-tape' style={{ top: "30vh" }} src={imagePaths.tape} onClick={() => infoDump(tracks)}></img>
+            <img className='mix-tape' style={{ top: "30vh" }} src={imagePaths.tape}></img>
             {/*<img className='tape cover-art' style={{ width: "93%", left: "1vh", zIndex:3 }} src={coverSrc}></img>*/}
         </div>
     );
