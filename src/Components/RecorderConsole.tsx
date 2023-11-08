@@ -11,7 +11,7 @@ interface RecorderProps {
     coverSrc: string;
     tapePlaying: boolean;
 }
-const RecorderConsole: React.FC<RecorderProps> = ({ getTimeCode, playMixTape, coverSrc, videoSrc, tapePlaying}) => {
+const RecorderConsole: React.FC<RecorderProps> = ({ getTimeCode, playMixTape, coverSrc, videoSrc, tapePlaying }) => {
     const [recording, setRecording] = useState<boolean>(false);
     const [startTime, setStartTime] = useState<string>("");
     const [endTime, setEndTime] = useState<string>("");
@@ -33,7 +33,7 @@ const RecorderConsole: React.FC<RecorderProps> = ({ getTimeCode, playMixTape, co
 
     useEffect(() => {
         setPlaying(tapePlaying);
-    },[tapePlaying])
+    }, [tapePlaying])
 
     const handleRecord = () => {
         const timeCode = getTimeCode();
@@ -64,14 +64,15 @@ const RecorderConsole: React.FC<RecorderProps> = ({ getTimeCode, playMixTape, co
     return (
         <div>
             <div className='recorder'>
+            <p style={{position:"absolute", top:"1vh", color:"white", fontSize:"large"}}>Recording is still in Prototype</p>
                 <div className='mix-tape-wrapper'>
                     <MixTape coverSrc={coverSrc} newTrack={workingTrack} updateTape={handleUpdateTape} />
                 </div>
                 <div className='mt-button-bar'>
                     <button onClick={handleRecord}>{!recording ? <p>Record</p> : <p>Stop</p>}</button>
                     <button onClick={handlePlay}>{!playing ? <p>Play</p> : <p>Stop</p>}</button>
-                    <button >Export</button>
-                    <button>Erase</button>
+                    <button onClick={() => alert("Exporting has not yet been implemented")} >Export</button>
+                    <button onClick={() => alert("Erasing has not yet been implemented")}>Erase</button>
                 </div>
             </div>
         </div>

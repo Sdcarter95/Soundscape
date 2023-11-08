@@ -150,7 +150,6 @@ function App() {
   }
 
   const handleExtra = () => {
-    setLabelsDisplayed(!labelsDisplayed);
     setRecordingMenuVisible(!recordingMenuVisible);
     if(mixTapeMode){
       setMixTapeMode(false);
@@ -289,7 +288,7 @@ function App() {
       {visualsMenuVisible ?
         <div>
           <div className='visuals-console-wrapper'>
-            <VisualsConsole toggleBackGround={() => setBackgroundDisplay(!backgroundDisplay)} toggleMinimized={() => setPlayerMinimized(!playerMinimized)} backGroundState={backgroundDisplay} minimizedState={playerMinimized} />
+            <VisualsConsole toggleBackGround={() => setBackgroundDisplay(!backgroundDisplay)} toggleMinimized={() => setPlayerMinimized(!playerMinimized)} toggleLabels={() => {setLabelsDisplayed(!labelsDisplayed)}} backGroundState={backgroundDisplay} minimizedState={playerMinimized} labelsState={labelsDisplayed} />
           </div>
         </div>
         : <></>}
