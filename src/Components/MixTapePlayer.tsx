@@ -71,6 +71,7 @@ function MixTapePlayer({ tracks }: { tracks: Track[] }) {
     const start: number = tracks[trackIndex].start;
     const end: number = tracks[trackIndex].end;
     const playerNumber = (trackIndex % 2) + 1;
+    let trackBuffered = false;
 
     const newPlayer: any = (
       <YouTube
@@ -80,13 +81,20 @@ function MixTapePlayer({ tracks }: { tracks: Track[] }) {
           width: "100%",
           playerVars: {
             start: Math.floor(start),
-            end: Math.floor(end),
-            autoplay: autoplay ? 1 : 0,
+            end: Math.ceil(end),
+            autoplay: autoplay ? 1 : 1,
           },
         }}
         className="mix-tape-video"
         onEnd={() => handleEnd(playerNumber, trackIndex)}
         onReady={(event) => playerReady(event, playerNumber, trackIndex)}
+        onStateChange={(event) => {
+          // Check for buffering (state 3)
+          if (event.data != 3 && !trackBuffered && trackIndex!=0) {
+            event.target.pauseVideo();
+            trackBuffered = true;
+          } 
+        }}
       />
     )
 
