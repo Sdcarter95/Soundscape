@@ -17,7 +17,7 @@ interface VidualsConsoleProps {
 const VisualsConsole: React.FC<VidualsConsoleProps> = ({ toggleBackGround, backGroundState, toggleMinimized, minimizedState, toggleLabels, labelsState}) => {
     const [backgroundChecked, setBackgroundChecked] = useState(backGroundState);
     const [minimizedChecked, setMinimizedChecked] = useState(minimizedState);
-    const [labelsChecked, setLabelsChecked] = useState(labelsState);
+    const [labelsChecked, setLabelsChecked] = useState(!labelsState);
     const checkIMG = "https://drive.google.com/uc?export=view&id=1FqQXwUDYEi1p_MuneE_ltw9mKvO1Sv7T";
 
     useEffect(() => {

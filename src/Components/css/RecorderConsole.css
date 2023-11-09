@@ -10,15 +10,22 @@
     justify-content: center;
 }
 
+.name-tape-input{
+    position: absolute;
+    top: 10vh;
+}
+
 .mix-tape-wrapper{
-    background-color: brown;
+    /* background-color: brown; */
     width: 50%;
     height:10vh;
 }
+
 
 .mt-button-bar{
     position: absolute;
     display: flex;
     top:30vh
 }
+
 

@@ -10,13 +10,8 @@ declare global {
   }
 }
 
-export interface Track {
-  src: string;
-  start: number;
-  end: number;
-}
 
-function MixTapePlayer({ tracks }: { tracks: Track[] }) {
+function MixTapePlayer({ tracks }: { tracks: track[] }) {
   const [tapeDone, setTapeDone] = useState(false);
 
   const playerOne: any = useRef(null);

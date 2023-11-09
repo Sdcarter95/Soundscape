@@ -11,6 +11,7 @@ import DeleteCassetteModal from "./Components/modals/DeleteCassetteModal";
 import RecorderConsole from './Components/RecorderConsole';
 import MixTapePlayer from './Components/MixTapePlayer';
 import { track } from './Components/MixTape';
+import { mixedTape } from './Components/RecorderConsole';
 
 export interface Cassette {
   name: string,
@@ -34,21 +35,23 @@ function App() {
   const [cassetteLibrary, setCassetteLibrary] = useState<Cassette[]>([]);
   const [quoteBook, setQuoteBook] = useState<string[]>([]);
   const [quote, setQuote] = useState<string>("");
+  const tapeDeckAudioRef = useRef<HTMLAudioElement | null>(null);
+
   const [cassetteSelectionVisible, setCassetteSelectionVisible] = useState<boolean>(false);
   const [soundEffectsMenuVisible, setSoundEffectsMenuVisible] = useState<boolean>(false);
   const [importMenuVisible, setimportMenuVisible] = useState<boolean>(false);
   const [visualsMenuVisible, setVisualsMenuVisible] = useState<boolean>(false);
   const [recordingMenuVisible, setRecordingMenuVisible] = useState<boolean>(false);
+
   const [tapeEjected, setTapeEjected] = useState<boolean>(false);
   const [player, setPlayer] = useState<any>(null);
   const [soundEffectsMuted, setSoundEffectsMuted] = useState<boolean>(false);
   const [playerMinimized, setPlayerMinimized] = useState<boolean>(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false);
-  //
+
   const [mixTape, SetMixTape] = useState<track[] | null>(null);
   const [mixTapeMode, setMixTapeMode] = useState<boolean>(false);
-  //
-  const tapeDeckAudioRef = useRef<HTMLAudioElement | null>(null);
+
   //display options
   const [backgroundDisplay, setBackgroundDisplay] = useState<boolean>(false);
   const [labelsDisplayed, setLabelsDisplayed] = useState<boolean>(true);
@@ -154,6 +157,10 @@ function App() {
     if(mixTapeMode){
       setMixTapeMode(false);
     }
+  }
+
+  const handleExportMixedTape = (mixedTape: mixedTape) => {
+    alert(JSON.stringify(mixedTape));
   }
 
   const getTimeCode = (): string => {
@@ -296,7 +303,7 @@ function App() {
 
       {recordingMenuVisible?
         <div className='recorderConsoleWrapper'>
-          <RecorderConsole getTimeCode={getTimeCode} playMixTape={handlePlayMixTape} coverSrc={imagePaths.defaultTape} videoSrc={videoSource} tapePlaying={mixTapeMode} />
+          <RecorderConsole getTimeCode={getTimeCode} playMixTape={handlePlayMixTape} exportMixTape={handleExportMixedTape} coverSrc={imagePaths.defaultTape} videoSrc={videoSource} tapePlaying={mixTapeMode} />
         </div>
         : <></>
       }
