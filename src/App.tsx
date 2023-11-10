@@ -54,6 +54,7 @@ function App() {
 
   const [mixTape, SetMixTape] = useState<track[] | null>(null);
   const [mixTapeMode, setMixTapeMode] = useState<boolean>(false);
+  const [mixedTapeId, setMixedTapeId] = useState("");
 
   //display options
   const [backgroundDisplay, setBackgroundDisplay] = useState<boolean>(false);
@@ -108,11 +109,14 @@ function App() {
 
   const handleMixedTapeClick = (mixedTape: mixedTape) => {
     setRecordingMenuVisible(false);
-    SetMixTape(mixedTape.tracks)
+    SetMixTape(mixedTape.tracks);
+    setMixedTapeId(mixedTape.name + mixedTape.tracks.length);
+
     if (!mixTapeMode) {
       setMixTapeMode(true);
-      setTapeEjected(false);
-    }
+    } 
+
+    setTapeEjected(false);
     setCassetteSelectionVisible(false);
     setDisplayImage(mixedTape.artSrc);
     playTDAudio();
@@ -178,7 +182,9 @@ function App() {
 
   const handleExportMixedTape = (mixedTape: mixedTape) => {
     const newMixedTapeLibrary: mixedTape[] = [...mixedTapeLibrary, mixedTape];
+    setRecordingMenuVisible(false);
     setMixedTapeLibrary(newMixedTapeLibrary);
+    handleMixedTapeClick(mixedTape);
   }
 
   const getTimeCode = (): string => {
@@ -285,7 +291,7 @@ function App() {
             </div>
             <div className={cassetteSelectionVisible ? 'iframe-container frame-down' : "iframe-container frame-up"}>
               {mixTapeMode ?
-                <>{mixTape ? <MixTapePlayer tracks={mixTape} tapePlaying={tapeEjected} /> : <></>}</> : <>
+                <>{mixTape ? <MixTapePlayer key={mixedTapeId} tracks={mixTape} tapePlaying={tapeEjected} /> : <></>}</> : <>
                   {videoSource != "" ?
                     <YouTube videoId={videoSource} opts={options} onPlay={onPlay} onReady={onPlayerReady} onPause={onPause} className='video' style={playerMinimized ? { opacity: "0%" } : {}} /> :
                     <></>
@@ -298,7 +304,7 @@ function App() {
 
           <div className='flex-column-right'>
             <div className='tape-player-wrapper' style={playerMinimized ? tapeEjected ? {} : { opacity: "30%", transition: "2s" } : {}}>
-              <TapePlayer onEjectButton={handleEject} onSFX_Button={handleSFX} onVis_Button={handleVisuals} onImp_Button={handleImp} onExt_Button={handleExtra} coverID={displayImage} tapeEjected={tapeEjected} displayLabels={labelsDisplayed} />
+              <TapePlayer onEjectButton={handleEject} onSFX_Button={handleSFX} onVis_Button={handleVisuals} onImp_Button={handleImp} onExt_Button={handleExtra} coverID={displayImage} tapeEjected={tapeEjected} displayLabels={labelsDisplayed} recordingConsoleOpen={recordingMenuVisible}/>
             </div>
           </div>
         </div>

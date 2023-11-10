@@ -33,11 +33,13 @@ interface TapePlayerProps {
     onImp_Button: () => void;
     onExt_Button: () => void;
     coverID: string;
-    tapeEjected: boolean;
     displayLabels: boolean;
+
+    tapeEjected: boolean;
+    recordingConsoleOpen: boolean;
 }
 
-const TapePlayer: React.FC<TapePlayerProps> = ({ onEjectButton, onSFX_Button, onVis_Button, onImp_Button, onExt_Button, coverID, tapeEjected, displayLabels}) => {
+const TapePlayer: React.FC<TapePlayerProps> = ({ onEjectButton, onSFX_Button, onVis_Button, onImp_Button, onExt_Button, coverID, tapeEjected, displayLabels, recordingConsoleOpen}) => {
     const [ejectImageSrc, setEjectImageSrc] = useState<string>(imagePaths.ejectUnpressed);
     const [soundsImageSrc, setSoundsImageSrc] = useState<string>(imagePaths.soundsUnpressed);
     const [visualsImageSrc, setVisualsImageSrc] = useState<string>(imagePaths.visualsUnpressed);
@@ -77,6 +79,13 @@ const TapePlayer: React.FC<TapePlayerProps> = ({ onEjectButton, onSFX_Button, on
        }
     }, [tapeEjected]);
 
+    useEffect(() => {
+        if(recordingConsoleOpen){
+            setExtraImageSrc(imagePaths.extraPressed);
+        } else {
+            setExtraImageSrc(imagePaths.extraUnpressed);
+        }
+    }, [recordingConsoleOpen])
 
 
     const handleEjectButton = () => {
@@ -121,11 +130,6 @@ const TapePlayer: React.FC<TapePlayerProps> = ({ onEjectButton, onSFX_Button, on
     }
 
     const handleExtraButton = () => {
-        if (extraImageSrc === imagePaths.extraUnpressed) {
-            setExtraImageSrc(imagePaths.extraPressed);
-        } else {
-            setExtraImageSrc(imagePaths.extraUnpressed);
-        }
         onExt_Button();
         playButtonAudio();
     }

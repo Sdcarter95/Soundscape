@@ -28,7 +28,8 @@ const MixTapePlayer: React.FC<MixTapePlayerProps> = ({ tracks, tapePlaying }) =>
     if (tracks.length > 1) {
       createPlayer(1, false)
     }
-  }, [])
+  }, []);
+
 
   useEffect(() => {
     if (playerOneActive) {
@@ -49,7 +50,7 @@ const MixTapePlayer: React.FC<MixTapePlayerProps> = ({ tracks, tapePlaying }) =>
         }
       }
     }
-  }, [tapePlaying])
+  }, [tapePlaying]);
 
   const playerReady = (event: { target: any; }, playerNumber: number, trackIndex: number) => {
     const player = event.target;
