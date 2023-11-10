@@ -4,6 +4,10 @@ import { track } from './MixTape';
 import "./css/RecorderConsole.css";
 
 
+enum imagePaths {
+    label = "https://drive.google.com/uc?export=view&id=1MgUP8CZf7Ma8NtCtrJtqCoS1c29Ev8q6",
+  }
+
 export interface mixedTape {
     tracks: track[],
     name: string,
@@ -18,6 +22,7 @@ interface RecorderProps {
     coverSrc: string;
     tapePlaying: boolean;
 }
+
 const RecorderConsole: React.FC<RecorderProps> = ({ getTimeCode, playMixTape, exportMixTape, coverSrc, videoSrc, tapePlaying }) => {
     const [recording, setRecording] = useState<boolean>(false);
     const [startTime, setStartTime] = useState<string>("");
@@ -74,7 +79,7 @@ const RecorderConsole: React.FC<RecorderProps> = ({ getTimeCode, playMixTape, ex
             const newMixedTape: mixedTape = {
                 tracks: workingTape,
                 name: mixTapeTitle,
-                artSrc: "none"
+                artSrc: imagePaths.label
             }
             exportMixTape(newMixedTape);
         } else {

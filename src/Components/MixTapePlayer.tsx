@@ -10,17 +10,18 @@ declare global {
   }
 }
 
-
-function MixTapePlayer({ tracks }: { tracks: track[] }) {
+interface MixTapePlayerProps {
+  tracks: track[],
+  tapePlaying: boolean
+}
+const MixTapePlayer: React.FC<MixTapePlayerProps> = ({ tracks, tapePlaying }) => {
   const [tapeDone, setTapeDone] = useState(false);
+  const [playerOneActive, setPlayerOneActive] = useState<boolean>(true);
+  const [yt1, setYt1] = useState<any>(<></>)
+  const [yt2, setYt2] = useState<any>(<></>)
 
   const playerOne: any = useRef(null);
   const playerTwo: any = useRef(null);
-
-  const [playerOnePlaying, setPlayerOnePlaying] = useState<boolean>(true);
-
-  const [yt1, setYt1] = useState<any>(<></>)
-  const [yt2, setYt2] = useState<any>(<></>)
 
   useEffect(() => {
     createPlayer(0, true)
@@ -29,7 +30,26 @@ function MixTapePlayer({ tracks }: { tracks: track[] }) {
     }
   }, [])
 
+  useEffect(() => {
+    if (playerOneActive) {
+      if (playerOne.current) {
+        if (tapePlaying) {
+          playerOne.current.pauseVideo();
+        } else {
+          playerOne.current.playVideo();
+        }
 
+      }
+    } else {
+      if (playerTwo.current){
+        if(tapePlaying){
+          playerTwo.current.pauseVideo();
+        } else {
+          playerTwo.current.playVideo();
+        }
+      }
+    }
+  }, [tapePlaying])
 
   const playerReady = (event: { target: any; }, playerNumber: number, trackIndex: number) => {
     const player = event.target;
@@ -49,12 +69,12 @@ function MixTapePlayer({ tracks }: { tracks: track[] }) {
       if (playerNumber == 1) {
         if (playerTwo.current) {
           playerTwo.current.playVideo();
-          setPlayerOnePlaying(false);
+          setPlayerOneActive(false);
         }
       } else {
         if (playerOne.current) {
           playerOne.current.playVideo();
-          setPlayerOnePlaying(true);
+          setPlayerOneActive(true);
         }
       }
     }
@@ -85,10 +105,10 @@ function MixTapePlayer({ tracks }: { tracks: track[] }) {
         onReady={(event) => playerReady(event, playerNumber, trackIndex)}
         onStateChange={(event) => {
           // Check for buffering (state 3)
-          if (event.data != 3 && !trackBuffered && trackIndex!=0) {
+          if (event.data != 3 && !trackBuffered && trackIndex != 0) {
             event.target.pauseVideo();
             trackBuffered = true;
-          } 
+          }
         }}
       />
     )
@@ -101,10 +121,10 @@ function MixTapePlayer({ tracks }: { tracks: track[] }) {
     <div>
       {tapeDone ? <></> :
         <div>
-          <div style={playerOnePlaying ? { visibility: "visible" } : { visibility: "hidden" }} >
+          <div style={playerOneActive ? { visibility: "visible" } : { visibility: "hidden" }} >
             {yt1}
           </div>
-          <div style={playerOnePlaying ? { visibility: "hidden" } : { visibility: "visible" }} >
+          <div style={playerOneActive ? { visibility: "hidden" } : { visibility: "visible" }} >
             {yt2}
           </div>
         </div>

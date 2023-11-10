@@ -32,10 +32,13 @@ enum imagePaths {
 function App() {
   const [videoSource, setVideoSource] = useState<string>("52FljdTl2_M");
   const [displayImage, setDisplayImage] = useState<string>(imagePaths.defaultTape);
+  const tapeDeckAudioRef = useRef<HTMLAudioElement | null>(null);
+
   const [cassetteLibrary, setCassetteLibrary] = useState<Cassette[]>([]);
+  const [mixedTapeLibrary, setMixedTapeLibrary] = useState<mixedTape[]>([]);
+
   const [quoteBook, setQuoteBook] = useState<string[]>([]);
   const [quote, setQuote] = useState<string>("");
-  const tapeDeckAudioRef = useRef<HTMLAudioElement | null>(null);
 
   const [cassetteSelectionVisible, setCassetteSelectionVisible] = useState<boolean>(false);
   const [soundEffectsMenuVisible, setSoundEffectsMenuVisible] = useState<boolean>(false);
@@ -103,6 +106,18 @@ function App() {
     playTDAudio();
   };
 
+  const handleMixedTapeClick = (mixedTape: mixedTape) => {
+    setRecordingMenuVisible(false);
+    SetMixTape(mixedTape.tracks)
+    if (!mixTapeMode) {
+      setMixTapeMode(true);
+      setTapeEjected(false);
+    }
+    setCassetteSelectionVisible(false);
+    setDisplayImage(mixedTape.artSrc);
+    playTDAudio();
+  };
+
   const playTDAudio = () => {
     if (tapeDeckAudioRef.current) {
       tapeDeckAudioRef.current.play();
@@ -126,18 +141,20 @@ function App() {
   }
 
   const handleEject = () => {
-    
+
     setCassetteSelectionVisible(!cassetteSelectionVisible);
-    if (videoSource != "") {
-      if (tapeEjected && player) {
-        player.playVideo();
-      } else if (!tapeEjected && player) {
-        player.pauseVideo();
+    if (mixTapeMode) {
+
+    } else {
+      if (videoSource != "") {
+        if (tapeEjected && player) {
+          player.playVideo();
+        } else if (!tapeEjected && player) {
+          player.pauseVideo();
+        }
       }
     }
-
     setTapeEjected(!tapeEjected);
-
   }
 
   const handleVisuals = async () => {
@@ -154,13 +171,14 @@ function App() {
 
   const handleExtra = () => {
     setRecordingMenuVisible(!recordingMenuVisible);
-    if(mixTapeMode){
+    if (mixTapeMode) {
       setMixTapeMode(false);
     }
   }
 
   const handleExportMixedTape = (mixedTape: mixedTape) => {
-    alert(JSON.stringify(mixedTape));
+    const newMixedTapeLibrary: mixedTape[] = [...mixedTapeLibrary, mixedTape];
+    setMixedTapeLibrary(newMixedTapeLibrary);
   }
 
   const getTimeCode = (): string => {
@@ -263,11 +281,11 @@ function App() {
 
           <div className='canvas'>
             <div className='cassetteCarousel'>
-              {cassetteSelectionVisible ? <CassetteCarousel cassettes={cassetteLibrary} onSlideClick={handleSlideClick} /> : <></>}
+              {cassetteSelectionVisible ? <CassetteCarousel onSlideClick={handleSlideClick} onMixTapeClick={handleMixedTapeClick} cassettes={cassetteLibrary} mixedTapes={mixedTapeLibrary} /> : <></>}
             </div>
             <div className={cassetteSelectionVisible ? 'iframe-container frame-down' : "iframe-container frame-up"}>
               {mixTapeMode ?
-                <>{mixTape ? <MixTapePlayer tracks={mixTape} /> : <></>}</> : <>
+                <>{mixTape ? <MixTapePlayer tracks={mixTape} tapePlaying={tapeEjected} /> : <></>}</> : <>
                   {videoSource != "" ?
                     <YouTube videoId={videoSource} opts={options} onPlay={onPlay} onReady={onPlayerReady} onPause={onPause} className='video' style={playerMinimized ? { opacity: "0%" } : {}} /> :
                     <></>
@@ -280,7 +298,7 @@ function App() {
 
           <div className='flex-column-right'>
             <div className='tape-player-wrapper' style={playerMinimized ? tapeEjected ? {} : { opacity: "30%", transition: "2s" } : {}}>
-              <TapePlayer onEjectButton={mixTapeMode?() => setMixTapeMode(false):handleEject} onSFX_Button={handleSFX} onVis_Button={handleVisuals} onImp_Button={handleImp} onExt_Button={handleExtra} coverID={displayImage} tapeEjected={tapeEjected} displayLabels={labelsDisplayed} />
+              <TapePlayer onEjectButton={handleEject} onSFX_Button={handleSFX} onVis_Button={handleVisuals} onImp_Button={handleImp} onExt_Button={handleExtra} coverID={displayImage} tapeEjected={tapeEjected} displayLabels={labelsDisplayed} />
             </div>
           </div>
         </div>
@@ -295,13 +313,13 @@ function App() {
       {visualsMenuVisible ?
         <div>
           <div className='visuals-console-wrapper'>
-            <VisualsConsole toggleBackGround={() => setBackgroundDisplay(!backgroundDisplay)} toggleMinimized={() => setPlayerMinimized(!playerMinimized)} toggleLabels={() => {setLabelsDisplayed(!labelsDisplayed)}} backGroundState={backgroundDisplay} minimizedState={playerMinimized} labelsState={labelsDisplayed} />
+            <VisualsConsole toggleBackGround={() => setBackgroundDisplay(!backgroundDisplay)} toggleMinimized={() => setPlayerMinimized(!playerMinimized)} toggleLabels={() => { setLabelsDisplayed(!labelsDisplayed) }} backGroundState={backgroundDisplay} minimizedState={playerMinimized} labelsState={labelsDisplayed} />
           </div>
         </div>
         : <></>}
       <DeleteCassetteModal isOpen={deleteModalOpen} onClose={() => setDeleteModalOpen(false)} onDelete={() => deleteVideo(videoSource)} />
 
-      {recordingMenuVisible?
+      {recordingMenuVisible ?
         <div className='recorderConsoleWrapper'>
           <RecorderConsole getTimeCode={getTimeCode} playMixTape={handlePlayMixTape} exportMixTape={handleExportMixedTape} coverSrc={imagePaths.defaultTape} videoSrc={videoSource} tapePlaying={mixTapeMode} />
         </div>
