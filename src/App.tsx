@@ -53,6 +53,7 @@ function App() {
   const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false);
 
   const [mixTape, SetMixTape] = useState<track[] | null>(null);
+  const [mixedTapeName, setMixedTapeName] = useState<string>("");
   const [mixTapeMode, setMixTapeMode] = useState<boolean>(false);
   const [mixedTapeId, setMixedTapeId] = useState("");
 
@@ -71,6 +72,16 @@ function App() {
     } else {
       setCassetteLibrary(newLibrary);
     }
+
+    let mixedTapeLibrary: mixedTape[] = [];
+    if (localStorage.getItem("mixedTapes")) {
+      const uploadedMixedTapes: mixedTape[] = JSON.parse(localStorage.getItem("mixedTapes")!);
+      const combinedMixedTapeLibrary: mixedTape[] = [...mixedTapeLibrary, ...uploadedMixedTapes]
+      setMixedTapeLibrary(combinedMixedTapeLibrary);
+    } else {
+      setMixedTapeLibrary(mixedTapeLibrary);
+    }
+
     let newQuoteBook: string[] = [];
     newQuoteBook.push(`“Opportunities don't happen, you create them.”`);
     newQuoteBook.push(`“One sees in the world what they carry in their heart”`);
@@ -110,6 +121,7 @@ function App() {
   const handleMixedTapeClick = (mixedTape: mixedTape) => {
     setRecordingMenuVisible(false);
     SetMixTape(mixedTape.tracks);
+    setMixedTapeName(mixedTape.name);
     setMixedTapeId(mixedTape.name + mixedTape.tracks.length);
 
     if (!mixTapeMode) {
@@ -184,7 +196,15 @@ function App() {
     const newMixedTapeLibrary: mixedTape[] = [...mixedTapeLibrary, mixedTape];
     setRecordingMenuVisible(false);
     setMixedTapeLibrary(newMixedTapeLibrary);
-    handleMixedTapeClick(mixedTape);
+    
+    if (localStorage.getItem("mixedTapes")) {
+      const oldMixedTape = JSON.parse(localStorage.getItem("mixedTapes")!);
+      const updatedMixedTapes = [...oldMixedTape, mixedTape];
+      localStorage.setItem("mixedTapes", JSON.stringify(updatedMixedTapes));
+    } else {
+      const mixedTapes: mixedTape[] = [mixedTape];
+      localStorage.setItem("mixedTapes", JSON.stringify(mixedTapes));
+    }
   }
 
   const getTimeCode = (): string => {
@@ -212,6 +232,7 @@ function App() {
     handleSlideClick(newCassette);
     setTapeEjected(true);
   }
+
 
   const deleteVideo = (videoID: string) => {
     const cassetteToDelete: Cassette | undefined = cassetteLibrary.find((cassette: Cassette) => cassette.video_id === videoID);
@@ -304,7 +325,7 @@ function App() {
 
           <div className='flex-column-right'>
             <div className='tape-player-wrapper' style={playerMinimized ? tapeEjected ? {} : { opacity: "30%", transition: "2s" } : {}}>
-              <TapePlayer onEjectButton={handleEject} onSFX_Button={handleSFX} onVis_Button={handleVisuals} onImp_Button={handleImp} onExt_Button={handleExtra} coverID={displayImage} tapeEjected={tapeEjected} displayLabels={labelsDisplayed} recordingConsoleOpen={recordingMenuVisible}/>
+              <TapePlayer onEjectButton={handleEject} onSFX_Button={handleSFX} onVis_Button={handleVisuals} onImp_Button={handleImp} onExt_Button={handleExtra} coverID={displayImage} tapeEjected={tapeEjected} displayLabels={labelsDisplayed} recordingConsoleOpen={recordingMenuVisible} mixTapeMode={mixTapeMode} mixTapeName={mixedTapeName}/>
             </div>
           </div>
         </div>

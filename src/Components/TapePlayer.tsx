@@ -37,9 +37,11 @@ interface TapePlayerProps {
 
     tapeEjected: boolean;
     recordingConsoleOpen: boolean;
+    mixTapeMode: boolean;
+    mixTapeName: string;
 }
 
-const TapePlayer: React.FC<TapePlayerProps> = ({ onEjectButton, onSFX_Button, onVis_Button, onImp_Button, onExt_Button, coverID, tapeEjected, displayLabels, recordingConsoleOpen}) => {
+const TapePlayer: React.FC<TapePlayerProps> = ({ onEjectButton, onSFX_Button, onVis_Button, onImp_Button, onExt_Button, coverID, tapeEjected, displayLabels, recordingConsoleOpen, mixTapeName, mixTapeMode}) => {
     const [ejectImageSrc, setEjectImageSrc] = useState<string>(imagePaths.ejectUnpressed);
     const [soundsImageSrc, setSoundsImageSrc] = useState<string>(imagePaths.soundsUnpressed);
     const [visualsImageSrc, setVisualsImageSrc] = useState<string>(imagePaths.visualsUnpressed);
@@ -158,7 +160,7 @@ const TapePlayer: React.FC<TapePlayerProps> = ({ onEjectButton, onSFX_Button, on
             </audio>
             <div className='tape-console-container'>
                 <img className='console-lid' src={imagePaths.consoleLid}></img>
-                {ejected ? <div className="tape down-animation"><Tape coverArt={cover} /></div> : <div className="tape up-animation"><Tape coverArt={cover} /></div>}
+                <div className={ ejected?"tape down-animation":"tape up-animation"}><Tape coverArt={cover} mixTapeMode={mixTapeMode} mixTapeName={mixTapeName}/></div>
                 <img className='tape-console' src={imagePaths.tapeConsole}></img>
                 <div className='button-bar'>
                     <img className='eject-button' src={ejectImageSrc} onClick={() => handleEjectButton()}></img>
