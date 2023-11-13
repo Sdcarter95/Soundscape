@@ -20,17 +20,18 @@ interface RecorderProps {
     exportMixTape: (mixTape: mixedTape) => void;
     videoSrc: string;
     coverSrc: string;
-    tapePlaying: boolean;
+    mixTapeMode: boolean;
+    tapeEjected: boolean;
 }
 
-const RecorderConsole: React.FC<RecorderProps> = ({ getTimeCode, playMixTape, exportMixTape, coverSrc, videoSrc, tapePlaying }) => {
+const RecorderConsole: React.FC<RecorderProps> = ({ getTimeCode, playMixTape, exportMixTape, coverSrc, videoSrc, mixTapeMode, tapeEjected }) => {
     const [recording, setRecording] = useState<boolean>(false);
     const [startTime, setStartTime] = useState<string>("");
     const [endTime, setEndTime] = useState<string>("");
     const [workingTrack, setWorkingTrack] = useState<track | null>(null);
-    const [playing, setPlaying] = useState<boolean>(false);
     const [workingTape, setWorkingTape] = useState<track[] | null>(null);
     const [mixTapeTitle, setMixTapeTitle] = useState<string>("");
+    const [recordingBetweenTapeSwitch, setRecordingBetweenTapeSwitch] = useState<boolean>(false);
 
     useEffect(() => {
         if (endTime != "") {
@@ -44,9 +45,18 @@ const RecorderConsole: React.FC<RecorderProps> = ({ getTimeCode, playMixTape, ex
         }
     }, [endTime]);
 
+    
     useEffect(() => {
-        setPlaying(tapePlaying);
-    }, [tapePlaying])
+        if (recording){
+            setRecordingBetweenTapeSwitch(true);
+            handleRecord();
+        } else {
+            if (recordingBetweenTapeSwitch){
+                handleRecord();
+                setRecordingBetweenTapeSwitch(false);
+            }
+        }
+    }, [tapeEjected])
 
     const handleRecord = () => {
         const timeCode = getTimeCode();
@@ -64,7 +74,6 @@ const RecorderConsole: React.FC<RecorderProps> = ({ getTimeCode, playMixTape, ex
 
     const handlePlay = () => {
         if (workingTape) {
-            setPlaying(!playing);
             playMixTape(workingTape);
         }
 
@@ -98,8 +107,8 @@ const RecorderConsole: React.FC<RecorderProps> = ({ getTimeCode, playMixTape, ex
                     <MixTape coverSrc={coverSrc} newTrack={workingTrack} updateTape={handleUpdateTape} mixTapeTitle={mixTapeTitle} />
                 </div>
                 <div className='mt-button-bar'>
-                    <button onClick={handleRecord}>{!recording ? <p>Record</p> : <p>Stop</p>}</button>
-                    <button onClick={handlePlay}>{!playing ? <p>Play</p> : <p>Stop</p>}</button>
+                    <button onClick={handleRecord}>{recording||recordingBetweenTapeSwitch ? <p>Stop</p> : <p>Record</p>}</button>
+                    <button onClick={handlePlay}>{!mixTapeMode ? <p>Play</p> : <p>Stop</p>}</button>
                     <button onClick={() => handleExport()} >Export</button>
                     <button onClick={() => alert("Erasing has not yet been implemented")}>Erase</button>
                 </div>

@@ -111,6 +111,7 @@ function App() {
   const handleSlideClick = (cassette: Cassette) => {
     if (mixTapeMode) {
       setMixTapeMode(false);
+      setMixedTapeName("");
     }
     setVideoSource(cassette.video_id);
     setCassetteSelectionVisible(false);
@@ -348,7 +349,7 @@ function App() {
 
       {recordingMenuVisible ?
         <div className='recorderConsoleWrapper'>
-          <RecorderConsole getTimeCode={getTimeCode} playMixTape={handlePlayMixTape} exportMixTape={handleExportMixedTape} coverSrc={imagePaths.defaultTape} videoSrc={videoSource} tapePlaying={mixTapeMode} />
+          <RecorderConsole getTimeCode={getTimeCode} playMixTape={handlePlayMixTape} exportMixTape={handleExportMixedTape} coverSrc={imagePaths.defaultTape} videoSrc={videoSource} mixTapeMode={mixTapeMode} tapeEjected={tapeEjected} />
         </div>
         : <></>
       }
