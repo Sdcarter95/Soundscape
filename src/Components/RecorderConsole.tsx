@@ -6,7 +6,7 @@ import "./css/RecorderConsole.css";
 
 enum imagePaths {
     label = "https://drive.google.com/uc?export=view&id=1MgUP8CZf7Ma8NtCtrJtqCoS1c29Ev8q6",
-  }
+}
 
 export interface mixedTape {
     tracks: track[],
@@ -31,7 +31,6 @@ const RecorderConsole: React.FC<RecorderProps> = ({ getTimeCode, playMixTape, ex
     const [workingTrack, setWorkingTrack] = useState<track | null>(null);
     const [workingTape, setWorkingTape] = useState<track[] | null>(null);
     const [mixTapeTitle, setMixTapeTitle] = useState<string>("");
-    const [recordingBetweenTapeSwitch, setRecordingBetweenTapeSwitch] = useState<boolean>(false);
 
     useEffect(() => {
         if (endTime != "") {
@@ -45,17 +44,13 @@ const RecorderConsole: React.FC<RecorderProps> = ({ getTimeCode, playMixTape, ex
         }
     }, [endTime]);
 
-    
+
     useEffect(() => {
-        if (recording){
-            setRecordingBetweenTapeSwitch(true);
-            handleRecord();
-        } else {
-            if (recordingBetweenTapeSwitch){
+        if (tapeEjected) {
+            if (recording) {
                 handleRecord();
-                setRecordingBetweenTapeSwitch(false);
             }
-        }
+        } 
     }, [tapeEjected])
 
     const handleRecord = () => {
@@ -107,7 +102,7 @@ const RecorderConsole: React.FC<RecorderProps> = ({ getTimeCode, playMixTape, ex
                     <MixTape coverSrc={coverSrc} newTrack={workingTrack} updateTape={handleUpdateTape} mixTapeTitle={mixTapeTitle} />
                 </div>
                 <div className='mt-button-bar'>
-                    <button onClick={handleRecord}>{recording||recordingBetweenTapeSwitch ? <p>Stop</p> : <p>Record</p>}</button>
+                    <button onClick={handleRecord}>{recording  ? <p>Stop</p> : <p>Record</p>}</button>
                     <button onClick={handlePlay}>{!mixTapeMode ? <p>Play</p> : <p>Stop</p>}</button>
                     <button onClick={() => handleExport()} >Export</button>
                     <button onClick={() => alert("Erasing has not yet been implemented")}>Erase</button>
