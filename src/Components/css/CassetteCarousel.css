@@ -1,3 +1,12 @@
+
+@font-face {
+    font-family: 'TapeFont';
+    src: url('../fonts/PermanentMarker-Regular.ttf') format('truetype');
+    /* Add more formats if necessary */
+    font-weight: normal;
+    font-style: normal;
+}
+
 .thumbnail {
     height: 7vi;
     position: relative;
@@ -25,6 +34,24 @@
 
 .swiper-button-prev, .swiper-button-next{
     color: antiquewhite;
+}
+
+.slide-content-tape{
+    position: absolute;
+    width: 95%;
+    height: 15vh;
+    z-index: 1;
+}
+
+.slide-content-tape-text{
+  position: absolute;
+  left:50%;
+  top:-3vh;
+  width: 100%;
+  transform: translateX(-50%);
+  z-index: 2;
+  font-family: 'TapeFont', sans-serif;
+  font-size: 3.5vh;
 }
 
 

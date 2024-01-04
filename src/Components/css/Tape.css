@@ -1,3 +1,21 @@
+@font-face {
+    font-family: 'TapeFont';
+    src: url('../fonts/PermanentMarker-Regular.ttf') format('truetype');
+    /* Add more formats if necessary */
+    font-weight: normal;
+    font-style: normal;
+}
+
+.mixed-tape-display-text{
+    position: absolute;
+    font-family: 'TapeFont', sans-serif;
+    font-size: 3vh;
+    left:60%;
+    top:-1.5vh;
+    transform: translateX(-50%);
+    width: 100%;
+}
+
 .cover-art{
     z-index: -1;
     width: 3px;

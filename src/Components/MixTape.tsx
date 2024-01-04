@@ -3,6 +3,7 @@ import "./css/MixTape.css";
 
 enum imagePaths {
     tape = "https://drive.google.com/uc?export=view&id=1fsfZUvL2C0Djd7djBBvsEwAE_KkWoFL6",
+    label = "https://drive.google.com/uc?export=view&id=1MgUP8CZf7Ma8NtCtrJtqCoS1c29Ev8q6",
 }
 
 export interface track {
@@ -11,30 +12,45 @@ export interface track {
     end: number;
 }
 interface MixTapeProps {
-    newTrack: track|null;
+    newTrack: track | null;
     coverSrc: string;
+    mixTapeTitle: string;
+    updateTape: (tape: track[]) => void;
 }
 
-const MixTape: React.FC<MixTapeProps> = ({coverSrc, newTrack}) => {
+const MixTape: React.FC<MixTapeProps> = ({ coverSrc, newTrack, mixTapeTitle, updateTape }) => {
     const [tracks, setTracks] = useState<track[]>([])
+    const [title, setTitle] = useState<string>("");
 
     useEffect(() => {
-        if (newTrack){
-            if (newTrack.end - newTrack.start > 1){
+        if (newTrack) {
+            if (newTrack.end - newTrack.start > 1) {
                 setTracks([...tracks, newTrack]);
-            } 
+            }
         }
     }, [newTrack])
 
-    const infoDump = (trackList: track[]) => {
-        for (const track of trackList) {
-            alert("track src: " + track.src + "\nStart: " + track.start + "\nEnd: " + track.end);
+    useEffect(() => {
+        if (tracks.length > 0) {
+            updateTape(tracks);
         }
-    }
+    }, [tracks])
+
+    useEffect(() => {
+        setTitle(mixTapeTitle);
+    }, [mixTapeTitle])
+
+
     return (
         <div>
-            <img className='mix-tape' style={{ top: "30vh" }} src={imagePaths.tape} onClick={() => infoDump(tracks)}></img>
-            {/*<img className='tape cover-art' style={{ width: "93%", left: "1vh", zIndex:3 }} src={coverSrc}></img>*/}
+            <div className="mix-tape-wrapper">
+                <img className='mix-tape' src={imagePaths.tape} />
+            </div>
+            <div className="mix-tape-title">{title}</div>
+            <div className='mixtape-cover-art-wrapper'>
+                <img src={imagePaths.label} className='mixtape-cover-art' />
+            </div>
+
         </div>
     );
 };

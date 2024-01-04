@@ -9,6 +9,9 @@ import VisualsConsole from './Components/VisualsConsole';
 import ImportConsole from './Components/ImportConsole';
 import DeleteCassetteModal from "./Components/modals/DeleteCassetteModal";
 import RecorderConsole from './Components/RecorderConsole';
+import MixTapePlayer from './Components/MixTapePlayer';
+import { track } from './Components/MixTape';
+import { mixedTape } from './Components/RecorderConsole';
 
 export interface Cassette {
   name: string,
@@ -29,19 +32,31 @@ enum imagePaths {
 function App() {
   const [videoSource, setVideoSource] = useState<string>("52FljdTl2_M");
   const [displayImage, setDisplayImage] = useState<string>(imagePaths.defaultTape);
+  const tapeDeckAudioRef = useRef<HTMLAudioElement | null>(null);
+
   const [cassetteLibrary, setCassetteLibrary] = useState<Cassette[]>([]);
+  const [mixedTapeLibrary, setMixedTapeLibrary] = useState<mixedTape[]>([]);
+
   const [quoteBook, setQuoteBook] = useState<string[]>([]);
   const [quote, setQuote] = useState<string>("");
+
   const [cassetteSelectionVisible, setCassetteSelectionVisible] = useState<boolean>(false);
   const [soundEffectsMenuVisible, setSoundEffectsMenuVisible] = useState<boolean>(false);
   const [importMenuVisible, setimportMenuVisible] = useState<boolean>(false);
   const [visualsMenuVisible, setVisualsMenuVisible] = useState<boolean>(false);
+  const [recordingMenuVisible, setRecordingMenuVisible] = useState<boolean>(false);
+
   const [tapeEjected, setTapeEjected] = useState<boolean>(false);
   const [player, setPlayer] = useState<any>(null);
   const [soundEffectsMuted, setSoundEffectsMuted] = useState<boolean>(false);
   const [playerMinimized, setPlayerMinimized] = useState<boolean>(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false);
-  const tapeDeckAudioRef = useRef<HTMLAudioElement | null>(null);
+
+  const [mixTape, SetMixTape] = useState<track[] | null>(null);
+  const [mixedTapeName, setMixedTapeName] = useState<string>("");
+  const [mixTapeMode, setMixTapeMode] = useState<boolean>(false);
+  const [mixedTapeId, setMixedTapeId] = useState("");
+
   //display options
   const [backgroundDisplay, setBackgroundDisplay] = useState<boolean>(false);
   const [labelsDisplayed, setLabelsDisplayed] = useState<boolean>(true);
@@ -57,6 +72,16 @@ function App() {
     } else {
       setCassetteLibrary(newLibrary);
     }
+
+    let mixedTapeLibrary: mixedTape[] = [];
+    if (localStorage.getItem("mixedTapes")) {
+      const uploadedMixedTapes: mixedTape[] = JSON.parse(localStorage.getItem("mixedTapes")!);
+      const combinedMixedTapeLibrary: mixedTape[] = [...mixedTapeLibrary, ...uploadedMixedTapes]
+      setMixedTapeLibrary(combinedMixedTapeLibrary);
+    } else {
+      setMixedTapeLibrary(mixedTapeLibrary);
+    }
+
     let newQuoteBook: string[] = [];
     newQuoteBook.push(`“Opportunities don't happen, you create them.”`);
     newQuoteBook.push(`“One sees in the world what they carry in their heart”`);
@@ -74,7 +99,6 @@ function App() {
   const loadDefaultCassettes = (newLibrary: Cassette[]): Cassette[] => {
     const blacklist: string[] = localStorage.getItem("blacklist") ? JSON.parse(localStorage.getItem("blacklist")!) : null;
     if (!blacklist?.some(name => name === "frogy")) { newLibrary.push({ name: "frogy", source: "https://www.youtube.com/embed/52FljdTl2_M?si=LiZyMDhhxgWG55Ul", video_id: "52FljdTl2_M" }) };
-    if (!blacklist?.some(name => name === "90s")) { newLibrary.push({ name: "90s", source: "https://www.youtube.com/embed/GabqgJEeigs?si=_nX614lTGDLrBRbF", video_id: "GabqgJEeigs" }) };
     if (!blacklist?.some(name => name === "lofi girl")) { newLibrary.push({ name: "lofi girl", source: "https://www.youtube.com/embed/jfKfPfyJRdk?si=wNwSN9cngcAIGomi", video_id: "jfKfPfyJRdk" }) };
     if (!blacklist?.some(name => name === "relax")) { newLibrary.push({ name: "relax", source: "https://www.youtube.com/embed/851FQiikDaw?si=M6O6JksolCvMFyvS", video_id: "851FQiikDaw" }) };
     if (!blacklist?.some(name => name === "neo jazz")) { newLibrary.push({ name: "neo jazz", source: "https://www.youtube.com/embed/CE8mevzFwO0?si=vL1j-eVdpRerRUnX", video_id: "CE8mevzFwO0" }) };
@@ -84,9 +108,29 @@ function App() {
   }
 
   const handleSlideClick = (cassette: Cassette) => {
+    if (mixTapeMode) {
+      setMixTapeMode(false);
+      setMixedTapeName("");
+    }
     setVideoSource(cassette.video_id);
     setCassetteSelectionVisible(false);
     setDisplayImage(`https://img.youtube.com/vi/${cassette.video_id}/maxresdefault.jpg`);
+    playTDAudio();
+  };
+
+  const handleMixedTapeClick = (mixedTape: mixedTape) => {
+    setRecordingMenuVisible(false);
+    SetMixTape(mixedTape.tracks);
+    setMixedTapeName(mixedTape.name);
+    setMixedTapeId(mixedTape.name + mixedTape.tracks.length);
+
+    if (!mixTapeMode) {
+      setMixTapeMode(true);
+    } 
+
+    setTapeEjected(false);
+    setCassetteSelectionVisible(false);
+    setDisplayImage(mixedTape.artSrc);
     playTDAudio();
   };
 
@@ -113,15 +157,19 @@ function App() {
   }
 
   const handleEject = () => {
+
     setCassetteSelectionVisible(!cassetteSelectionVisible);
-    if (videoSource != "") {
-      if (tapeEjected && player) {
-        player.playVideo();
-      } else if (!tapeEjected && player) {
-        player.pauseVideo();
+    if (mixTapeMode) {
+
+    } else {
+      if (videoSource != "") {
+        if (tapeEjected && player) {
+          player.playVideo();
+        } else if (!tapeEjected && player) {
+          player.pauseVideo();
+        }
       }
     }
-
     setTapeEjected(!tapeEjected);
   }
 
@@ -135,6 +183,28 @@ function App() {
 
   const handleImp = () => {
     setimportMenuVisible(!importMenuVisible);
+  }
+
+  const handleExtra = () => {
+    setRecordingMenuVisible(!recordingMenuVisible);
+    if (mixTapeMode) {
+      setMixTapeMode(false);
+    }
+  }
+
+  const handleExportMixedTape = (mixedTape: mixedTape) => {
+    const newMixedTapeLibrary: mixedTape[] = [...mixedTapeLibrary, mixedTape];
+    setRecordingMenuVisible(false);
+    setMixedTapeLibrary(newMixedTapeLibrary);
+    
+    if (localStorage.getItem("mixedTapes")) {
+      const oldMixedTape = JSON.parse(localStorage.getItem("mixedTapes")!);
+      const updatedMixedTapes = [...oldMixedTape, mixedTape];
+      localStorage.setItem("mixedTapes", JSON.stringify(updatedMixedTapes));
+    } else {
+      const mixedTapes: mixedTape[] = [mixedTape];
+      localStorage.setItem("mixedTapes", JSON.stringify(mixedTapes));
+    }
   }
 
   const getTimeCode = (): string => {
@@ -162,6 +232,7 @@ function App() {
     handleSlideClick(newCassette);
     setTapeEjected(true);
   }
+
 
   const deleteVideo = (videoID: string) => {
     const cassetteToDelete: Cassette | undefined = cassetteLibrary.find((cassette: Cassette) => cassette.video_id === videoID);
@@ -198,6 +269,14 @@ function App() {
     setCassetteSelectionVisible(true);
   };
 
+  const handlePlayMixTape = (mixTape: track[]) => {
+    if (!tapeEjected) {
+      handleEject();
+    }
+    SetMixTape(mixTape);
+    setMixTapeMode(!mixTapeMode);
+  }
+
   const options = {
     height: "100%",
     width: "100%",
@@ -229,19 +308,24 @@ function App() {
 
           <div className='canvas'>
             <div className='cassetteCarousel'>
-              {cassetteSelectionVisible ? <CassetteCarousel cassettes={cassetteLibrary} onSlideClick={handleSlideClick} /> : <></>}
+              {cassetteSelectionVisible ? <CassetteCarousel onSlideClick={handleSlideClick} onMixTapeClick={handleMixedTapeClick} cassettes={cassetteLibrary} mixedTapes={mixedTapeLibrary} /> : <></>}
             </div>
             <div className={cassetteSelectionVisible ? 'iframe-container frame-down' : "iframe-container frame-up"}>
-              {videoSource != "" ?
-                <YouTube videoId={videoSource} opts={options} onPlay={onPlay} onReady={onPlayerReady} onPause={onPause} className='video' style={playerMinimized ? { opacity: "0%" } : {}} /> :
-                <></>
+              {mixTapeMode ?
+                <>{mixTape ? <MixTapePlayer key={mixedTapeId} tracks={mixTape} tapePlaying={tapeEjected} /> : <></>}</> : <>
+                  {videoSource != "" ?
+                    <YouTube videoId={videoSource} opts={options} onPlay={onPlay} onReady={onPlayerReady} onPause={onPause} className='video' style={playerMinimized ? { opacity: "0%" } : {}} /> :
+                    <></>
+                  }
+                </>
               }
+
             </div>
           </div>
 
           <div className='flex-column-right'>
             <div className='tape-player-wrapper' style={playerMinimized ? tapeEjected ? {} : { opacity: "30%", transition: "2s" } : {}}>
-              <TapePlayer onEjectButton={handleEject} onSFX_Button={handleSFX} onVis_Button={handleVisuals} onImp_Button={handleImp} onExt_Button={() => { setLabelsDisplayed(!labelsDisplayed) }} coverID={displayImage} tapeEjected={tapeEjected} displayLabels={labelsDisplayed} />
+              <TapePlayer onEjectButton={handleEject} onSFX_Button={handleSFX} onVis_Button={handleVisuals} onImp_Button={handleImp} onExt_Button={handleExtra} coverID={displayImage} tapeEjected={tapeEjected} displayLabels={labelsDisplayed} recordingConsoleOpen={recordingMenuVisible} mixTapeMode={mixTapeMode} mixTapeName={mixedTapeName}/>
             </div>
           </div>
         </div>
@@ -256,14 +340,18 @@ function App() {
       {visualsMenuVisible ?
         <div>
           <div className='visuals-console-wrapper'>
-            <VisualsConsole toggleBackGround={() => setBackgroundDisplay(!backgroundDisplay)} toggleMinimized={() => setPlayerMinimized(!playerMinimized)} backGroundState={backgroundDisplay} minimizedState={playerMinimized} />
+            <VisualsConsole toggleBackGround={() => setBackgroundDisplay(!backgroundDisplay)} toggleMinimized={() => setPlayerMinimized(!playerMinimized)} toggleLabels={() => { setLabelsDisplayed(!labelsDisplayed) }} backGroundState={backgroundDisplay} minimizedState={playerMinimized} labelsState={labelsDisplayed} />
           </div>
         </div>
         : <></>}
       <DeleteCassetteModal isOpen={deleteModalOpen} onClose={() => setDeleteModalOpen(false)} onDelete={() => deleteVideo(videoSource)} />
-      <div className='recorderConsoleWrapper'>
-        <RecorderConsole onTapeEnd={() => { }} getTimeCode={getTimeCode} coverSrc={imagePaths.defaultTape} videoSrc={videoSource} />
-      </div>
+
+      {recordingMenuVisible ?
+        <div className='recorderConsoleWrapper'>
+          <RecorderConsole getTimeCode={getTimeCode} playMixTape={handlePlayMixTape} exportMixTape={handleExportMixedTape} coverSrc={imagePaths.defaultTape} videoSrc={videoSource} mixTapeMode={mixTapeMode} tapeEjected={tapeEjected} />
+        </div>
+        : <></>
+      }
     </div>
   );
 }

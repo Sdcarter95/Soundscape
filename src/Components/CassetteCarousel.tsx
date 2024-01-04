@@ -2,6 +2,7 @@ import React, { useRef, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, EffectCoverflow } from 'swiper/modules';
 import { Cassette } from '../App';
+import { mixedTape } from './RecorderConsole';
 import 'swiper/css';
 import "swiper/css/navigation";
 import "swiper/css/effect-coverflow";
@@ -11,10 +12,16 @@ import './css/CassetteCarousel.css';
 
 interface CarouselProps {
   cassettes: Cassette[];
+  mixedTapes:  mixedTape[];
   onSlideClick: (cassette: Cassette) => void;
+  onMixTapeClick: (mixTapeSelection: mixedTape) => void;
 }
 
-const CassetteCarousel: React.FC<CarouselProps> = ({ cassettes, onSlideClick }) => {
+enum imagePaths {
+  label = "https://drive.google.com/uc?export=view&id=1MgUP8CZf7Ma8NtCtrJtqCoS1c29Ev8q6",
+}
+
+const CassetteCarousel: React.FC<CarouselProps> = ({ cassettes, mixedTapes, onSlideClick, onMixTapeClick }) => {
   const swiperParams = {
     spaceBetween: 5,
     slidesPerView: 3,
@@ -48,6 +55,14 @@ const CassetteCarousel: React.FC<CarouselProps> = ({ cassettes, onSlideClick }) 
           <SwiperSlide key={index}>
             <div className="slide-content" onClick={() => onSlideClick(cassette)}>
               <img src={`https://img.youtube.com/vi/${cassette.video_id}/maxresdefault.jpg`} alt={cassette.name} />
+            </div>
+          </SwiperSlide>
+        ))}
+        {mixedTapes.map((userTape, index) => (
+          <SwiperSlide key={index}>
+            <div className="slide-content-tape" onClick={() => onMixTapeClick(userTape)}>
+            <p className='slide-content-tape-text'>{userTape.name}</p>
+              <img src={imagePaths.label} alt={userTape.name} />
             </div>
           </SwiperSlide>
         ))}
