@@ -99,7 +99,6 @@ function App() {
   const loadDefaultCassettes = (newLibrary: Cassette[]): Cassette[] => {
     const blacklist: string[] = localStorage.getItem("blacklist") ? JSON.parse(localStorage.getItem("blacklist")!) : null;
     if (!blacklist?.some(name => name === "frogy")) { newLibrary.push({ name: "frogy", source: "https://www.youtube.com/embed/52FljdTl2_M?si=LiZyMDhhxgWG55Ul", video_id: "52FljdTl2_M" }) };
-    if (!blacklist?.some(name => name === "90s")) { newLibrary.push({ name: "90s", source: "https://www.youtube.com/embed/GabqgJEeigs?si=_nX614lTGDLrBRbF", video_id: "GabqgJEeigs" }) };
     if (!blacklist?.some(name => name === "lofi girl")) { newLibrary.push({ name: "lofi girl", source: "https://www.youtube.com/embed/jfKfPfyJRdk?si=wNwSN9cngcAIGomi", video_id: "jfKfPfyJRdk" }) };
     if (!blacklist?.some(name => name === "relax")) { newLibrary.push({ name: "relax", source: "https://www.youtube.com/embed/851FQiikDaw?si=M6O6JksolCvMFyvS", video_id: "851FQiikDaw" }) };
     if (!blacklist?.some(name => name === "neo jazz")) { newLibrary.push({ name: "neo jazz", source: "https://www.youtube.com/embed/CE8mevzFwO0?si=vL1j-eVdpRerRUnX", video_id: "CE8mevzFwO0" }) };
