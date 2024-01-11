@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import "./css/MixTape.css";
 
 enum imagePaths {
-    tape = "https://drive.google.com/uc?export=view&id=1fsfZUvL2C0Djd7djBBvsEwAE_KkWoFL6",
-    label = "https://drive.google.com/uc?export=view&id=1MgUP8CZf7Ma8NtCtrJtqCoS1c29Ev8q6",
+    tape = "https://lh3.googleusercontent.com/drive-viewer/AEYmBYQ3rujte1pPgHonF7v-qH_uoTEf4E9uNZ9j_dOSI-CBq4vKEq0FxFOAjYPVm7eWIuXyvj9-aDz1X96aMMmLrmLYwtsXOw=s2560",
+    label = "https://lh3.googleusercontent.com/drive-viewer/AEYmBYSGJyAUz7PwrJid_d206GE3pkOrUz14UxfqUTOZpDlDwvAtxAkgHPR6iR_QJXdsS6VfH-pOJbZva7RkFVdNExiAzKL76Q=s2560",
 }
 
 export interface track {

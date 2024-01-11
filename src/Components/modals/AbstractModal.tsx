@@ -10,7 +10,7 @@ interface ModalProps {
 
 const AbstractModal: React.FC<ModalProps> = ({ isOpen, onClose, children, runCloseAnimation }) => {
     const [closing, setClosing] = useState<boolean>(false);
-    const pullyImage = "https://docs.google.com/uc?export=download&id=1gUOxafDHsgmp55tuJtp8N9vASsjTfy6t"
+    const pullyImage = "https://lh3.googleusercontent.com/drive-viewer/AEYmBYS_MOkhoHUx2X_4KxEV3KO2zq2ybsFI6x6ybT2aG9GoWcECqAkFtebyfg5AxSugeRNed6aXO5bj6B3OYZl453tc4K68aw=s1600"
 
     useEffect(() => {
         if (runCloseAnimation) {
