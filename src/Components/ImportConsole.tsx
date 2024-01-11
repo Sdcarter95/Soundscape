@@ -2,9 +2,9 @@ import { useState } from "react";
 import "./css/ImportConsole.css"
 
 enum imagePaths {
-    youtubeLogo = "https://docs.google.com/uc?export=download&id=1W1QGP15tS7hbCztsXqv2gTsIWhzWT5No",
-    laptop = "https://docs.google.com/uc?export=download&id=1LZHuGuINb6B1ItZrErplagK_AhK8nV3h",
-    trashIcon = "https://docs.google.com/uc?export=download&id=1EuSDGfUKkeli34yB4d1cIaVzH8NpVyop"
+    youtubeLogo = "https://lh3.googleusercontent.com/drive-viewer/AEYmBYQX8IQ7l_4-9TC9a8252-4HN-Xc-TyAllTvSJnywDYTu3TiCAe8PVyTrlArvbqjxCL7oQbIxzg54twqDYRLagQ0wDMEGw=s2560",
+    laptop = "https://lh3.googleusercontent.com/drive-viewer/AEYmBYTggfAH5XC-R1mC5l4NkfpW0Pzw5VjgfRQTvU0r-Ai5NStkuKSDAaFKE2E81SWrmiDlc2QygsD5doNqL_lGTn1iPO7dCw=s1600",
+    trashIcon = "https://lh3.googleusercontent.com/drive-viewer/AEYmBYRXVLyxZD6fVZZxE3ih7xH_CrelqPYgxu3RVf7g7GbbP_wlwbdUsIOwt2lwhd3d7EIqTGcvCpCEoCY_oADaHVypxISymQ=s2560"
 }
 
 interface ImportConsoleProps {

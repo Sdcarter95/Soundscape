@@ -18,7 +18,7 @@ interface CarouselProps {
 }
 
 enum imagePaths {
-  label = "https://drive.google.com/uc?export=view&id=1MgUP8CZf7Ma8NtCtrJtqCoS1c29Ev8q6",
+  label = "https://lh3.googleusercontent.com/drive-viewer/AEYmBYSGJyAUz7PwrJid_d206GE3pkOrUz14UxfqUTOZpDlDwvAtxAkgHPR6iR_QJXdsS6VfH-pOJbZva7RkFVdNExiAzKL76Q=s2560",
 }
 
 const CassetteCarousel: React.FC<CarouselProps> = ({ cassettes, mixedTapes, onSlideClick, onMixTapeClick }) => {

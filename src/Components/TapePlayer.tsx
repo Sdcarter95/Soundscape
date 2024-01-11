@@ -4,20 +4,20 @@ import "./css/TapePlayer.css";
 
 
 enum imagePaths {
-    ejectUnpressed = "https://drive.google.com/uc?export=view&id=1n6FUlwQtS2aVzsd7lX6YhYU4KIZlxJnR",
-    ejectPressed = "https://drive.google.com/uc?export=view&id=1Lxp6bo_3TO5vhukXtVKclaWmi2pi3RpH",
-    soundsUnpressed = "https://drive.google.com/uc?export=view&id=1LStluy0ZW_FHSu5XpAHcQ8N1Pg16PRg9",
-    soundsPressed = "https://drive.google.com/uc?export=view&id=18vjz47BbB22eXA5UsUBPFfJJ-HSy0UCR",
-    visualsUnpressed = "https://drive.google.com/uc?export=view&id=1eAuK_BVc-AWgX7LB4YNouP-w27DaXXi4",
-    visualsPressed = "https://drive.google.com/uc?export=view&id=1GMLONSeKUsMWHjCI3prY_1Xd7fYNdYR9",
-    importUnpressed = "https://drive.google.com/uc?export=view&id=1EfgEKXk0g1hf6jVpX-rl-XjoiTeI_xgp",
-    importPressed = "https://drive.google.com/uc?export=view&id=1QVAUvUfxgdTJXKbpyTAEQGHmhjRubyLg",
-    extraUnpressed = "https://drive.google.com/uc?export=view&id=1Bx_OMrGxQ9JVZvDUNSBG-bCBcq_FlsRq",
-    extraPressed = "https://drive.google.com/uc?export=view&id=16JLtDVrIherm-G5oGGsekiVxvnAhUwIh",
-    tapeConsole = "https://drive.google.com/uc?export=view&id=18Ilrn_rcXY8PMPCfn9I3HcWqRXHeWxTg",
-    consoleLid = "https://drive.google.com/uc?export=view&id=1SmJujeBpbhVY8xAr8pEOTMbuys8nChKN",
-    defaultTapeImg = "https://drive.google.com/uc?export=view&id=1IN3YLXurbF-5p_mzRuzU7PbKY8Uesogs",
-    buttonLabels = "https://drive.google.com/uc?export=view&id=1fwOos_6kM4oUPyxrZMUxVgF7URqHkEEW"
+    ejectUnpressed = "https://lh3.googleusercontent.com/drive-viewer/AEYmBYQcYSUh0wm9TRWznD1hl6KNNXwl13FChsxvnyoMF_lk5zGYU_MeDR3gKSuHuzfS4I6KaCRqNWKdg-GQXow2bIfRo8io=s2560",
+    ejectPressed = "https://lh3.googleusercontent.com/drive-viewer/AEYmBYTg3gE1eFh-dLcpbZPj43RoTPTpF37qa0g5NmiWp7EQGUGIuQUJNU3_7ZouFQIEuMI2OT2spx-5pUvlEvcntIuey1atsA=s2560",
+    soundsUnpressed = "https://lh3.googleusercontent.com/drive-viewer/AEYmBYQrURILW9d1ktSDPxbkmINJUVv1kJWWiYxd3heYrYZZfqARV7O_c5lekC4NhM8IBVeYMJHo5MXPDNUoTieYBsoiFiqD7w=s2560",
+    soundsPressed = "https://lh3.googleusercontent.com/drive-viewer/AEYmBYS4F2tFcbmI1g0OBzpsMFobJ8FUawyzWBhCjqs6Vyn7tMxUhDIdRU9bEL2Ex8WSEpjcu-Y7JxqN5fxIRPMSgyat7qeW5w=s2560",
+    visualsUnpressed = "https://lh3.googleusercontent.com/drive-viewer/AEYmBYSD0qLc_CSF8ebyd0IYIJNa8GXHesCkAYBvOt6d2YdxK7WlFM6HSoaGnSyF6cPoW_VKnLJ1ADObQvHeWqg1yDH32mhYfg=s2560",
+    visualsPressed = "https://lh3.googleusercontent.com/drive-viewer/AEYmBYRsNuE8qGEyQ4BLEHdwbiwIEBVy4ccqduRf62QcNB7E_yah_8NaW1Mff70SyJcGNxKHVv_Z3FVhjuJvdwqlT8dgB9TmEw=s2560",
+    importUnpressed = "https://lh3.googleusercontent.com/drive-viewer/AEYmBYTEW9EomBSj7dl-Aq-ZzTNYLDAAbBTm87XFXIr_2X0CX3FbvdnZVkvAtRJimtANFl9mQNart6rIo6nvNMfqUeLXcYAU-w=s2560",
+    importPressed = "https://lh3.googleusercontent.com/drive-viewer/AEYmBYSLUCCTqe_J-khcU-1omBJk3QZwEQUP02Z9Q_YYrhpAtLEWcOqs9o1G4Do6cwh62keqfLrKoV47ZAuYd9mjJLhhsyAAFg=s2560",
+    extraUnpressed = "https://lh3.googleusercontent.com/drive-viewer/AEYmBYQcYSUh0wm9TRWznD1hl6KNNXwl13FChsxvnyoMF_lk5zGYU_MeDR3gKSuHuzfS4I6KaCRqNWKdg-GQXow2bIfRo8io=s2560",
+    extraPressed = "https://lh3.googleusercontent.com/drive-viewer/AEYmBYT1ZFWA0U8vLbF7jqXTKNB9Pq4Ml2dWpGSRgUvCEzcV1bKqfc6AQGdxXLHcQPFe6lOesTHSilJGlqtLsGs5r9O7evh9=s2560",
+    tapeConsole = "https://lh3.googleusercontent.com/drive-viewer/AEYmBYSHGR4cecOf51JZcslj6XE2_6ZCpYosyisg4SogltbVpj0EckIooKo3qbxWuTuLodW8f7vYg6iut-R8x-wHjRaD2fFE1Q=s1600",
+    consoleLid = "https://lh3.googleusercontent.com/drive-viewer/AEYmBYRNJi44DANwM-ZJ8NMrdNkWuN9AJbpuPEv-c28d_ltChNULEyf8J5HmLpCtWcQqQG17IO6NMEcaZuo6bfhNZ7WWgeIOJg=s1600",
+    defaultTapeImg = "https://lh3.googleusercontent.com/drive-viewer/AEYmBYSSwuP6W3Ebpq8V3oEvSdMM5sQExuksT6E3lLfiBXc4xVHILW8mKQQ6n_DdyMi5PTeDLk9eCoQyVE7CEtS3bKWW6iMLdw=s1600",
+    buttonLabels = "https://lh3.googleusercontent.com/drive-viewer/AEYmBYS2bQ1ePzSN121LjqBfoJtdsaNfaB-Co5z8R05uvswdnjvU2NRpCKYfqduMk50EwkN0VO1pqdD2i5gNZ6dmEXMO3n0gmQ=s1600"
 }
 
 
