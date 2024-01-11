@@ -24,7 +24,7 @@ enum soundPaths {
 }
 
 enum imagePaths {
-  defaultTape = "https://lh3.googleusercontent.com/drive-viewer/AEYmBYSSwuP6W3Ebpq8V3oEvSdMM5sQExuksT6E3lLfiBXc4xVHILW8mKQQ6n_DdyMi5PTeDLk9eCoQyVE7CEtS3bKWW6iMLdw=s1600",
+  defaultTape = "https://lh3.googleusercontent.com/drive-viewer/AEYmBYSGJyAUz7PwrJid_d206GE3pkOrUz14UxfqUTOZpDlDwvAtxAkgHPR6iR_QJXdsS6VfH-pOJbZva7RkFVdNExiAzKL76Q=s2560",
 }
 
 
@@ -130,7 +130,7 @@ function App() {
 
     setTapeEjected(false);
     setCassetteSelectionVisible(false);
-    setDisplayImage(mixedTape.artSrc);
+    setDisplayImage(imagePaths.defaultTape);
     playTDAudio();
   };
 
