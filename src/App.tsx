@@ -20,7 +20,7 @@ export interface Cassette {
 }
 
 enum soundPaths {
-  tapeDeck = "https://docs.google.com/uc?export=download&id=1XtWv60ze6CtM-geWnYHf3owgZ21URd4H",
+  tapeDeck = "https://audio.jukehost.co.uk/qV6jeFrNBuFM83nSLWnoaUDwyNFsy0Tn",
 }
 
 enum imagePaths {

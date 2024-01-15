@@ -22,8 +22,8 @@ enum imagePaths {
 
 
 enum soundPaths {
-    "switchPressed" = "https://docs.google.com/uc?export=download&id=1gedh2zkeYRfhKhUn61-rhphU_bEEKKQp",
-    "tapeDeck" = "https://docs.google.com/uc?export=download&id=1XtWv60ze6CtM-geWnYHf3owgZ21URd4H"
+    "switchPressed" = "https://audio.jukehost.co.uk/iF4DAB3JCKYSl6TJK1d0qxb5HSDJkpCO",
+    "tapeDeck" = "https://audio.jukehost.co.uk/qV6jeFrNBuFM83nSLWnoaUDwyNFsy0Tn"
 }
 
 interface TapePlayerProps {
