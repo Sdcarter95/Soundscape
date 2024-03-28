@@ -24,7 +24,7 @@ enum soundPaths {
 }
 
 enum imagePaths {
-  defaultTape = "https://lh3.googleusercontent.com/drive-viewer/AEYmBYSGJyAUz7PwrJid_d206GE3pkOrUz14UxfqUTOZpDlDwvAtxAkgHPR6iR_QJXdsS6VfH-pOJbZva7RkFVdNExiAzKL76Q=s2560",
+  defaultTape = "https://i.imgur.com/Lo1vCp9.png",
 }
 
 

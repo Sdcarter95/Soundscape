@@ -4,20 +4,20 @@ import "./css/TapePlayer.css";
 
 
 enum imagePaths {
-    ejectUnpressed = "https://lh3.googleusercontent.com/drive-viewer/AEYmBYQcYSUh0wm9TRWznD1hl6KNNXwl13FChsxvnyoMF_lk5zGYU_MeDR3gKSuHuzfS4I6KaCRqNWKdg-GQXow2bIfRo8io=s2560",
-    ejectPressed = "https://lh3.googleusercontent.com/drive-viewer/AEYmBYTg3gE1eFh-dLcpbZPj43RoTPTpF37qa0g5NmiWp7EQGUGIuQUJNU3_7ZouFQIEuMI2OT2spx-5pUvlEvcntIuey1atsA=s2560",
-    soundsUnpressed = "https://lh3.googleusercontent.com/drive-viewer/AEYmBYQrURILW9d1ktSDPxbkmINJUVv1kJWWiYxd3heYrYZZfqARV7O_c5lekC4NhM8IBVeYMJHo5MXPDNUoTieYBsoiFiqD7w=s2560",
-    soundsPressed = "https://lh3.googleusercontent.com/drive-viewer/AEYmBYS4F2tFcbmI1g0OBzpsMFobJ8FUawyzWBhCjqs6Vyn7tMxUhDIdRU9bEL2Ex8WSEpjcu-Y7JxqN5fxIRPMSgyat7qeW5w=s2560",
-    visualsUnpressed = "https://lh3.googleusercontent.com/drive-viewer/AEYmBYSD0qLc_CSF8ebyd0IYIJNa8GXHesCkAYBvOt6d2YdxK7WlFM6HSoaGnSyF6cPoW_VKnLJ1ADObQvHeWqg1yDH32mhYfg=s2560",
-    visualsPressed = "https://lh3.googleusercontent.com/drive-viewer/AEYmBYRsNuE8qGEyQ4BLEHdwbiwIEBVy4ccqduRf62QcNB7E_yah_8NaW1Mff70SyJcGNxKHVv_Z3FVhjuJvdwqlT8dgB9TmEw=s2560",
-    importUnpressed = "https://lh3.googleusercontent.com/drive-viewer/AEYmBYTEW9EomBSj7dl-Aq-ZzTNYLDAAbBTm87XFXIr_2X0CX3FbvdnZVkvAtRJimtANFl9mQNart6rIo6nvNMfqUeLXcYAU-w=s2560",
-    importPressed = "https://lh3.googleusercontent.com/drive-viewer/AEYmBYSLUCCTqe_J-khcU-1omBJk3QZwEQUP02Z9Q_YYrhpAtLEWcOqs9o1G4Do6cwh62keqfLrKoV47ZAuYd9mjJLhhsyAAFg=s2560",
-    extraUnpressed = "https://lh3.googleusercontent.com/drive-viewer/AEYmBYQcYSUh0wm9TRWznD1hl6KNNXwl13FChsxvnyoMF_lk5zGYU_MeDR3gKSuHuzfS4I6KaCRqNWKdg-GQXow2bIfRo8io=s2560",
-    extraPressed = "https://lh3.googleusercontent.com/drive-viewer/AEYmBYT1ZFWA0U8vLbF7jqXTKNB9Pq4Ml2dWpGSRgUvCEzcV1bKqfc6AQGdxXLHcQPFe6lOesTHSilJGlqtLsGs5r9O7evh9=s2560",
-    tapeConsole = "https://lh3.googleusercontent.com/drive-viewer/AEYmBYSHGR4cecOf51JZcslj6XE2_6ZCpYosyisg4SogltbVpj0EckIooKo3qbxWuTuLodW8f7vYg6iut-R8x-wHjRaD2fFE1Q=s1600",
-    consoleLid = "https://lh3.googleusercontent.com/drive-viewer/AEYmBYRNJi44DANwM-ZJ8NMrdNkWuN9AJbpuPEv-c28d_ltChNULEyf8J5HmLpCtWcQqQG17IO6NMEcaZuo6bfhNZ7WWgeIOJg=s1600",
-    defaultTapeImg = "https://lh3.googleusercontent.com/drive-viewer/AEYmBYSSwuP6W3Ebpq8V3oEvSdMM5sQExuksT6E3lLfiBXc4xVHILW8mKQQ6n_DdyMi5PTeDLk9eCoQyVE7CEtS3bKWW6iMLdw=s1600",
-    buttonLabels = "https://lh3.googleusercontent.com/drive-viewer/AEYmBYS2bQ1ePzSN121LjqBfoJtdsaNfaB-Co5z8R05uvswdnjvU2NRpCKYfqduMk50EwkN0VO1pqdD2i5gNZ6dmEXMO3n0gmQ=s1600"
+    ejectUnpressed = "https://i.imgur.com/o9Eq9Wu.png",
+    ejectPressed = "https://i.imgur.com/ITUIL0X.png",
+    soundsUnpressed = "https://i.imgur.com/QlUqrZp.png",
+    soundsPressed = "https://i.imgur.com/1lFpdlr.png",
+    visualsUnpressed = "https://i.imgur.com/NQ2oyMc.png",
+    visualsPressed = "https://i.imgur.com/3UVBw82.png",
+    importUnpressed = "https://i.imgur.com/9ljJOOz.png",
+    importPressed = "https://i.imgur.com/ETQkTR2.png",
+    extraUnpressed = "https://i.imgur.com/sDRsQf0.png",
+    extraPressed = "https://i.imgur.com/nkZsUAW.png",
+    tapeConsole = "https://i.imgur.com/KI8mh0y.png",
+    consoleLid = "https://i.imgur.com/tGTeMNt.png",
+    defaultTapeImg = "https://i.imgur.com/Lo1vCp9.png",
+    buttonLabels = "https://i.imgur.com/CPU7UZq.png"
 }
 
 

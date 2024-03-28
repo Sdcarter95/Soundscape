@@ -1,7 +1,7 @@
 import "./css/Tape.css";
 
 enum imagePaths {
-    tape = "https://lh3.googleusercontent.com/drive-viewer/AEYmBYQ3rujte1pPgHonF7v-qH_uoTEf4E9uNZ9j_dOSI-CBq4vKEq0FxFOAjYPVm7eWIuXyvj9-aDz1X96aMMmLrmLYwtsXOw=s2560",
+    tape = "https://i.imgur.com/Fx2O6cp.png",
 }
 
 interface TapeProps {

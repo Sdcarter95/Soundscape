@@ -18,7 +18,7 @@ const VisualsConsole: React.FC<VidualsConsoleProps> = ({ toggleBackGround, backG
     const [backgroundChecked, setBackgroundChecked] = useState(backGroundState);
     const [minimizedChecked, setMinimizedChecked] = useState(minimizedState);
     const [labelsChecked, setLabelsChecked] = useState(!labelsState);
-    const checkIMG = "https://lh3.googleusercontent.com/drive-viewer/AEYmBYTCUKnLWuwEGW_spwIrIMA1chnbW8qIc1jDTqFvuGm9q1C5SPCd97l3uYHxO9LQv8UhX53N0l-HvUSrb50IXWZITHHhHQ=s2560";
+    const checkIMG = "https://i.imgur.com/vrCLsmQ.png";
 
     useEffect(() => {
 
