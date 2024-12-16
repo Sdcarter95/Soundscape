@@ -84,7 +84,8 @@ function App() {
     newQuoteBook.push(`“Opportunities don't happen, you create them.”`);
     newQuoteBook.push(`“One sees in the world what they carry in their heart”`);
     newQuoteBook.push("“Doubt kills more dreams than failure ever will”");
-    newQuoteBook.push("“A person who never made a mistake never tried anything new”")
+    newQuoteBook.push("“A person who never made a mistake never tried anything new”");
+    newQuoteBook.push(`“Success consists of going from failure to failure without loss of enthusiasm”`);
     setQuoteBook(newQuoteBook);
   }, []);
 

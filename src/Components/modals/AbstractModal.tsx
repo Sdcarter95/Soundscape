@@ -1,5 +1,6 @@
 import React, { ReactNode, useEffect, useState } from 'react';
 import "./css/AbstractModal.css"
+import { pullyImagePath } from '../utils/Constants';
 
 interface ModalProps {
     isOpen: boolean;
@@ -10,7 +11,7 @@ interface ModalProps {
 
 const AbstractModal: React.FC<ModalProps> = ({ isOpen, onClose, children, runCloseAnimation }) => {
     const [closing, setClosing] = useState<boolean>(false);
-    const pullyImage = "https://i.imgur.com/mrxFbVP.png"
+
 
     useEffect(() => {
         if (runCloseAnimation) {
@@ -39,7 +40,7 @@ const AbstractModal: React.FC<ModalProps> = ({ isOpen, onClose, children, runClo
                 <div className='screen' >
                     {children}
                 </div>
-                <img src={pullyImage} className='pully' />
+                <img src={pullyImagePath} className='pully' />
                 <button onClick={closeAnimation} className='close-modal-button'>Close</button>
             </div>
         </div>

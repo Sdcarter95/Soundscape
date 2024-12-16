@@ -31,4 +31,7 @@ export enum TapeDeckImagePaths {
     buttonLabels = "https://i.imgur.com/CPU7UZq.png",
 }
 
+export const checkImagePath = "https://i.imgur.com/vrCLsmQ.png";
+export const  pullyImagePath = "https://i.imgur.com/mrxFbVP.png"
+
 
