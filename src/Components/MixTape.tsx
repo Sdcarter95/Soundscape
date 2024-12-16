@@ -1,10 +1,6 @@
 import { useEffect, useState } from "react";
+import { MixTapeImagePaths } from "./utils/Constants";
 import "./css/MixTape.css";
-
-enum imagePaths {
-    tape = "https://i.imgur.com/Fx2O6cp.png",
-    label = "https://i.imgur.com/ZjrB4t1.png",
-}
 
 export interface track {
     src: string;
@@ -44,11 +40,11 @@ const MixTape: React.FC<MixTapeProps> = ({ coverSrc, newTrack, mixTapeTitle, upd
     return (
         <div>
             <div className="mix-tape-wrapper">
-                <img className='mix-tape' src={imagePaths.tape} />
+                <img className='mix-tape' src={MixTapeImagePaths.tape} />
             </div>
             <div className="mix-tape-title">{title}</div>
             <div className='mixtape-cover-art-wrapper'>
-                <img src={imagePaths.label} className='mixtape-cover-art' />
+                <img src={MixTapeImagePaths.label} className='mixtape-cover-art' />
             </div>
 
         </div>

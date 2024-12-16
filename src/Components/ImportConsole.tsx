@@ -1,11 +1,6 @@
 import { useState } from "react";
-import "./css/ImportConsole.css"
-
-enum imagePaths {
-    youtubeLogo = "https://i.imgur.com/YyL1OnI.png",
-    laptop = "https://i.imgur.com/TkOmsNv.png",
-    trashIcon = "https://i.imgur.com/uq2vAJs.png"
-}
+import "./css/ImportConsole.css";
+import {LaptopImagePaths} from "./utils/Constants";
 
 interface ImportConsoleProps {
     onImport: (id: string) => void;
@@ -32,8 +27,8 @@ const ImportConsole: React.FC<ImportConsoleProps> = ({ onImport, deleteCassette}
     return (
         <div>
             <div className='computer-wrapper'>
-                <img src={imagePaths.laptop} className='computer-screen' />
-                <img src={imagePaths.youtubeLogo} className='yt-logo' />
+                <img src={ LaptopImagePaths.laptop} className='computer-screen' />
+                <img src={LaptopImagePaths.youtubeLogo} className='yt-logo' />
             </div>
             <div className="import-console">
                 <h2 className="import-consol-title">You can paste any YouTube link here</h2>
@@ -44,7 +39,7 @@ const ImportConsole: React.FC<ImportConsoleProps> = ({ onImport, deleteCassette}
                     className="import-input"
                 />
                 <button className="import-url-button" onClick={handleImport}> Import</button>
-                <img src={imagePaths.trashIcon} className="trash-icon" onClick={deleteCassette}/>
+                <img src={LaptopImagePaths.trashIcon} className="trash-icon" onClick={deleteCassette}/>
             </div>
         </div>
 

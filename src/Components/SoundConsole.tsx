@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import "./css/SoundConsole.css"
 import { Howl, Howler } from 'howler';
+import { ChalkboardImagePaths } from "./utils/Constants";
 
 enum soundPaths {
     rain = "https://audio.jukehost.co.uk/LhQ94g6eqzTWy0XNbQw8AreyjBBFBE7u",
@@ -129,7 +130,7 @@ const SoundConsole: React.FC<SoundConsoleProps> = ({ onGlobalMute, globalMuted }
 
 
     return (
-        <div className="console">
+        <div className="console" style={{backgroundImage: `url(${ChalkboardImagePaths.chalkBoard})`}}>
             <div className="slider-container">
 
                 <input

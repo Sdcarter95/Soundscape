@@ -12,6 +12,7 @@ import RecorderConsole from './Components/RecorderConsole';
 import MixTapePlayer from './Components/MixTapePlayer';
 import { track } from './Components/MixTape';
 import { mixedTape } from './Components/RecorderConsole';
+import { MixTapeImagePaths } from './Components/utils/Constants';
 
 export interface Cassette {
   name: string,
@@ -23,15 +24,12 @@ enum soundPaths {
   tapeDeck = "https://audio.jukehost.co.uk/qV6jeFrNBuFM83nSLWnoaUDwyNFsy0Tn",
 }
 
-enum imagePaths {
-  defaultTape = "https://i.imgur.com/Lo1vCp9.png",
-}
 
 
 
 function App() {
   const [videoSource, setVideoSource] = useState<string>("52FljdTl2_M");
-  const [displayImage, setDisplayImage] = useState<string>(imagePaths.defaultTape);
+  const [displayImage, setDisplayImage] = useState<string>(MixTapeImagePaths.defaultTapeImg);
   const tapeDeckAudioRef = useRef<HTMLAudioElement | null>(null);
 
   const [cassetteLibrary, setCassetteLibrary] = useState<Cassette[]>([]);
@@ -130,7 +128,7 @@ function App() {
 
     setTapeEjected(false);
     setCassetteSelectionVisible(false);
-    setDisplayImage(imagePaths.defaultTape);
+    setDisplayImage(MixTapeImagePaths.defaultTapeImg);
     playTDAudio();
   };
 
@@ -264,7 +262,7 @@ function App() {
     }
 
     setVideoSource("");
-    setDisplayImage(imagePaths.defaultTape);
+    setDisplayImage(MixTapeImagePaths.defaultTapeImg);
     setTapeEjected(true);
     setCassetteSelectionVisible(true);
   };
@@ -348,7 +346,7 @@ function App() {
 
       {recordingMenuVisible ?
         <div className='recorderConsoleWrapper'>
-          <RecorderConsole getTimeCode={getTimeCode} playMixTape={handlePlayMixTape} exportMixTape={handleExportMixedTape} coverSrc={imagePaths.defaultTape} videoSrc={videoSource} mixTapeMode={mixTapeMode} tapeEjected={tapeEjected} />
+          <RecorderConsole getTimeCode={getTimeCode} playMixTape={handlePlayMixTape} exportMixTape={handleExportMixedTape} coverSrc={MixTapeImagePaths.defaultTapeImg} videoSrc={videoSource} mixTapeMode={mixTapeMode} tapeEjected={tapeEjected} />
         </div>
         : <></>
       }

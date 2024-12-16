@@ -1,24 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import Tape from "./Tape";
+import { TapeDeckImagePaths } from "./utils/Constants";
+import { MixTapeImagePaths } from "./utils/Constants";
 import "./css/TapePlayer.css";
-
-
-enum imagePaths {
-    ejectUnpressed = "https://i.imgur.com/o9Eq9Wu.png",
-    ejectPressed = "https://i.imgur.com/ITUIL0X.png",
-    soundsUnpressed = "https://i.imgur.com/QlUqrZp.png",
-    soundsPressed = "https://i.imgur.com/1lFpdlr.png",
-    visualsUnpressed = "https://i.imgur.com/NQ2oyMc.png",
-    visualsPressed = "https://i.imgur.com/3UVBw82.png",
-    importUnpressed = "https://i.imgur.com/9ljJOOz.png",
-    importPressed = "https://i.imgur.com/ETQkTR2.png",
-    extraUnpressed = "https://i.imgur.com/sDRsQf0.png",
-    extraPressed = "https://i.imgur.com/nkZsUAW.png",
-    tapeConsole = "https://i.imgur.com/KI8mh0y.png",
-    consoleLid = "https://i.imgur.com/tGTeMNt.png",
-    defaultTapeImg = "https://i.imgur.com/Lo1vCp9.png",
-    buttonLabels = "https://i.imgur.com/CPU7UZq.png"
-}
 
 
 enum soundPaths {
@@ -42,40 +26,40 @@ interface TapePlayerProps {
 }
 
 const TapePlayer: React.FC<TapePlayerProps> = ({ onEjectButton, onSFX_Button, onVis_Button, onImp_Button, onExt_Button, coverID, tapeEjected, displayLabels, recordingConsoleOpen, mixTapeName, mixTapeMode}) => {
-    const [ejectImageSrc, setEjectImageSrc] = useState<string>(imagePaths.ejectUnpressed);
-    const [soundsImageSrc, setSoundsImageSrc] = useState<string>(imagePaths.soundsUnpressed);
-    const [visualsImageSrc, setVisualsImageSrc] = useState<string>(imagePaths.visualsUnpressed);
-    const [importImageSrc, setImportImageSrc] = useState<string>(imagePaths.importUnpressed);
-    const [extraImageSrc, setExtraImageSrc] = useState<string>(imagePaths.extraUnpressed);
+    const [ejectImageSrc, setEjectImageSrc] = useState<string>(TapeDeckImagePaths.ejectUnpressed);
+    const [soundsImageSrc, setSoundsImageSrc] = useState<string>(TapeDeckImagePaths.soundsUnpressed);
+    const [visualsImageSrc, setVisualsImageSrc] = useState<string>(TapeDeckImagePaths.visualsUnpressed);
+    const [importImageSrc, setImportImageSrc] = useState<string>(TapeDeckImagePaths.importUnpressed);
+    const [extraImageSrc, setExtraImageSrc] = useState<string>(TapeDeckImagePaths.extraUnpressed);
     const [preloadedImages, setPreloadedImages] = useState<{ [key: string]: HTMLImageElement }>({});
     const [ejected, setEjected] = useState<boolean>(false);
     const [cover, setCover] = useState<string>("");
     const switchAudioRef = useRef<HTMLAudioElement | null>(null);
 
     useEffect(() => {
-        preloadImages(imagePaths);
+        preloadImages(TapeDeckImagePaths);
     }, []);
 
     useEffect(() => {
         setCover(coverID);
-        if (ejectImageSrc === preloadedImages[imagePaths.ejectUnpressed]?.src) {
-            setEjectImageSrc(preloadedImages[imagePaths.ejectPressed]?.src);
-        } else if (ejectImageSrc === preloadedImages[imagePaths.ejectPressed]?.src) {
-            setEjectImageSrc(preloadedImages[imagePaths.ejectUnpressed]?.src);
+        if (ejectImageSrc === preloadedImages[TapeDeckImagePaths.ejectUnpressed]?.src) {
+            setEjectImageSrc(preloadedImages[TapeDeckImagePaths.ejectPressed]?.src);
+        } else if (ejectImageSrc === preloadedImages[TapeDeckImagePaths.ejectPressed]?.src) {
+            setEjectImageSrc(preloadedImages[TapeDeckImagePaths.ejectUnpressed]?.src);
         }
 
-        if (coverID != imagePaths.defaultTapeImg){
+        if (coverID != MixTapeImagePaths.defaultTapeImg){
             setEjected(false);
         }
     }, [coverID]);
 
     useEffect(() => {
-       if (tapeEjected && ejectImageSrc === preloadedImages[imagePaths.ejectUnpressed]?.src){
-        setEjectImageSrc(preloadedImages[imagePaths.ejectPressed]?.src);
+       if (tapeEjected && ejectImageSrc === preloadedImages[TapeDeckImagePaths.ejectUnpressed]?.src){
+        setEjectImageSrc(preloadedImages[TapeDeckImagePaths.ejectPressed]?.src);
         setEjected(true);
         playButtonAudio();
-       } else if (!tapeEjected && ejectImageSrc === preloadedImages[imagePaths.ejectPressed]?.src) {
-        setEjectImageSrc(preloadedImages[imagePaths.ejectUnpressed]?.src);
+       } else if (!tapeEjected && ejectImageSrc === preloadedImages[TapeDeckImagePaths.ejectPressed]?.src) {
+        setEjectImageSrc(preloadedImages[TapeDeckImagePaths.ejectUnpressed]?.src);
         setEjected(false);
         playButtonAudio();
        }
@@ -83,9 +67,9 @@ const TapePlayer: React.FC<TapePlayerProps> = ({ onEjectButton, onSFX_Button, on
 
     useEffect(() => {
         if(recordingConsoleOpen){
-            setExtraImageSrc(imagePaths.extraPressed);
+            setExtraImageSrc(TapeDeckImagePaths.extraPressed);
         } else {
-            setExtraImageSrc(imagePaths.extraUnpressed);
+            setExtraImageSrc(TapeDeckImagePaths.extraUnpressed);
         }
     }, [recordingConsoleOpen])
 
@@ -93,39 +77,39 @@ const TapePlayer: React.FC<TapePlayerProps> = ({ onEjectButton, onSFX_Button, on
     const handleEjectButton = () => {
         onEjectButton();
         setEjected(!ejected);
-        if (ejectImageSrc === preloadedImages[imagePaths.ejectUnpressed]?.src) {
-            setEjectImageSrc(preloadedImages[imagePaths.ejectPressed]?.src);
+        if (ejectImageSrc === preloadedImages[TapeDeckImagePaths.ejectUnpressed]?.src) {
+            setEjectImageSrc(preloadedImages[TapeDeckImagePaths.ejectPressed]?.src);
         } else {
-            setEjectImageSrc(preloadedImages[imagePaths.ejectUnpressed]?.src);
+            setEjectImageSrc(preloadedImages[TapeDeckImagePaths.ejectUnpressed]?.src);
         }
         playButtonAudio();
     }
 
     const handleSoundsButton = () => {
-        if (soundsImageSrc === preloadedImages[imagePaths.soundsUnpressed]?.src) {
-            setSoundsImageSrc(preloadedImages[imagePaths.soundsPressed]?.src);
+        if (soundsImageSrc === preloadedImages[TapeDeckImagePaths.soundsUnpressed]?.src) {
+            setSoundsImageSrc(preloadedImages[TapeDeckImagePaths.soundsPressed]?.src);
         } else {
-            setSoundsImageSrc(preloadedImages[imagePaths.soundsUnpressed]?.src);
+            setSoundsImageSrc(preloadedImages[TapeDeckImagePaths.soundsUnpressed]?.src);
         }
         onSFX_Button()
         playButtonAudio();
     }
 
     const handleVisualsButton = () => {
-        if (visualsImageSrc === imagePaths.visualsUnpressed) {
-            setVisualsImageSrc(imagePaths.visualsPressed);
+        if (visualsImageSrc === TapeDeckImagePaths.visualsUnpressed) {
+            setVisualsImageSrc(TapeDeckImagePaths.visualsPressed);
         } else {
-            setVisualsImageSrc(imagePaths.visualsUnpressed);
+            setVisualsImageSrc(TapeDeckImagePaths.visualsUnpressed);
         }
         onVis_Button();
         playButtonAudio();
     }
 
     const handleImportButton = () => {
-        if (importImageSrc === imagePaths.importUnpressed) {
-            setImportImageSrc(imagePaths.importPressed);
+        if (importImageSrc === TapeDeckImagePaths.importUnpressed) {
+            setImportImageSrc(TapeDeckImagePaths.importPressed);
         } else {
-            setImportImageSrc(imagePaths.importUnpressed);
+            setImportImageSrc(TapeDeckImagePaths.importUnpressed);
         }
         onImp_Button();
         playButtonAudio();
@@ -136,7 +120,7 @@ const TapePlayer: React.FC<TapePlayerProps> = ({ onEjectButton, onSFX_Button, on
         playButtonAudio();
     }
 
-    const preloadImages = (path: typeof imagePaths) => {
+    const preloadImages = (path: typeof TapeDeckImagePaths) => {
         let imagesToLoad: any = [];
         Object.values(path).forEach((src) => {
             const img = new Image();
@@ -159,9 +143,9 @@ const TapePlayer: React.FC<TapePlayerProps> = ({ onEjectButton, onSFX_Button, on
                 Your browser does not support the audio element.
             </audio>
             <div className='tape-console-container'>
-                <img className='console-lid' src={imagePaths.consoleLid}></img>
+                <img className='console-lid' src={TapeDeckImagePaths.lid}></img>
                 <div className={ ejected?"tape down-animation":"tape up-animation"}><Tape coverArt={cover} mixTapeMode={mixTapeMode} mixTapeName={mixTapeName}/></div>
-                <img className='tape-console' src={imagePaths.tapeConsole}></img>
+                <img className='tape-console' src={TapeDeckImagePaths.body}></img>
                 <div className='button-bar'>
                     <img className='eject-button' src={ejectImageSrc} onClick={() => handleEjectButton()}></img>
                     <img className='sounds-button' src={soundsImageSrc} onClick={() => handleSoundsButton()}></img>
@@ -169,7 +153,7 @@ const TapePlayer: React.FC<TapePlayerProps> = ({ onEjectButton, onSFX_Button, on
                     <img className='import-button' src={importImageSrc} onClick={() => handleImportButton()}></img>
                     <img className='extra-button' src={extraImageSrc} onClick={() => handleExtraButton()}></img>
                 </div>
-                {displayLabels?<img src={imagePaths.buttonLabels} className='button-labels'/>:<></>}
+                {displayLabels?<img src={TapeDeckImagePaths.buttonLabels} className='button-labels'/>:<></>}
             </div>
         </div>
     );
