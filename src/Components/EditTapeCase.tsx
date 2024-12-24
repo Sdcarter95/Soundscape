@@ -4,9 +4,12 @@ import { EditMixtapeImagePaths } from "./utils/Constants";
 
 interface EditTapeProps {
     coverArtSrc: string;
-    onSaveCoverArt: (path: string) => void
+    tapeHovered: boolean;
+    editTapeMode: boolean;
+    onSaveCoverArt: (path: string) => void;
+    onClose: () => void;
   }
-const Tape:React.FC<EditTapeProps> = ({coverArtSrc, onSaveCoverArt}) =>  {
+const Tape:React.FC<EditTapeProps> = ({coverArtSrc, onSaveCoverArt, tapeHovered, editTapeMode, onClose}) =>  {
     const [editCoverFieldOpen, setEditCoverFieldOpen] = useState<boolean>(false);
     const [embedValue, setEmbedValue] = useState<string>();
     const linkPasted = (embedValue?.length && embedValue.length > 0);
@@ -36,19 +39,23 @@ const Tape:React.FC<EditTapeProps> = ({coverArtSrc, onSaveCoverArt}) =>  {
 
     return (
         <div >
-            <img 
-                className={editCoverFieldOpen 
-                    ? linkPasted
-                        ? "cover-art-button new-image-src-open invisible"
-                        : "cover-art-button new-image-src-open"
-                    : "cover-art-button"} 
-                src={EditMixtapeImagePaths.editIcon}
-                onClick={() => setEditCoverFieldOpen(!editCoverFieldOpen)}
-            />
-            <img className='case' src={EditMixtapeImagePaths.case}/>
-            <img className='case-cover' src={coverArtSrc}/>
-            {imageSrcInputField}
-            {saveIcon}
+            <div className={`${!editTapeMode && !tapeHovered? 'case-hiding' : ''} ${!editTapeMode && tapeHovered ? 'case-peaking' : ''} ${editTapeMode ? "case-animate-in": ""}`}>
+                <img className="case"  src={EditMixtapeImagePaths.case}/>
+                <img className="case-cover" src={coverArtSrc}/>
+                <img 
+                    className={editCoverFieldOpen 
+                        ? `cover-art-button new-image-src-open ${
+                            linkPasted
+                                ? "invisible"
+                                : ""
+                            }`
+                        : "cover-art-button"} 
+                    src={EditMixtapeImagePaths.editIcon}
+                    onClick={() => setEditCoverFieldOpen(!editCoverFieldOpen)}
+                />
+                {editTapeMode ? imageSrcInputField : null}
+                {editTapeMode ? saveIcon : null}
+            </div>
         </div>
     );
 }

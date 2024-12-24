@@ -376,11 +376,8 @@ function App() {
         </div>
       </div>
       {importMenuVisible ?
-        <div>
-          <button onClick={() => addCustomeTapeCover("https://www.iconpacks.net/icons/5/free-testing-green-gear-and-processed-checkmark-icon-17427-thumb.png")}>Test</button>
-          <div className='import-console-wrapper'>
-            <ImportConsole onImport={importVideo} deleteCassette={() => setDeleteModalOpen(true)} />
-          </div>
+        <div className='import-console-wrapper'>
+          <ImportConsole onImport={importVideo} deleteCassette={() => setDeleteModalOpen(true)} />
         </div>
         : <></>}
       {visualsMenuVisible ?

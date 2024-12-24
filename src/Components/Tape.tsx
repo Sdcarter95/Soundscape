@@ -7,12 +7,17 @@ interface TapeProps {
     mixTapeMode: boolean;
     mixTapeName: string;
     onEditClicked: () => void;
+    onHoverChange: (isHovering: boolean) => void;
   }
-const Tape:React.FC<TapeProps> = ({coverArt, mixTapeMode, mixTapeName, onEditClicked}) =>  {
+const Tape:React.FC<TapeProps> = ({coverArt, mixTapeMode, mixTapeName, onEditClicked, onHoverChange}) =>  {
 
 
     return (
-        <div >
+        <div 
+            className="tape-container" 
+            onMouseEnter={() => onHoverChange(true)} 
+            onMouseLeave={() => onHoverChange(false)}
+        >
             <img className='tape' src={MixTapeImagePaths.tape} onClick={onEditClicked}></img>
             <img className='tape cover-art' style={{width:"93%", left:"4vh"}} src={coverArt}></img>
             {mixTapeMode?<p className="mixed-tape-display-text">{mixTapeName}</p>:<></>}

@@ -39,7 +39,9 @@ const TapePlayer: React.FC<TapePlayerProps> = ({ onEjectButton, onSFX_Button, on
     const [ejected, setEjected] = useState<boolean>(false);
     const [cover, setCover] = useState<string>("");
     const switchAudioRef = useRef<HTMLAudioElement | null>(null);
+
     const [editTapeMode, setEditTapeMode] = useState<boolean>(false);
+    const [hoveringTape, setHoveringTape] = useState<boolean>(false);
 
     useEffect(() => {
         preloadImages(TapeDeckImagePaths);
@@ -59,6 +61,7 @@ const TapePlayer: React.FC<TapePlayerProps> = ({ onEjectButton, onSFX_Button, on
     }, [coverID]);
 
     useEffect(() => {
+        setEditTapeMode(false);
        if (tapeEjected && ejectImageSrc === preloadedImages[TapeDeckImagePaths.ejectUnpressed]?.src){
         setEjectImageSrc(preloadedImages[TapeDeckImagePaths.ejectPressed]?.src);
         setEjected(true);
@@ -142,8 +145,14 @@ const TapePlayer: React.FC<TapePlayerProps> = ({ onEjectButton, onSFX_Button, on
     }
 
     const handleEditTapeClicked = () => {
-        setEditTapeMode(!editTapeMode);
+        if (tapeEjected) {
+            setEditTapeMode(!editTapeMode);
+        }
       }
+
+      const handleTapeHover = (isHovering: boolean) => {
+        setHoveringTape(isHovering);
+    };
 
     return (
         <div>
@@ -152,10 +161,13 @@ const TapePlayer: React.FC<TapePlayerProps> = ({ onEjectButton, onSFX_Button, on
                 Your browser does not support the audio element.
             </audio>
             <div className='tape-console-container'>
-            {editTapeMode 
-                ? <EditTapeCase coverArtSrc={cover} onSaveCoverArt={onEditCoverClicked}/> 
-                : null
-            }
+                <EditTapeCase 
+                    coverArtSrc={cover} 
+                    onSaveCoverArt={onEditCoverClicked}
+                    tapeHovered={hoveringTape && ejected}
+                    editTapeMode={editTapeMode}
+                    onClose={() => setEditTapeMode(false)}
+                />
                 <img className='console-lid' src={TapeDeckImagePaths.lid}></img>
                 <div className={ ejected ? "tape down-animation" :  "tape up-animation"}>
                     <Tape
@@ -163,6 +175,7 @@ const TapePlayer: React.FC<TapePlayerProps> = ({ onEjectButton, onSFX_Button, on
                         mixTapeMode={mixTapeMode}
                         mixTapeName={mixTapeName}
                         onEditClicked={handleEditTapeClicked}
+                        onHoverChange={handleTapeHover}
                     />
                 </div>
                 <img className='tape-console' src={TapeDeckImagePaths.body}></img>
