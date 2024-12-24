@@ -17,7 +17,8 @@ import { MixTapeImagePaths } from './Components/utils/Constants';
 export interface Cassette {
   name: string,
   source: string,
-  video_id: string
+  video_id: string,
+  saved_cover_src?: string,
 }
 
 enum soundPaths {
@@ -94,7 +95,7 @@ function App() {
     setQuote(quoteBook[randomQIndex]);
   }, [quoteBook]);
 
-  //example videos (These can't aren't truly deleted but blacklisted in local storage)
+  //example videos (These aren't truly deleted but blacklisted in local storage)
   const loadDefaultCassettes = (newLibrary: Cassette[]): Cassette[] => {
     const blacklist: string[] = localStorage.getItem("blacklist") ? JSON.parse(localStorage.getItem("blacklist")!) : null;
     if (!blacklist?.some(name => name === "frogy")) { newLibrary.push({ name: "frogy", source: "https://www.youtube.com/embed/52FljdTl2_M?si=LiZyMDhhxgWG55Ul", video_id: "52FljdTl2_M" }) };
@@ -113,7 +114,7 @@ function App() {
     }
     setVideoSource(cassette.video_id);
     setCassetteSelectionVisible(false);
-    setDisplayImage(`https://img.youtube.com/vi/${cassette.video_id}/maxresdefault.jpg`);
+    setDisplayImage(cassette.saved_cover_src ?? `https://img.youtube.com/vi/${cassette.video_id}/maxresdefault.jpg`);
     playTDAudio();
   };
 
@@ -268,6 +269,34 @@ function App() {
     setCassetteSelectionVisible(true);
   };
 
+  const addCustomeTapeCover = (coverSrc: string) => {
+    const cassetteToUpdate: Cassette | undefined = cassetteLibrary.find((cassette: Cassette) => cassette.video_id === videoSource);
+    const defaultNames: string[] = ["frogy", "90s", "lofi girl", "relax", "neo jazz", "rainy cafe", "weeds"];
+    if (cassetteToUpdate) {
+
+      //update cover image src
+      if (localStorage.getItem("importedLinks")) {
+        let importedLinks: Cassette[] = JSON.parse(localStorage.getItem("importedLinks")!);
+        const updatedImportedLinks = importedLinks.map(cassette => cassette.video_id === cassetteToUpdate.video_id
+          ? {...cassette, saved_cover_src: coverSrc}
+          : cassette
+        )
+        localStorage.setItem("importedLinks", JSON.stringify(updatedImportedLinks));  
+      }
+
+      //delete from current render
+      const updatedLibrary = cassetteLibrary.map(cassette => cassette.video_id === cassetteToUpdate.video_id
+        ? {...cassette, saved_cover_src: coverSrc}
+        : cassette
+      )
+      setCassetteLibrary(updatedLibrary);
+    } 
+    setDisplayImage(coverSrc);
+    // setTapeEjected(false);
+    // setCassetteSelectionVisible(false);
+  };
+
+
   const handlePlayMixTape = (mixTape: track[]) => {
     if (!tapeEjected) {
       handleEject();
@@ -310,38 +339,54 @@ function App() {
               {cassetteSelectionVisible ? <CassetteCarousel onSlideClick={handleSlideClick} onMixTapeClick={handleMixedTapeClick} cassettes={cassetteLibrary} mixedTapes={mixedTapeLibrary} /> : <></>}
             </div>
             <div className={cassetteSelectionVisible ? 'iframe-container frame-down' : "iframe-container frame-up"}>
-              {mixTapeMode ?
-                <>{mixTape ? <MixTapePlayer key={mixedTapeId} tracks={mixTape} tapePlaying={tapeEjected} /> : <></>}</> : <>
-                  {videoSource != "" ?
-                    <YouTube videoId={videoSource} opts={options} onPlay={onPlay} onReady={onPlayerReady} onPause={onPause} className='video' style={playerMinimized ? { opacity: "0%" } : {}} /> :
-                    <></>
+              {mixTapeMode 
+              ? (
+                  <>{mixTape 
+                    ? <MixTapePlayer key={mixedTapeId} tracks={mixTape} tapePlaying={tapeEjected} /> 
+                    : null}
+                  </>
+                ) 
+              : <>
+                  {videoSource != ""    
+                  ? <YouTube videoId={videoSource} opts={options} onPlay={onPlay} onReady={onPlayerReady} onPause={onPause} className='video' style={playerMinimized ? { opacity: "0%" } : {}} /> 
+                  : <></>
                   }
-                </>
-              }
-
+                </>}
             </div>
           </div>
 
           <div className='flex-column-right'>
             <div className='tape-player-wrapper' style={playerMinimized ? tapeEjected ? {} : { opacity: "30%", transition: "2s" } : {}}>
-              <TapePlayer onEjectButton={handleEject} onSFX_Button={handleSFX} onVis_Button={handleVisuals} onImp_Button={handleImp} onExt_Button={handleExtra} coverID={displayImage} tapeEjected={tapeEjected} displayLabels={labelsDisplayed} recordingConsoleOpen={recordingMenuVisible} mixTapeMode={mixTapeMode} mixTapeName={mixedTapeName}/>
+              <TapePlayer
+                onEjectButton={handleEject}
+                onSFX_Button={handleSFX}
+                onVis_Button={handleVisuals}
+                onImp_Button={handleImp}
+                onExt_Button={handleExtra}
+                onEditCoverClicked={(src: string) => addCustomeTapeCover(src)}
+                coverID={displayImage}
+                tapeEjected={tapeEjected}
+                displayLabels={labelsDisplayed}
+                recordingConsoleOpen={recordingMenuVisible}
+                mixTapeMode={mixTapeMode}
+                mixTapeName={mixedTapeName}
+              />
             </div>
           </div>
         </div>
       </div>
       {importMenuVisible ?
         <div>
+          <button onClick={() => addCustomeTapeCover("https://www.iconpacks.net/icons/5/free-testing-green-gear-and-processed-checkmark-icon-17427-thumb.png")}>Test</button>
           <div className='import-console-wrapper'>
             <ImportConsole onImport={importVideo} deleteCassette={() => setDeleteModalOpen(true)} />
           </div>
         </div>
         : <></>}
       {visualsMenuVisible ?
-        <div>
           <div className='visuals-console-wrapper'>
             <VisualsConsole toggleBackGround={() => setBackgroundDisplay(!backgroundDisplay)} toggleMinimized={() => setPlayerMinimized(!playerMinimized)} toggleLabels={() => { setLabelsDisplayed(!labelsDisplayed) }} backGroundState={backgroundDisplay} minimizedState={playerMinimized} labelsState={labelsDisplayed} />
           </div>
-        </div>
         : <></>}
       <DeleteCassetteModal isOpen={deleteModalOpen} onClose={() => setDeleteModalOpen(false)} onDelete={() => deleteVideo(videoSource)} />
 

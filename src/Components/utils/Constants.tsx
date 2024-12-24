@@ -15,6 +15,12 @@ export enum MixTapeImagePaths {
     defaultTapeImg = "https://i.imgur.com/Lo1vCp9.png",
 }
 
+export enum EditMixtapeImagePaths {
+    case = "https://i.imgur.com/RnugzZ4.png",
+    editIcon = "https://i.imgur.com/mpJGjW3.png",
+    saveIcon = "https://i.imgur.com/1UIn8Wu.png",
+}
+
 export enum TapeDeckImagePaths {
     body = "https://i.imgur.com/KI8mh0y.png",
     lid = "https://i.imgur.com/tGTeMNt.png",

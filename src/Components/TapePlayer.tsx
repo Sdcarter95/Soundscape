@@ -1,8 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import Tape from "./Tape";
+import EditTapeCase from './EditTapeCase'
 import { TapeDeckImagePaths } from "./utils/Constants";
 import { MixTapeImagePaths } from "./utils/Constants";
 import "./css/TapePlayer.css";
+import React from "react";
 
 
 enum soundPaths {
@@ -16,6 +18,7 @@ interface TapePlayerProps {
     onVis_Button: () => void;
     onImp_Button: () => void;
     onExt_Button: () => void;
+    onEditCoverClicked: (src: string) => void;
     coverID: string;
     displayLabels: boolean;
 
@@ -25,7 +28,8 @@ interface TapePlayerProps {
     mixTapeName: string;
 }
 
-const TapePlayer: React.FC<TapePlayerProps> = ({ onEjectButton, onSFX_Button, onVis_Button, onImp_Button, onExt_Button, coverID, tapeEjected, displayLabels, recordingConsoleOpen, mixTapeName, mixTapeMode}) => {
+const TapePlayer: React.FC<TapePlayerProps> = ({ onEjectButton, onSFX_Button, onVis_Button, onImp_Button, onExt_Button, onEditCoverClicked,
+    coverID, tapeEjected, displayLabels, recordingConsoleOpen, mixTapeName, mixTapeMode}) => {
     const [ejectImageSrc, setEjectImageSrc] = useState<string>(TapeDeckImagePaths.ejectUnpressed);
     const [soundsImageSrc, setSoundsImageSrc] = useState<string>(TapeDeckImagePaths.soundsUnpressed);
     const [visualsImageSrc, setVisualsImageSrc] = useState<string>(TapeDeckImagePaths.visualsUnpressed);
@@ -35,6 +39,7 @@ const TapePlayer: React.FC<TapePlayerProps> = ({ onEjectButton, onSFX_Button, on
     const [ejected, setEjected] = useState<boolean>(false);
     const [cover, setCover] = useState<string>("");
     const switchAudioRef = useRef<HTMLAudioElement | null>(null);
+    const [editTapeMode, setEditTapeMode] = useState<boolean>(false);
 
     useEffect(() => {
         preloadImages(TapeDeckImagePaths);
@@ -136,6 +141,10 @@ const TapePlayer: React.FC<TapePlayerProps> = ({ onEjectButton, onSFX_Button, on
         }
     }
 
+    const handleEditTapeClicked = () => {
+        setEditTapeMode(!editTapeMode);
+      }
+
     return (
         <div>
             <audio preload="auto" ref={switchAudioRef}>
@@ -143,8 +152,19 @@ const TapePlayer: React.FC<TapePlayerProps> = ({ onEjectButton, onSFX_Button, on
                 Your browser does not support the audio element.
             </audio>
             <div className='tape-console-container'>
+            {editTapeMode 
+                ? <EditTapeCase coverArtSrc={cover} onSaveCoverArt={onEditCoverClicked}/> 
+                : null
+            }
                 <img className='console-lid' src={TapeDeckImagePaths.lid}></img>
-                <div className={ ejected?"tape down-animation":"tape up-animation"}><Tape coverArt={cover} mixTapeMode={mixTapeMode} mixTapeName={mixTapeName}/></div>
+                <div className={ ejected ? "tape down-animation" :  "tape up-animation"}>
+                    <Tape
+                        coverArt={cover}
+                        mixTapeMode={mixTapeMode}
+                        mixTapeName={mixTapeName}
+                        onEditClicked={handleEditTapeClicked}
+                    />
+                </div>
                 <img className='tape-console' src={TapeDeckImagePaths.body}></img>
                 <div className='button-bar'>
                     <img className='eject-button' src={ejectImageSrc} onClick={() => handleEjectButton()}></img>

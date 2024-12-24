@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "./css/ImportConsole.css";
 import {LaptopImagePaths} from "./utils/Constants";
+import React from "react";
 
 interface ImportConsoleProps {
     onImport: (id: string) => void;
