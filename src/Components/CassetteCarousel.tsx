@@ -54,7 +54,7 @@ const CassetteCarousel: React.FC<CarouselProps> = ({ cassettes, mixedTapes, onSl
         {cassettes.map((cassette, index) => (
           <SwiperSlide key={index}>
             <div className="slide-content" onClick={() => onSlideClick(cassette)}>
-              <img src={`https://img.youtube.com/vi/${cassette.video_id}/maxresdefault.jpg`} alt={cassette.name} />
+              <img src={cassette.saved_cover_src ?? `https://img.youtube.com/vi/${cassette.video_id}/maxresdefault.jpg`} alt={cassette.name} />
             </div>
           </SwiperSlide>
         ))}

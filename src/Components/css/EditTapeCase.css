@@ -90,7 +90,7 @@
 .case-peaking {
     opacity: 1;
     transform: scale(.9) translateX(4vh) translateY(-1vh);
-    transition: all 400ms;
+    transition: all 800ms;
 }
 
 .case-animate-in {
