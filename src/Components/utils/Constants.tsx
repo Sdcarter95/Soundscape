@@ -1,43 +1,45 @@
 
-export enum LaptopImagePaths {
-    youtubeLogo = "https://i.imgur.com/YyL1OnI.png",
-    laptop = "https://i.imgur.com/TkOmsNv.png",
-    trashIcon = "https://i.imgur.com/uq2vAJs.png"
+const basePath = process.env.PUBLIC_URL || '';
+
+export const LaptopImagePaths =  {
+    youtubeLogo:  `${basePath}/assets/YouTube.png`,
+    laptop:  `${basePath}/assets/laptop.png`,
+    trashIcon: `${basePath}/assets/trashcan.png`
 }
 
-export enum ChalkboardImagePaths {
-    chalkBoard = "https://i.imgur.com/8H8Dq8W.png"
+export const ChalkboardImagePaths = {
+    chalkBoard: `${basePath}/assets/chalkboard.png`
 }
 
-export enum MixTapeImagePaths {
-    tape = "https://i.imgur.com/Fx2O6cp.png",
-    label = "https://i.imgur.com/ZjrB4t1.png",
-    defaultTapeImg = "https://i.imgur.com/Lo1vCp9.png",
+export const MixTapeImagePaths = {
+    tape: `${basePath}/assets/tape.png`,
+    label: `${basePath}/assets/mixtape.png`,
+    defaultTapeImg: `${basePath}/assets/orange.png`,
 }
 
-export enum EditMixtapeImagePaths {
-    case = "https://i.imgur.com/RnugzZ4.png",
-    editIcon = "https://i.imgur.com/mpJGjW3.png",
-    saveIcon = "https://i.imgur.com/1UIn8Wu.png",
+export const EditMixtapeImagePaths = {
+    case: `${basePath}/assets/case.png`,
+    editIcon: `${basePath}/assets/edit.png`,
+    saveIcon: `${basePath}/assets/save.png`,
 }
 
-export enum TapeDeckImagePaths {
-    body = "https://i.imgur.com/KI8mh0y.png",
-    lid = "https://i.imgur.com/tGTeMNt.png",
-    ejectUnpressed = "https://i.imgur.com/o9Eq9Wu.png",
-    soundsUnpressed = "https://i.imgur.com/QlUqrZp.png",
-    visualsUnpressed = "https://i.imgur.com/NQ2oyMc.png",
-    importUnpressed = "https://i.imgur.com/9ljJOOz.png",
-    extraUnpressed = "https://i.imgur.com/sDRsQf0.png",
-    ejectPressed = "https://i.imgur.com/ITUIL0X.png",
-    soundsPressed = "https://i.imgur.com/1lFpdlr.png",
-    visualsPressed = "https://i.imgur.com/3UVBw82.png",
-    importPressed = "https://i.imgur.com/ETQkTR2.png",
-    extraPressed = "https://i.imgur.com/nkZsUAW.png",
-    buttonLabels = "https://i.imgur.com/CPU7UZq.png",
+export const TapeDeckImagePaths = {
+    body: `${basePath}/assets/recorder.png`,
+    lid : `${basePath}/assets/lid.png`,
+    ejectUnpressed: `${basePath}/assets/buttons/ejectButton_Unpressed.png`,
+    ejectPressed: `${basePath}/assets/buttons/ejectButton_Pressed.png`,
+    soundsUnpressed: `${basePath}/assets/buttons/soundButton_Unpressed.png`,
+    soundsPressed: `${basePath}/assets/buttons/soundsButton_Pressed.png`,
+    visualsUnpressed: `${basePath}/assets/buttons/visualsButton_Unpressed.png`,
+    visualsPressed: `${basePath}/assets/buttons/visualsButton_Pressed.png`,
+    importUnpressed: `${basePath}/assets/buttons/importButton_Unpressed.png`,
+    importPressed: `${basePath}/assets/buttons/importButton_Pressed.png`,
+    extraUnpressed: `${basePath}/assets/buttons/extraButton_UnPressed.png`,
+    extraPressed: `${basePath}/assets/buttons/extraButton_Pressed.png`,
+    buttonLabels: `${basePath}/assets/tutorial.png`,
 }
 
-export const checkImagePath = "https://i.imgur.com/vrCLsmQ.png";
-export const  pullyImagePath = "https://i.imgur.com/mrxFbVP.png"
+export const checkImagePath = `${basePath}/assets/check.png`;
+export const  pullyImagePath = `${basePath}/assets/pully.png`
 
 

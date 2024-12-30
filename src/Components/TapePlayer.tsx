@@ -94,10 +94,10 @@ const TapePlayer: React.FC<TapePlayerProps> = ({ onEjectButton, onSFX_Button, on
     }
 
     const handleSoundsButton = () => {
-        if (soundsImageSrc === preloadedImages[TapeDeckImagePaths.soundsUnpressed]?.src) {
-            setSoundsImageSrc(preloadedImages[TapeDeckImagePaths.soundsPressed]?.src);
+        if (soundsImageSrc === TapeDeckImagePaths.soundsUnpressed) {
+            setSoundsImageSrc(TapeDeckImagePaths.soundsPressed);
         } else {
-            setSoundsImageSrc(preloadedImages[TapeDeckImagePaths.soundsUnpressed]?.src);
+            setSoundsImageSrc(TapeDeckImagePaths.soundsUnpressed);
         }
         onSFX_Button()
         playButtonAudio();
