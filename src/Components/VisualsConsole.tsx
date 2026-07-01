@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import ToggleSwitch from "./ToggleSwitch";
 import "./css/VisualsConsole.css"
+import React from "react";
+import { checkImagePath } from "./utils/Constants";
 
 
 
@@ -18,7 +20,7 @@ const VisualsConsole: React.FC<VidualsConsoleProps> = ({ toggleBackGround, backG
     const [backgroundChecked, setBackgroundChecked] = useState(backGroundState);
     const [minimizedChecked, setMinimizedChecked] = useState(minimizedState);
     const [labelsChecked, setLabelsChecked] = useState(!labelsState);
-    const checkIMG = "https://lh3.googleusercontent.com/drive-viewer/AEYmBYTCUKnLWuwEGW_spwIrIMA1chnbW8qIc1jDTqFvuGm9q1C5SPCd97l3uYHxO9LQv8UhX53N0l-HvUSrb50IXWZITHHhHQ=s2560";
+    
 
     useEffect(() => {
 
@@ -41,7 +43,7 @@ const VisualsConsole: React.FC<VidualsConsoleProps> = ({ toggleBackGround, backG
 
     return (
         <div className="visuals-console">
-            <img src={checkIMG} className="check-image"/>
+            <img src={checkImagePath} className="check-image"/>
             <div className="vc-switchboard">
                 <div className="toggle-wrapper">
                     <ToggleSwitch checked={backgroundChecked} onChange={handleBackgroundToggle} />

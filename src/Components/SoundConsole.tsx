@@ -1,17 +1,21 @@
 import { useEffect, useState } from "react";
 import "./css/SoundConsole.css"
 import { Howl, Howler } from 'howler';
+import { ChalkboardImagePaths } from "./utils/Constants";
+import React from "react";
 
-enum soundPaths {
-    rain = "https://audio.jukehost.co.uk/LhQ94g6eqzTWy0XNbQw8AreyjBBFBE7u",
-    fireplace = "https://audio.jukehost.co.uk/g0EDzD4kBGW8hB5Ahta27C6u6wtxHjj4",
-    train = "https://audio.jukehost.co.uk/GYo9wmXUMa3lAmznxmwXCXocACFMPs8t",
-    thunder = "https://audio.jukehost.co.uk/3tV2ldXyZYMpQm5qbaHr6Rb5voqLSrpy",
-    people = "https://audio.jukehost.co.uk/Ik4SzYSb0H1gzJgdKUnvDeBQrcLJ67uS",
-    forest = "https://audio.jukehost.co.uk/w0RARpPjY4M185YVTPoZ60Pghtvgyah7",
-    ocean = "https://audio.jukehost.co.uk/HKpRDzsngOkKXxQSfkNHVPScUn6YcEpR",
-    night = "https://audio.jukehost.co.uk/uc3JQyL6v6h5bEMA05wQKTW8MYQzBo7T",
-}
+const basePath = process.env.PUBLIC_URL || '';
+
+const soundPaths = {
+    rain: `${basePath}/sfx/rain.mp3`,
+    fireplace: `${basePath}/sfx/fire.mp3`,
+    train: `${basePath}/sfx/train.mp3`,
+    thunder: `${basePath}/sfx/thunder.mp3`,
+    people: `${basePath}/sfx/people.mp3`,
+    forest: `${basePath}/sfx/forest.mp3`,
+    ocean: `${basePath}/sfx/ocean.mp3`,
+    night: `${basePath}/sfx/night.mp3`,
+} as const;
 
 
 const rain_sound = new Howl({
@@ -129,7 +133,7 @@ const SoundConsole: React.FC<SoundConsoleProps> = ({ onGlobalMute, globalMuted }
 
 
     return (
-        <div className="console">
+        <div className="console" style={{backgroundImage: `url(${ChalkboardImagePaths.chalkBoard})`}}>
             <div className="slider-container">
 
                 <input

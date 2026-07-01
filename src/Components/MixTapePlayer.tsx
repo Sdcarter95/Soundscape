@@ -3,6 +3,7 @@ import YouTube from 'react-youtube';
 import { track } from "./MixTape";
 
 import "./css/MixTapePlayer.css"
+import React from "react";
 
 declare global {
   interface Window {

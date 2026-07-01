@@ -1,20 +1,24 @@
+import React from "react";
 import "./css/Tape.css";
-
-enum imagePaths {
-    tape = "https://lh3.googleusercontent.com/drive-viewer/AEYmBYQ3rujte1pPgHonF7v-qH_uoTEf4E9uNZ9j_dOSI-CBq4vKEq0FxFOAjYPVm7eWIuXyvj9-aDz1X96aMMmLrmLYwtsXOw=s2560",
-}
+import { MixTapeImagePaths } from "./utils/Constants";
 
 interface TapeProps {
     coverArt: string;
     mixTapeMode: boolean;
     mixTapeName: string;
+    onEditClicked: () => void;
+    onHoverChange: (isHovering: boolean) => void;
   }
-const Tape:React.FC<TapeProps> = ({coverArt, mixTapeMode, mixTapeName}) =>  {
+const Tape:React.FC<TapeProps> = ({coverArt, mixTapeMode, mixTapeName, onEditClicked, onHoverChange}) =>  {
 
 
     return (
-        <div >
-            <img className='tape' src={imagePaths.tape}></img>
+        <div 
+            className="tape-container" 
+            onMouseEnter={() => onHoverChange(true)} 
+            onMouseLeave={() => onHoverChange(false)}
+        >
+            <img className='tape' src={MixTapeImagePaths.tape} onClick={onEditClicked}></img>
             <img className='tape cover-art' style={{width:"93%", left:"4vh"}} src={coverArt}></img>
             {mixTapeMode?<p className="mixed-tape-display-text">{mixTapeName}</p>:<></>}
         </div>

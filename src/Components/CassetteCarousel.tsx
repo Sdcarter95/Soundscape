@@ -18,7 +18,7 @@ interface CarouselProps {
 }
 
 enum imagePaths {
-  label = "https://lh3.googleusercontent.com/drive-viewer/AEYmBYSGJyAUz7PwrJid_d206GE3pkOrUz14UxfqUTOZpDlDwvAtxAkgHPR6iR_QJXdsS6VfH-pOJbZva7RkFVdNExiAzKL76Q=s2560",
+  label = "https://i.imgur.com/ZjrB4t1.png",
 }
 
 const CassetteCarousel: React.FC<CarouselProps> = ({ cassettes, mixedTapes, onSlideClick, onMixTapeClick }) => {
@@ -54,7 +54,7 @@ const CassetteCarousel: React.FC<CarouselProps> = ({ cassettes, mixedTapes, onSl
         {cassettes.map((cassette, index) => (
           <SwiperSlide key={index}>
             <div className="slide-content" onClick={() => onSlideClick(cassette)}>
-              <img src={`https://img.youtube.com/vi/${cassette.video_id}/maxresdefault.jpg`} alt={cassette.name} />
+              <img src={cassette.saved_cover_src ?? `https://img.youtube.com/vi/${cassette.video_id}/maxresdefault.jpg`} alt={cassette.name} />
             </div>
           </SwiperSlide>
         ))}

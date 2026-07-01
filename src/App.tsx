@@ -12,26 +12,25 @@ import RecorderConsole from './Components/RecorderConsole';
 import MixTapePlayer from './Components/MixTapePlayer';
 import { track } from './Components/MixTape';
 import { mixedTape } from './Components/RecorderConsole';
+import { MixTapeImagePaths } from './Components/utils/Constants';
 
 export interface Cassette {
   name: string,
   source: string,
-  video_id: string
+  video_id: string,
+  saved_cover_src?: string,
 }
 
 enum soundPaths {
-  tapeDeck = "https://docs.google.com/uc?export=download&id=1XtWv60ze6CtM-geWnYHf3owgZ21URd4H",
+  tapeDeck = "https://audio.jukehost.co.uk/qV6jeFrNBuFM83nSLWnoaUDwyNFsy0Tn",
 }
 
-enum imagePaths {
-  defaultTape = "https://lh3.googleusercontent.com/drive-viewer/AEYmBYSGJyAUz7PwrJid_d206GE3pkOrUz14UxfqUTOZpDlDwvAtxAkgHPR6iR_QJXdsS6VfH-pOJbZva7RkFVdNExiAzKL76Q=s2560",
-}
 
 
 
 function App() {
   const [videoSource, setVideoSource] = useState<string>("52FljdTl2_M");
-  const [displayImage, setDisplayImage] = useState<string>(imagePaths.defaultTape);
+  const [displayImage, setDisplayImage] = useState<string>(MixTapeImagePaths.defaultTapeImg);
   const tapeDeckAudioRef = useRef<HTMLAudioElement | null>(null);
 
   const [cassetteLibrary, setCassetteLibrary] = useState<Cassette[]>([]);
@@ -86,7 +85,8 @@ function App() {
     newQuoteBook.push(`“Opportunities don't happen, you create them.”`);
     newQuoteBook.push(`“One sees in the world what they carry in their heart”`);
     newQuoteBook.push("“Doubt kills more dreams than failure ever will”");
-    newQuoteBook.push("“A person who never made a mistake never tried anything new”")
+    newQuoteBook.push("“A person who never made a mistake never tried anything new”");
+    newQuoteBook.push(`“Success consists of going from failure to failure without loss of enthusiasm”`);
     setQuoteBook(newQuoteBook);
   }, []);
 
@@ -95,7 +95,7 @@ function App() {
     setQuote(quoteBook[randomQIndex]);
   }, [quoteBook]);
 
-  //example videos (These can't aren't truly deleted but blacklisted in local storage)
+  //example videos (These aren't truly deleted but blacklisted in local storage)
   const loadDefaultCassettes = (newLibrary: Cassette[]): Cassette[] => {
     const blacklist: string[] = localStorage.getItem("blacklist") ? JSON.parse(localStorage.getItem("blacklist")!) : null;
     if (!blacklist?.some(name => name === "frogy")) { newLibrary.push({ name: "frogy", source: "https://www.youtube.com/embed/52FljdTl2_M?si=LiZyMDhhxgWG55Ul", video_id: "52FljdTl2_M" }) };
@@ -114,7 +114,7 @@ function App() {
     }
     setVideoSource(cassette.video_id);
     setCassetteSelectionVisible(false);
-    setDisplayImage(`https://img.youtube.com/vi/${cassette.video_id}/maxresdefault.jpg`);
+    setDisplayImage(cassette.saved_cover_src ?? `https://img.youtube.com/vi/${cassette.video_id}/maxresdefault.jpg`);
     playTDAudio();
   };
 
@@ -130,7 +130,7 @@ function App() {
 
     setTapeEjected(false);
     setCassetteSelectionVisible(false);
-    setDisplayImage(imagePaths.defaultTape);
+    setDisplayImage(MixTapeImagePaths.defaultTapeImg);
     playTDAudio();
   };
 
@@ -264,10 +264,38 @@ function App() {
     }
 
     setVideoSource("");
-    setDisplayImage(imagePaths.defaultTape);
+    setDisplayImage(MixTapeImagePaths.defaultTapeImg);
     setTapeEjected(true);
     setCassetteSelectionVisible(true);
   };
+
+  const addCustomeTapeCover = (coverSrc: string) => {
+    const cassetteToUpdate: Cassette | undefined = cassetteLibrary.find((cassette: Cassette) => cassette.video_id === videoSource);
+    const defaultNames: string[] = ["frogy", "90s", "lofi girl", "relax", "neo jazz", "rainy cafe", "weeds"];
+    if (cassetteToUpdate) {
+
+      //update cover image src
+      if (localStorage.getItem("importedLinks")) {
+        let importedLinks: Cassette[] = JSON.parse(localStorage.getItem("importedLinks")!);
+        const updatedImportedLinks = importedLinks.map(cassette => cassette.video_id === cassetteToUpdate.video_id
+          ? {...cassette, saved_cover_src: coverSrc}
+          : cassette
+        )
+        localStorage.setItem("importedLinks", JSON.stringify(updatedImportedLinks));  
+      }
+
+      //delete from current render
+      const updatedLibrary = cassetteLibrary.map(cassette => cassette.video_id === cassetteToUpdate.video_id
+        ? {...cassette, saved_cover_src: coverSrc}
+        : cassette
+      )
+      setCassetteLibrary(updatedLibrary);
+    } 
+    setDisplayImage(coverSrc);
+    // setTapeEjected(false);
+    // setCassetteSelectionVisible(false);
+  };
+
 
   const handlePlayMixTape = (mixTape: track[]) => {
     if (!tapeEjected) {
@@ -289,7 +317,9 @@ function App() {
   return (
     <div className="app">
       <header className="app-header">
-        <img src={logo} className="app-logo" alt="logo" />
+        <a href="https://orgowrite-one.vercel.app/" target="_blank" rel="noopener noreferrer">
+          <img src={logo} className="app-logo" alt="logo" />
+        </a>
         <audio preload="auto" ref={tapeDeckAudioRef}>
           <source src={soundPaths.tapeDeck} type="audio/mpeg" />
           Your browser does not support the audio element.
@@ -311,44 +341,57 @@ function App() {
               {cassetteSelectionVisible ? <CassetteCarousel onSlideClick={handleSlideClick} onMixTapeClick={handleMixedTapeClick} cassettes={cassetteLibrary} mixedTapes={mixedTapeLibrary} /> : <></>}
             </div>
             <div className={cassetteSelectionVisible ? 'iframe-container frame-down' : "iframe-container frame-up"}>
-              {mixTapeMode ?
-                <>{mixTape ? <MixTapePlayer key={mixedTapeId} tracks={mixTape} tapePlaying={tapeEjected} /> : <></>}</> : <>
-                  {videoSource != "" ?
-                    <YouTube videoId={videoSource} opts={options} onPlay={onPlay} onReady={onPlayerReady} onPause={onPause} className='video' style={playerMinimized ? { opacity: "0%" } : {}} /> :
-                    <></>
+              {mixTapeMode 
+              ? (
+                  <>{mixTape 
+                    ? <MixTapePlayer key={mixedTapeId} tracks={mixTape} tapePlaying={tapeEjected} /> 
+                    : null}
+                  </>
+                ) 
+              : <>
+                  {videoSource != ""    
+                  ? <YouTube videoId={videoSource} opts={options} onPlay={onPlay} onReady={onPlayerReady} onPause={onPause} className='video' style={playerMinimized ? { opacity: "0%" } : {}} /> 
+                  : <></>
                   }
-                </>
-              }
-
+                </>}
             </div>
           </div>
 
           <div className='flex-column-right'>
             <div className='tape-player-wrapper' style={playerMinimized ? tapeEjected ? {} : { opacity: "30%", transition: "2s" } : {}}>
-              <TapePlayer onEjectButton={handleEject} onSFX_Button={handleSFX} onVis_Button={handleVisuals} onImp_Button={handleImp} onExt_Button={handleExtra} coverID={displayImage} tapeEjected={tapeEjected} displayLabels={labelsDisplayed} recordingConsoleOpen={recordingMenuVisible} mixTapeMode={mixTapeMode} mixTapeName={mixedTapeName}/>
+              <TapePlayer
+                onEjectButton={handleEject}
+                onSFX_Button={handleSFX}
+                onVis_Button={handleVisuals}
+                onImp_Button={handleImp}
+                onExt_Button={handleExtra}
+                onEditCoverClicked={(src: string) => addCustomeTapeCover(src)}
+                coverID={displayImage}
+                tapeEjected={tapeEjected}
+                displayLabels={labelsDisplayed}
+                recordingConsoleOpen={recordingMenuVisible}
+                mixTapeMode={mixTapeMode}
+                mixTapeName={mixedTapeName}
+              />
             </div>
           </div>
         </div>
       </div>
       {importMenuVisible ?
-        <div>
-          <div className='import-console-wrapper'>
-            <ImportConsole onImport={importVideo} deleteCassette={() => setDeleteModalOpen(true)} />
-          </div>
+        <div className='import-console-wrapper'>
+          <ImportConsole onImport={importVideo} deleteCassette={() => setDeleteModalOpen(true)} />
         </div>
         : <></>}
       {visualsMenuVisible ?
-        <div>
           <div className='visuals-console-wrapper'>
             <VisualsConsole toggleBackGround={() => setBackgroundDisplay(!backgroundDisplay)} toggleMinimized={() => setPlayerMinimized(!playerMinimized)} toggleLabels={() => { setLabelsDisplayed(!labelsDisplayed) }} backGroundState={backgroundDisplay} minimizedState={playerMinimized} labelsState={labelsDisplayed} />
           </div>
-        </div>
         : <></>}
       <DeleteCassetteModal isOpen={deleteModalOpen} onClose={() => setDeleteModalOpen(false)} onDelete={() => deleteVideo(videoSource)} />
 
       {recordingMenuVisible ?
         <div className='recorderConsoleWrapper'>
-          <RecorderConsole getTimeCode={getTimeCode} playMixTape={handlePlayMixTape} exportMixTape={handleExportMixedTape} coverSrc={imagePaths.defaultTape} videoSrc={videoSource} mixTapeMode={mixTapeMode} tapeEjected={tapeEjected} />
+          <RecorderConsole getTimeCode={getTimeCode} playMixTape={handlePlayMixTape} exportMixTape={handleExportMixedTape} coverSrc={MixTapeImagePaths.defaultTapeImg} videoSrc={videoSource} mixTapeMode={mixTapeMode} tapeEjected={tapeEjected} />
         </div>
         : <></>
       }

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import MixTape from './MixTape';
 import { track } from './MixTape';
 import "./css/RecorderConsole.css";
+import React from 'react';
 
 
 enum imagePaths {
