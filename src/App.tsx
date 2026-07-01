@@ -317,7 +317,9 @@ function App() {
   return (
     <div className="app">
       <header className="app-header">
-        <img src={logo} className="app-logo" alt="logo" />
+        <a href="https://orgowrite-one.vercel.app/" target="_blank" rel="noopener noreferrer">
+          <img src={logo} className="app-logo" alt="logo" />
+        </a>
         <audio preload="auto" ref={tapeDeckAudioRef}>
           <source src={soundPaths.tapeDeck} type="audio/mpeg" />
           Your browser does not support the audio element.
